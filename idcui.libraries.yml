@@ -1,0 +1,5 @@
+idc-css:
+  version: 1.0
+  css:
+    base:
+      css/base/branding.css

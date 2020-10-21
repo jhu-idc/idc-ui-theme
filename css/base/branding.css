@@ -1,0 +1,47 @@
+/* Colors */
+:root {
+  --jhu-bg-primary: white;
+  --pass-blue-primary: #418FDE;
+  --pass-blue-header: #005EB8;
+
+  /* JHU Primary Colors */
+  --jhu-blue-spirit: #68ACE5;
+  --jhu-blue-heritage: #002D72;
+  --jhu-black: #31261D;
+
+  /* JHU Secondary Colors */
+  --jhu-secondary-1: #CF4520;
+  --jhu-secondary-2: #76232F;
+  --jhu-secondary-3: #A15A95;
+  --jhu-secondary-4: #009B77;
+  --jhu-secondary-5: #0072CE;
+  --jhu-secondary-6: #F1C400;
+
+  /* JHU Accent Colors */
+  --jhu-accent-1: #CBA052;
+  --jhu-accent-2: #FF9E1B;
+  --jhu-accent-3: #FF6900;
+  --jhu-accent-4: #9E5330;
+  --jhu-accent-5: #4F2C1D;
+  --jhu-accent-6: #E8927C;
+  --jhu-accent-7: #A6192E;
+  --jhu-accent-8: #51284F;
+  --jhu-accent-9: #A192B2;
+  --jhu-accent-10: #418FDE;
+  --jhu-accent-11: #86C8BC;
+  --jhu-accent-12: #286140;
+  --jhu-accent-13: #179949;
+
+  /* JHU Fonts */
+  /* TODO: How the heck do you import fonts, lol */
+  --font-headline: quadon-regular, tahoma;
+  --font-subhead: quadon-regular, tahoma;
+  --font-bodycopy-accent: quadon-regular, tahoma;
+  --font-bodycopy: gentona-light, tahoma;
+
+  /* Other colors */
+  --btn-active-color: #C9C9C9;
+  --header-color: #4A484C;
+  --footer-blackish: #2C2C33;
+  --footer-link-color: #A5BAD4; 
+}
