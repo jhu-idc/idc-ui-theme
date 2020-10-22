@@ -34,6 +34,15 @@ services:
 
 We'll also want to enable template debugging in Drupal to aid development. To do this, you can manually change Drupal's `services.yml` file in `codebase/web/sites/default/`. In this file, you can change `twig.config.debug` to `true`. Twig debugging statements will appear in pages once you clear Drupal's cache. **Note: this change should not make it into any deployable snapshots**
 
+Once you can see the theme in Drupal, you can install and set as the default theme to see your local theme. In order to see changes you make to the theme, you'll still have to clear Drupal's cache. You can do this in the normal Drupal admin interface, or I'd recommend using Drush in the Drupal docker container.
+
+You should be able to SSH into the Drupal container by running 
+
+```
+docker exec -it drupal /bin/sh
+```
+
+From here you can run `drush cr` to clear Drupal's cache.
 
 May want to write a small script to generate these and/or copy them over?
 
@@ -44,7 +53,7 @@ May want to write a small script to generate these and/or copy them over?
   * Use of Glimmer
   * Tell Drupal about your new component so it can be imported automatically
   * How to handle dependencies for different components? Yarn workspaces?
-
+* How do we handle CSS? We plan on using Tailwind, but I don't have much experience with it. Will we have a shared CSS file with our utility classes to import in the Glimmer components?
 * How can we test templates?
 
 
