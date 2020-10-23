@@ -32,20 +32,19 @@ services:
       - <dir_of_this_repo>:/var/www/drupal/themes/idc-ui
 ```
 
+Note: you'll need to update this text and replace your current working directory of this repository in place of `<dir_of_this_repo>`.
+
 We'll also want to enable template debugging in Drupal to aid development. To do this, you can manually change Drupal's `services.yml` file in `codebase/web/sites/default/`. In this file, you can change `twig.config.debug` to `true`. Twig debugging statements will appear in pages once you clear Drupal's cache. **Note: this change should not make it into any deployable snapshots**
+
+### Handling the theme in Drupal
 
 Once you can see the theme in Drupal, you can install and set as the default theme to see your local theme. In order to see changes you make to the theme, you'll still have to clear Drupal's cache. You can do this in the normal Drupal admin interface, or I'd recommend using Drush in the Drupal docker container.
 
-You should be able to SSH into the Drupal container by running 
+You can use `docker-compose exec` to run commands in the Drupal container. To easily clear Drupal's cache, for example, you can run the following command:
 
 ```
-docker exec -it drupal /bin/sh
+docker-compose exec drupal drush cr
 ```
-
-From here you can run `drush cr` to clear Drupal's cache.
-
-May want to write a small script to generate these and/or copy them over?
-
 
 ## TODO:
 * When we're happy with a change, or set of changes, in the theme, how do we get them incorporated that as a "default" in `idc-isle-dc`?
