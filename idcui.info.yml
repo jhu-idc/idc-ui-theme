@@ -9,5 +9,12 @@ base theme: classy
 libraries:
   - idcui/idc-css
 
-# regions:
+regions:
+  top_menu: Top menu
+  header: Header
+  highlighted: Highlighted
+  content: Content
+  footer: Footer
+  page_top: Page top
+  page_bottom: Page bottom
 
