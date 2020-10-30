@@ -1,4 +1,5 @@
-const path = require("path")
+const path = require("path");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: "./css/base/branding.css",
@@ -28,5 +29,8 @@ module.exports = {
         ],
       },
     ],
-  }
+  },
+  plugins: [
+    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
+  ]
 }
