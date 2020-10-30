@@ -1,7 +1,5 @@
 idc-css:
   version: 1.0
-  css:
-    base:
-      # css/base/branding.css: {}
   js:
-    dist/bundle.js: {}
+    dist/styles.js: {}
+    dist/stimulus.js: {}
