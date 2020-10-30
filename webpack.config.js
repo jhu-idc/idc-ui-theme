@@ -2,13 +2,23 @@ const path = require("path");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: "./css/base/branding.css",
+  entry: {
+    styles: "./css/base/branding.css",
+    stimulus: "./js/index.js"
+  },
   output: {
+    filename: '[name].js',
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
   },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
       {
         test: /\.css$/,
         use: [
