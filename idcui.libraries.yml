@@ -3,3 +3,4 @@ idc-css:
   js:
     dist/styles.js: {}
     dist/stimulus.js: {}
+    js/app1/dist/app.bundle.js: {}
