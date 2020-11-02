@@ -1,6 +1,6 @@
 idc-css:
   version: 1.0
   js:
-    dist/styles.js: {}
-    dist/stimulus.js: {}
-    js/app1/dist/app.bundle.js: {}
+    packages/theme/dist/styles.js: {}
+    packages/theme/dist/stimulus.js: {}
+    packages/app1/dist/app.bundle.js: {}
