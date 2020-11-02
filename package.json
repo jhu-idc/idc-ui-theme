@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "watch": "webpack --watch",
+    "watch": "webpack --watch && cd js/app1 && webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

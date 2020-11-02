@@ -1,3 +1,9 @@
 node_modules/
 yarn-error.log
 dist/
+
+# js/app1/node_modules
+tmp/*
+
+yarn-error.log
+.eslintcache
