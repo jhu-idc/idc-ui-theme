@@ -3,8 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
-    styles: "./css/base/branding.css",
-    stimulus: "./js/index.js"
+    styles: "./css/branding.css",
   },
   output: {
     filename: '[name].js',
