@@ -1,13 +1,13 @@
-const path = require("path");
+const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
-    stimulus: "./index.js"
+    stimulus: './index.js',
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, 'dist'),
   },
   module: {
     rules: [
@@ -15,12 +15,10 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
     ],
   },
-  plugins: [
-    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
-  ]
-}
+  plugins: [new CleanWebpackPlugin({ cleanStaleWebpackAssets: false })],
+};
