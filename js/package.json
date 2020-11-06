@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "lerna run --stream build",
     "watch": "lerna run --parallel watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
