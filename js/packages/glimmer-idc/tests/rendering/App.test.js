@@ -1,6 +1,5 @@
-import { module, test, renderComponent } from '../util';
-
 import App from '../../src/App';
+import { module, renderComponent, test } from '../util';
 
 module('App test', () => {
   test('it works', async (assert) => {
