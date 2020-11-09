@@ -2,7 +2,7 @@ node_modules/
 yarn-error.log
 dist/
 
-# js/app1/node_modules
+# js/glimmer-idc/node_modules
 tmp/*
 
 yarn-error.log

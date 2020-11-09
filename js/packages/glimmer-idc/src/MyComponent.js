@@ -1,8 +1,9 @@
+import './App.css';
+
 import Component from '@glimmer/component';
-import { setComponentTemplate, createTemplate } from '@glimmer/core';
+import { createTemplate, setComponentTemplate } from '@glimmer/core';
 
 import logo from './logo.svg';
-import './App.css';
 
 export default class MyComponent extends Component {
   logo = logo;
