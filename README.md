@@ -67,7 +67,7 @@ We run ESLint pre-git-commit so that any changes must pass ESLint before it can 
 
 ### Workspaces
 
-We are using Lerna to manage dependencies across multiple directories. This tool is normally used to manage monorepos - single git repositories that contain multiple packages. It has the ability to share dependencies across packages for faster installs. It can also link packages together so some packages can depend on and use another independent package.
+We are using Lerna in concert with Yarn workspaces to manage dependencies across multiple directories. These tools are normally used to manage monorepos - single git repositories that contain multiple packages. They have the ability to share dependencies across packages for faster installs. They can also link packages together so some packages can depend on and use another independent package. Lerna can run multiple webpack instances in parellel which allows files across the monorepo's packages to be watched simultaneously, but configured as separate instances of webpack. To watch in parellel run: `npx lerna run --parallel watch`.
 
 ## Other Resources
 

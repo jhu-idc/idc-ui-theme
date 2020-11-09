@@ -1,13 +1,13 @@
-const path = require("path");
+const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
-    styles: "./css/branding.css",
+    styles: './css/branding.css',
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, 'dist'),
   },
   module: {
     rules: [
@@ -15,31 +15,26 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.css$/,
         use: [
-          "style-loader",
-          { loader: "css-loader", options: { importLoaders: 1 } },
+          'style-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } },
           {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
                 ident: 'postcss',
-                plugins: [
-                  require('tailwindcss'),
-                  require('autoprefixer'),
-                ],
+                plugins: [require('tailwindcss'), require('autoprefixer')],
               },
-            }
+            },
           },
         ],
       },
     ],
   },
-  plugins: [
-    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
-  ]
-}
+  plugins: [new CleanWebpackPlugin({ cleanStaleWebpackAssets: false })],
+};
