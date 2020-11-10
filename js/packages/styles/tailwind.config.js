@@ -45,6 +45,9 @@ module.exports = {
         'accent-12': '#286140',
         'accent-13': '#179949',
       },
+      height: {
+        'front-banner': '165px',
+      },
     },
     fontFamily: {
       serif: ['arnhem', 'serif'],
