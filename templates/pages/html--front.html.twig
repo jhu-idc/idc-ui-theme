@@ -49,26 +49,25 @@
     </a>
     {{ page_top }}
 
-    <div class="w-full bg-blue-spirit">
-      <div class="container mx-auto">
-        <div class=""> <!-- Contains header(s) -->
+    <div class="w-full bg-blue-spirit relative pb-10">
+      <div class="container mx-auto relative z-10">
+        <div class="py-4"> {# Contains header(s) #}
           <h1 class="text-4xl font-bold text-blue-heritage">
             DIGITAL REPOSITORIES&nbsp;
             <span class="text-secondary-5">@ JHU</span>
           </h1>
-          <!-- 2xl smaller than above header looks OK -->
+          {# 2xl smaller than above header looks OK #}
           <h2 class="text-2xl font-semibold text-white">
             Collections and scholarship from Johns Hopkins University
           </h2>
         </div>
-        <!-- Featured Items grid -->
-        <!-- TODO: Remove card-body top border! -->
+        {# Featured Items grid #}
         <div class="grid grid-cols-2 gap-12">
-          <div class="border"> <!-- Card container -->
-            <div class=""> <!-- Card image container -->
+          <div class="border"> {#  Card container #}
+            <div class=""> {#  Card image container #}
               <img alt="Library Collections image" width=485 height=326>
             </div>
-            <div class="px-8 py-5 border-t"> <!-- Card body container -->
+            <div class="px-8 py-5 shadow-md"> {# Card body container #}
               <h3 class="text-2xl font-bold">
                 Library Collections
               </h3>
@@ -78,12 +77,11 @@
               </p>
             </div>
           </div>
-
-          <div class="border"> <!-- Card container -->
-            <div class=""> <!-- Card image container -->
+          <div class="border"> {#  Card container #}
+            <div class=""> {#  Card image container #}
               <img alt="JHU Scholarship image" width=485 height=326>
             </div>
-            <div class="px-8 py-5 border-t"> <!-- Card body container -->
+            <div class="px-8 py-5 shadow-md"> {# Card body container #}
               <h3 class="text-2xl font-bold">
                 JHU Scholarship
               </h3>
@@ -95,9 +93,37 @@
           </div>
         </div>
       </div>
+      <div class="bg-gray-200 absolute bottom-0 w-full h-40 z-0"></div>
     </div>
 
-    <div class="border-b-2"></div> <!-- TODO remove me -->
+    {# TODO: These need to flow better for smaller screen sizes #}
+    <div class="w-full bg-white py-10">
+      <div class="container mx-auto">
+        <div class="flex flex-row">
+          <div class="flex-grow">
+            <p class="mb-6">
+              The five Sheridan Libraries - the Milton S. Eisenhower Library, the Brody 
+              Learning Commons, the Albert D. Hutzler Reading Room, the George Peabody 
+              Library, and the John Work Garrett Library - provide the major research 
+              library resources for Johns Hopkins University.
+            </p>
+            <p>
+              Together, the Libraries contain more than 4.2 million volumes and provide 
+              around-the-clock access to a rich collection of electronic resources, including 
+              more than 154,000 print and e-journals, and more than 1.6 million e-books.
+            </p>
+          </div>
+          <div class="flex-none mx-20">
+            <div class="border shadow text-blue-heritage ">
+              <h4 class="font-bold px-8 py-4">Need more information?</h4>
+              <div class="bg-gray-400 flex justify-center p-6">
+                <button class="bg-blue-spirit w-full p-2">Contact Us</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     {{ page }}
 
