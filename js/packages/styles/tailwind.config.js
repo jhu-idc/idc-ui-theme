@@ -46,7 +46,8 @@ module.exports = {
         'accent-13': '#179949',
       },
       height: {
-        'front-banner': '165px',
+        // 'front-banner': '165px',
+        'front-banner': '169px',
       },
     },
     fontFamily: {
