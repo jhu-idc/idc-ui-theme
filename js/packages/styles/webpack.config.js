@@ -3,7 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
-    styles: './css/branding.css',
+    styles: './css/main.css',
   },
   output: {
     filename: '[name].js',
@@ -33,6 +33,10 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
+        loader: 'url-loader',
       },
     ],
   },
