@@ -44,6 +44,12 @@ module.exports = {
         'accent-13': '#179949',
       },
     },
+    fontFamily: {
+      serif: ['arnhem', 'serif'],
+      sans: ['gentona', 'sans-serif'],
+      titling: ['titling'],
+      'titling-medium': ['titling-medium'],
+    },
   },
   variants: {},
   plugins: [],
