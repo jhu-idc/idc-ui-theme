@@ -1,5 +1,6 @@
 {
   "name": "jabrah/idc-ui-theme",
+  "type": "drupal-theme",
   "description": "Moo",
   "require": {}
 }
