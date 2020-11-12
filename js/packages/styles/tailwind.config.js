@@ -51,9 +51,9 @@ module.exports = {
       },
     },
     fontFamily: {
-      serif: ['arnhem', 'serif'],
-      sans: ['gentona', 'sans-serif'],
-      titling: ['titling'],
+      serif: ['arnhem', 'Georgia', 'serif'], // Body copy, maybe headlines or subheads
+      sans: ['gentona', 'Tahoma', 'sans-serif'], // Body copy, good at small sizes
+      titling: ['titling', 'Tahoma'], // "Impact" headlines, all caps
       'titling-medium': ['titling-medium'],
     },
   },

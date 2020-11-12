@@ -29,7 +29,8 @@
     not root_path ? 'path-frontpage' : 'path-' ~ root_path|clean_class,
     node_type ? 'page-node-type-' ~ node_type|clean_class,
     db_offline ? 'db-offline',
-    'text-black'
+    'text-black',
+    'font-sans'
   ]
 %}
 <!DOCTYPE html>
@@ -53,13 +54,13 @@
 <!-- TODO: Fix the responsive behavior of the cards (they should be statically sized) -->
     <div class="w-full bg-blue-spirit relative pb-10">
       <div class="container mx-auto relative z-10">
-        <div class="py-4"> {# Contains header(s) #}
-          <h1 class="text-4xl font-bold text-blue-heritage">
+        <div class="py-4 font-bold text-blue-heritage leading-none"> {# Contains header(s) #}
+          <h1 class="text-5xl font-titling-medium">
             DIGITAL REPOSITORIES&nbsp;
-            <span class="text-secondary-5">@ JHU</span>
+            <span class="text-black">@ JHU</span>
           </h1>
           {# 2xl smaller than above header looks OK #}
-          <h2 class="text-2xl font-semibold text-white">
+          <h2 class="text-2xl font-serif">
             Collections and scholarship from Johns Hopkins University
           </h2>
         </div>
@@ -103,7 +104,7 @@
     <div class="w-full bg-white py-10">
       <div class="container mx-auto">
         <div class="flex flex-row">
-          <div class="flex-grow">
+          <div class="flex-grow font-serif">
             <p class="mb-6">
               The five Sheridan Libraries - the Milton S. Eisenhower Library, the Brody 
               Learning Commons, the Albert D. Hutzler Reading Room, the George Peabody 
@@ -117,8 +118,8 @@
             </p>
           </div>
           <div class="flex-none mx-20">
-            <div class="border shadow text-blue-heritage font-bold">
-              <h4 class="px-8 py-4">Need more information?</h4>
+            <div class="border shadow text-blue-heritage">
+              <h4 class="px-8 py-4 text-lg font-bold">Need more information?</h4>
               <div class="bg-gray-400 flex justify-center p-6">
                 <a class="bg-blue-spirit w-full p-2 cursor-pointer text-center" href="#">
                   Contact Us
