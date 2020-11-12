@@ -7,3 +7,5 @@ tmp/*
 
 yarn-error.log
 .eslintcache
+
+/vendor/
