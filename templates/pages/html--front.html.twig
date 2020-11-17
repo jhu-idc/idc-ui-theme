@@ -51,7 +51,6 @@
     </a>
     {{ page_top }}
 
-<!-- TODO: Fix the responsive behavior of the cards (they should be statically sized) -->
     <div class="w-full bg-blue-spirit relative pb-10">
       <div class="container mx-auto relative z-10">
         <div class="py-4 font-bold text-blue-heritage leading-none"> {# Contains header(s) #}
@@ -65,7 +64,7 @@
           </h2>
         </div>
         {# Featured Items grid #}
-        <div class="grid sm:grid-cols-1 lg:grid-cols-2 gap-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div class="border w-front-card m-auto"> {#  Card container #}
             <div class=""> {#  Card image container #}
               <img alt="Library Collections image" width=485 height=326>
@@ -100,32 +99,27 @@
       </div>
     </div>
 
-    {# TODO: These need to flow better for smaller screen sizes #}
-    <div class="w-full bg-white py-10">
-      <div class="container mx-auto">
-        <div class="flex flex-row">
-          <div class="flex-grow font-serif">
-            <p class="mb-6">
-              The five Sheridan Libraries - the Milton S. Eisenhower Library, the Brody
-              Learning Commons, the Albert D. Hutzler Reading Room, the George Peabody
-              Library, and the John Work Garrett Library - provide the major research
-              library resources for Johns Hopkins University.
-            </p>
-            <p>
-              Together, the Libraries contain more than 4.2 million volumes and provide
-              around-the-clock access to a rich collection of electronic resources, including
-              more than 154,000 print and e-journals, and more than 1.6 million e-books.
-            </p>
-          </div>
-          <div class="flex-none mx-20">
-            <div class="border shadow text-blue-heritage">
-              <h4 class="px-8 py-4 text-lg font-bold">Need more information?</h4>
-              <div class="bg-gray-400 flex justify-center p-6">
-                <a class="bg-blue-spirit w-full p-2 cursor-pointer text-center" href="#">
-                  Contact Us
-                </a>
-              </div>
-            </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mx-20 my-10">
+      <div class="md:col-span-2">
+        <p class="mb-6">
+          The five Sheridan Libraries - the Milton S. Eisenhower Library, the Brody
+          Learning Commons, the Albert D. Hutzler Reading Room, the George Peabody
+          Library, and the John Work Garrett Library - provide the major research
+          library resources for Johns Hopkins University.
+        </p>
+        <p>
+          Together, the Libraries contain more than 4.2 million volumes and provide
+          around-the-clock access to a rich collection of electronic resources, including
+          more than 154,000 print and e-journals, and more than 1.6 million e-books.
+        </p>
+      </div>
+      <div class="">
+        <div class="border shadow text-blue-heritage text-center">
+          <h4 class="px-8 py-4 text-lg font-bold">Need more information?</h4>
+          <div class="bg-gray-400 flex p-6">
+            <a class="bg-blue-spirit w-full p-2 cursor-pointer" href="#">
+              Contact Us
+            </a>
           </div>
         </div>
       </div>
