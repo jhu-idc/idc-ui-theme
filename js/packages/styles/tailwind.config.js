@@ -49,6 +49,9 @@ module.exports = {
         // 'front-banner': '165px',
         'front-banner': '169px',
       },
+      width: {
+        'front-card': '485px',
+      },
     },
     fontFamily: {
       serif: ['arnhem', 'Georgia', 'serif'], // Body copy, maybe headlines or subheads
