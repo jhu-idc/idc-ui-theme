@@ -19,6 +19,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        footer: '#2c2c33',
+        'footer-link': '#a6bbd5',
         white: '#ffffff',
         'blue-spirit': '#68ACE5',
         'blue-heritage': '#002D72',

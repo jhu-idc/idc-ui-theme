@@ -42,13 +42,13 @@
  * @see html.html.twig
  */
 #}
-<div class="layout-container">
+<div class="layout-container flex flex-col h-screen">
 
   <nav>
     {{ page.top_nav }}
   </nav>
 
-  <header class="flex flex-row justify-between items-center" role="banner">
+  <header class="flex flex-col lg:flex-row lg:justify-between items-center" role="banner">
     <div>
       {{ page.header_1 }}
     </div>
@@ -89,7 +89,7 @@
   </main>
 
   {% if page.footer %}
-    <footer role="contentinfo">
+    <footer class="bg-gray-800 p-5 flex-1">
       {{ page.footer }}
     </footer>
   {% endif %}
