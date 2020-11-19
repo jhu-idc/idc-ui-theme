@@ -45,11 +45,18 @@ module.exports = {
         'accent-12': '#286140',
         'accent-13': '#179949',
       },
+      height: {
+        // 'front-banner': '165px',
+        'front-banner': '169px',
+      },
+      width: {
+        'front-card': '485px',
+      },
     },
     fontFamily: {
-      serif: ['arnhem', 'serif'],
-      sans: ['gentona', 'sans-serif'],
-      titling: ['titling'],
+      serif: ['arnhem', 'Georgia', 'serif'], // Body copy, maybe headlines or subheads
+      sans: ['gentona', 'Tahoma', 'sans-serif'], // Body copy, good at small sizes
+      titling: ['titling', 'Tahoma'], // "Impact" headlines, all caps
       'titling-medium': ['titling-medium'],
     },
   },

@@ -1,5 +1,6 @@
 idc-css:
   version: 1.0
+  header: true
   js:
     js/packages/styles/dist/styles.js: {}
     js/packages/stimulus/dist/stimulus.js: {}
