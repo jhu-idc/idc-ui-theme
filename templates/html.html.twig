@@ -47,9 +47,35 @@
     <a href="#main-content" class="visually-hidden focusable skip-link">
       {{ 'Skip to main content'|t }}
     </a>
-    {{ page_top }}
-    {{ page }}
-    {{ page_bottom }}
+
+    <div class="layout-container flex flex-col h-screen">
+      <nav>
+        {{ page.top_nav }}
+      </nav>
+
+      <header class="flex flex-col lg:flex-row lg:justify-between items-center" role="banner">
+        <div>
+          {{ page.header_1 }}
+        </div>
+        <div />
+        <div>
+          {{ page.header_2 }}
+        </div>
+      </header>
+
+      {{ page_top }} {# the drupal toolbar appears here #}
+
+      {{ page }}
+
+      {{ page_bottom }}
+
+      {% if page.footer %}
+        <footer class="bg-gray-800 p-5 flex-1">
+          {{ page.footer }}
+        </footer>
+      {% endif %}
+    </div>
+
     <js-bottom-placeholder token="{{ placeholder_token }}">
   </body>
 </html>
