@@ -100,3 +100,18 @@
 
 @tailwind components;
 @tailwind utilities;
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+textarea {
+  @apply border-2;
+}
+
+.js-form-item label:not([class='option']) {
+  @apply block;
+}
+
+#block-idcui-page-title h1 {
+  @apply text-3xl;
+}
