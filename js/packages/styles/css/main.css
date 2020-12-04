@@ -101,17 +101,16 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type='text'],
-input[type='email'],
-input[type='password'],
-textarea {
-  @apply border-2;
-}
-
-.js-form-item label:not([class='option']) {
-  @apply block;
-}
-
 #block-idcui-page-title h1 {
   @apply text-3xl;
 }
+
+.button {
+  @apply px-4 py-2;
+}
+
+.button--primary {
+  @apply bg-blue-spirit text-blue-heritage;
+}
+
+@import url('./forms.css');

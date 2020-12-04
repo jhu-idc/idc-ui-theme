@@ -1,0 +1,27 @@
+/*
+ * Originally created to customize the form for the `/contact` page
+ */
+
+/*
+ * Hide the "preview" button, mostly used in the "contact" forms
+ * We may want to hide it through Drupal the "right" way instead of forcing
+ * it in CSS
+ */
+.button[value='Preview'] {
+  display: none;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+textarea {
+  @apply border-2 w-full;
+}
+
+.form-item {
+  @apply my-2;
+}
+
+.js-form-item label:not([class='option']) {
+  @apply block font-bold text-xl text-gray-600;
+}
