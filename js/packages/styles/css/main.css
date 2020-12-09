@@ -125,4 +125,8 @@
   @apply bg-opacity-100 button--primary-active text-white;
 } */
 
+.card {
+  @apply m-8 p-4 shadow-md bg-white;
+}
+
 @import url('./forms.css');
