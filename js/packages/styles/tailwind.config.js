@@ -24,7 +24,10 @@ module.exports = {
         white: '#ffffff',
         'blue-spirit': '#68ACE5',
         'blue-heritage': '#002D72',
-        black: '#31261D',
+        black: {
+          default: '#31261D',
+          'bg-300': '#F7F6F4',
+        },
         'secondary-1': '#CF4520',
         'secondary-2': '#76232F',
         'secondary-3': '#A15A95',

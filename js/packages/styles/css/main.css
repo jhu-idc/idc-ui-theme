@@ -100,3 +100,33 @@
 
 @tailwind components;
 @tailwind utilities;
+
+#block-idcui-page-title h1 {
+  @apply text-3xl;
+}
+
+.button {
+  @apply px-4 py-2 cursor-pointer;
+}
+.button--primary {
+  @apply bg-blue-spirit text-blue-heritage;
+}
+
+/* .button--primary-hover {
+  @apply bg-opacity-75;
+}
+.button--primary-active {
+  @apply border border-opacity-50 border-blue-heritage;
+}
+.button--primary:hover {
+  @apply button--primary-hover;
+}
+.button--primary:active {
+  @apply bg-opacity-100 button--primary-active text-white;
+} */
+
+.card {
+  @apply m-8 p-4 shadow-md bg-white;
+}
+
+@import url('./forms.css');
