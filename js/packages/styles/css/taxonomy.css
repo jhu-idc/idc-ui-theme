@@ -1,0 +1,12 @@
+/* CSS for taxonomy pages */
+.taxonomy-term p {
+  @apply my-4;
+}
+
+.taxonomy-item {
+  @apply my-8;
+}
+
+.taxonomy-item h2 {
+  @apply text-xl;
+}

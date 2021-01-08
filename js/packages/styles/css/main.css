@@ -101,8 +101,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Other application stylesheets */
+
+@import url('./forms.css');
+@import url('./taxonomy.css');
+
 #block-idcui-page-title h1 {
   @apply text-3xl;
+}
+
+a {
+  @apply text-blue-heritage;
+}
+nav a {
+  @apply text-white;
 }
 
 .button {
@@ -129,4 +141,11 @@
   @apply m-8 p-4 shadow-md bg-white;
 }
 
-@import url('./forms.css');
+/* Admin quick-actions */
+.block-local-tasks-block ul {
+  @apply border-b-2;
+}
+
+.block-local-tasks-block li {
+  @apply inline-block mx-4 my-2;
+}
