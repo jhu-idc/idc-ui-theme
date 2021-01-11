@@ -140,12 +140,3 @@ nav a {
 .card {
   @apply m-8 p-4 shadow-md bg-white;
 }
-
-/* Admin quick-actions */
-.block-local-tasks-block ul {
-  @apply border-b-2;
-}
-
-.block-local-tasks-block li {
-  @apply inline-block mx-4 my-2;
-}
