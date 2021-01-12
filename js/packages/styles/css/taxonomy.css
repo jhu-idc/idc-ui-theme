@@ -4,3 +4,7 @@
 .taxonomy-term p {
   @apply my-4;
 }
+
+.taxonomy-item .views-row article {
+  @apply float-left mr-4;
+}
