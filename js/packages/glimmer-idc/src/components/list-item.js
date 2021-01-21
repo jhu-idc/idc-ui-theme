@@ -23,9 +23,19 @@ export default class ListItem extends Component {
   }
 
   static template = hbs`
-    <div class='min-h-12 p-4 border-b border-gray-200'>
-      <img src={{this.imageUrl}} />
-      {{@listItem.title}}
-    </div>
+    <a href="/node/{{@listItem.nid}}" type="button" class="flex items-center justify-between w-full min-h-12 p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer">
+      <div class="flex items-center">
+        <img src={{this.imageUrl}} class="mr-20" />
+        <div class="flex flex-col text-align-left">
+          {{@listItem.title}}
+          <div class="text-gray-600">Some descriptive text to be replaced when description field is available.</div>
+        </div>
+      </div>
+      <div>
+        <svg class="h-6 w-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+    </a>
   `;
 }
