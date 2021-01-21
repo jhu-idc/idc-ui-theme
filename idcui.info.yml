@@ -7,7 +7,8 @@ core: 8.x
 # logo: logo.png
 
 libraries:
-  - idcui/idc-css
+  - idcui/idc-styles
+  - idcui/idc-js
 
 regions:
   top_menu: Top menu

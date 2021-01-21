@@ -1,7 +1,10 @@
-idc-css:
+idc-styles:
   version: 1.0
   header: true
   js:
     js/packages/styles/dist/styles.js: {}
+idc-js:
+  version: 1.0
+  js:
     js/packages/stimulus/dist/stimulus.js: {}
     js/packages/glimmer-idc/dist/app.bundle.js: {}

@@ -2,7 +2,7 @@ module.exports = function (api) {
   return {
     plugins: [
       ['@glimmer/babel-plugin-glimmer-env', { DEBUG: !api.env('production') }],
-      '@glimmer/babel-plugin-strict-template-precompile',
+      '@glimmerx/babel-plugin-component-templates',
       ['@babel/plugin-proposal-decorators', { legacy: true }],
       '@babel/plugin-proposal-class-properties',
     ],

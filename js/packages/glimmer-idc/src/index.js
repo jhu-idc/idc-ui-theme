@@ -1,10 +1,6 @@
-import { renderComponent } from '@glimmer/core';
+import { renderComponent } from '@glimmerx/core';
+import CollectionsItemsList from './components/collections';
 
-import App from './App';
-import MyComponent from './MyComponent';
+const collectionsItemsListTarget = document.getElementById('collections-items-list');
 
-const containerElement = document.getElementById('glimmer-idc');
-const containerElement2 = document.getElementById('app2');
-
-renderComponent(App, containerElement);
-renderComponent(MyComponent, containerElement2);
+renderComponent(CollectionsItemsList, collectionsItemsListTarget);
