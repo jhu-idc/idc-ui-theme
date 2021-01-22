@@ -1,8 +1,11 @@
 node_modules/
 yarn-error.log
-dist/
 
-# js/glimmer-idc/node_modules
+# We're including build artifacts for now to simplify the workflow with Composer.
+# I'd like to change this in the future to get Composer to pull assets from a
+# release, instead of from source
+# dist/
+
 tmp/*
 
 yarn-error.log
