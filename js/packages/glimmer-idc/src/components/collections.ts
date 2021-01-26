@@ -4,12 +4,14 @@ import List from './list';
 import ListItem from './list-item';
 import ListSpinner from './list-spinner';
 
-export default class CollectionsItemsList extends Component {
-  @tracked title = 'All Collections';
-  @tracked isLoading = false;
-  @tracked list = [];
+interface Args {}
 
-  constructor() {
+export default class Collections extends Component<Args> {
+  @tracked title: string = 'All Collections';
+  @tracked isLoading: boolean = false;
+  @tracked list: {}[] = [];
+
+  constructor(owner: unknown, args: Args) {
     super(...arguments);
 
     this.fetchCollections();
@@ -21,8 +23,8 @@ export default class CollectionsItemsList extends Component {
       'https://islandora-idc.traefik.me/search_rest_endpoint?query=ss_type:collection_object';
 
     try {
-      let res = await fetch(url);
-      let data = await res.json();
+      let res: Response = await fetch(url);
+      let data: { rows: [] } = await res.json();
 
       this.list = data.rows;
     } catch (e) {

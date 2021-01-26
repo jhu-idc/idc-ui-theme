@@ -1,10 +1,32 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
 import MissingAsset from './missing-asset';
 
-export default class ListItem extends Component {
-  @tracked imageUrl = null;
+interface Args {
+  listItem: ListItemObject,
+}
 
-  constructor() {
+interface ListItemObject {
+  uuid: string,
+  nid: number,
+  title: string,
+  field_description: string,
+}
+
+interface JsonApiResponse {
+  data: {}[],
+  included: {
+    attributes: {
+      uri: {
+        url: string
+      }
+    }
+  }[]
+}
+
+export default class ListItem extends Component<Args> {
+  @tracked imageUrl: string = null;
+
+  constructor(owner: unknown, args: Args) {
     super(...arguments);
 
     this.fetchThumbnail();
@@ -14,10 +36,12 @@ export default class ListItem extends Component {
     let url = `https://islandora-idc.traefik.me/jsonapi/media/image?include=thumbnail&filter[media-filter][condition][value]=${this.args.listItem.uuid}&filter[media-filter][condition][operator]=IN&filter[media-filter][condition][path]=field_media_of.id&filter[thumb-filter][condition][value]=Thumbnail Image&filter[thumb-filter][condition][operator]=IN&filter[thumb-filter][condition][path]=field_media_use.name`;
 
     try {
-      let res = await fetch(url);
-      let data = await res.json();
+      let res: Response = await fetch(url);
+      let data: JsonApiResponse = await res.json();
 
-      if (data.data.length > 0) this.imageUrl = data.included[0].attributes.uri.url;
+      if (data.data.length > 0) {
+        this.imageUrl = data.included[0].attributes.uri.url;
+      }
     } catch (e) {
       console.log(e);
     }
