@@ -140,3 +140,5 @@ nav a {
 .card {
   @apply m-8 p-4 shadow-md bg-white;
 }
+
+@import 'spinkit.min.css';

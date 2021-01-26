@@ -1,6 +1,6 @@
 # glimmer-idc
 
-This README outlines the details of collaborating on this Glimmer application.
+This README outlines the details of collaborating on this GlimmerX application.
 A short introduction of this app could easily go here.
 
 ## Prerequisites
@@ -28,6 +28,6 @@ You will need the following things properly installed on your computer.
 
 ## Further Reading / Useful Links
 
-* [glimmerjs](http://github.com/glimmerjs/glimmer.js/)
+* [glimmerx](http://github.com/glimmerjs/glimmer-experimental/)
 * [webpack](https://webpack.js.org/)
 * [babel](https://babeljs.io/docs/en/configuration)

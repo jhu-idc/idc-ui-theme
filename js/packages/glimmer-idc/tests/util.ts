@@ -1,14 +1,14 @@
+import {
+  renderComponent as glimmerRenderComponent,
+  ComponentDefinition,
+  RenderComponentOptions,
+  didRender,
+} from '@glimmerx/core';
+
 // Bootstrap QUnit
 import 'qunit';
 import 'qunit/qunit/qunit.css';
 import 'qunit-dom/dist/qunit-dom';
-
-import {
-  ComponentDefinition,
-  didRender,
-  renderComponent as glimmerRenderComponent,
-  RenderComponentOptions,
-} from '@glimmer/core';
 
 QUnit.start();
 
@@ -31,7 +31,9 @@ export async function renderComponent(
     options = { element: elementOrOptions };
   } else {
     const element =
-      elementOrOptions.element instanceof HTMLElement ? elementOrOptions.element : getTestRoot();
+      elementOrOptions.element instanceof HTMLElement
+        ? elementOrOptions.element
+        : getTestRoot();
 
     options = { ...elementOrOptions, element };
   }
