@@ -1,4 +1,5 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
+import MissingAsset from './missing-asset';
 
 export default class ListItem extends Component {
   @tracked imageUrl = null;
@@ -16,7 +17,7 @@ export default class ListItem extends Component {
       let res = await fetch(url);
       let data = await res.json();
 
-      this.imageUrl = data.included[0].attributes.uri.url;
+      if (data.data.length > 0) this.imageUrl = data.included[0].attributes.uri.url;
     } catch (e) {
       console.log(e);
     }
@@ -25,7 +26,11 @@ export default class ListItem extends Component {
   static template = hbs`
     <a href="/node/{{@listItem.nid}}" type="button" class="flex items-center justify-between w-full min-h-12 p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer">
       <div class="flex items-center">
-        <img src={{this.imageUrl}} class="mr-20" />
+        {{#if this.imageUrl}}
+          <img src={{this.imageUrl}} class="h-24 w-24 mr-20" />
+        {{else}}
+          <MissingAsset />
+        {{/if}}
         <div class="flex flex-col text-align-left">
           {{@listItem.title}}
           <div class="text-gray-600">Some descriptive text to be replaced when description field is available.</div>
