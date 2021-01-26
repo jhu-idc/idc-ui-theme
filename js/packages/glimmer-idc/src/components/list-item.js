@@ -33,7 +33,7 @@ export default class ListItem extends Component {
         {{/if}}
         <div class="flex flex-col text-align-left w-3/5">
           {{@listItem.title}}
-          <div class="text-gray-600 line-clamp-3">
+          <div class="text-gray-600 line-clamp-2">
             {{@listItem.field_description}}
             Some descriptive text to be replaced when description field is available.
           </div>
