@@ -2,7 +2,7 @@ import Component, { hbs } from '@glimmerx/component';
 
 export default class MissingAsset extends Component {
   static template = hbs`
-    <div class="flex items-center justify-center h-24 w-24 mr-20 flex-shrink-0">
+    <div class="flex items-center justify-center h-24 w-24 mr-2 sm:mr-20 flex-shrink-0">
       <svg
         class="h-16 w-16 text-gray-200"
         xmlns="http://www.w3.org/2000/svg"
