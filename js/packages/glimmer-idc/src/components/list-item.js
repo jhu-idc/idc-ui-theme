@@ -27,7 +27,7 @@ export default class ListItem extends Component {
     <a href="/node/{{@listItem.nid}}" type="button" class="flex items-center justify-between w-full min-h-12 p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer">
       <div class="flex items-center">
         {{#if this.imageUrl}}
-          <img src={{this.imageUrl}} class="h-24 w-24 mr-20" />
+          <img src={{this.imageUrl}} class="h-24 w-24 mr-20 flex-shrink-0" />
         {{else}}
           <MissingAsset />
         {{/if}}
@@ -35,7 +35,6 @@ export default class ListItem extends Component {
           {{@listItem.title}}
           <div class="text-gray-600 line-clamp-2">
             {{@listItem.field_description}}
-            Some descriptive text to be replaced when description field is available.
           </div>
         </div>
       </div>
