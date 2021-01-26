@@ -3,4 +3,6 @@ import CollectionsItemsList from './components/collections';
 
 const collectionsItemsListTarget = document.getElementById('collections-items-list');
 
-renderComponent(CollectionsItemsList, collectionsItemsListTarget);
+if (collectionsItemsListTarget) {
+  renderComponent(CollectionsItemsList, collectionsItemsListTarget);
+}
