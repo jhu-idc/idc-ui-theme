@@ -31,9 +31,12 @@ export default class ListItem extends Component {
         {{else}}
           <MissingAsset />
         {{/if}}
-        <div class="flex flex-col text-align-left">
+        <div class="flex flex-col text-align-left w-3/5">
           {{@listItem.title}}
-          <div class="text-gray-600">Some descriptive text to be replaced when description field is available.</div>
+          <div class="text-gray-600 line-clamp-3">
+            {{@listItem.field_description}}
+            Some descriptive text to be replaced when description field is available.
+          </div>
         </div>
       </div>
       <div>
