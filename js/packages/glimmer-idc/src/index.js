@@ -1,8 +1,8 @@
 import { renderComponent } from '@glimmerx/core';
-import CollectionsItemsList from './components/collections';
+import CollectionsList from './components/collections';
 
-const collectionsItemsListTarget = document.getElementById('collections-items-list');
+const collectionsListTarget = document.getElementById('collections-list');
 
-if (collectionsItemsListTarget) {
-  renderComponent(CollectionsItemsList, collectionsItemsListTarget);
+if (collectionsListTarget) {
+  renderComponent(CollectionsList, collectionsListTarget);
 }
