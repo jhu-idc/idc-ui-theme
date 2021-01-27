@@ -1,6 +1,6 @@
 node_modules
 tmp/*
-dist
+# dist
 
 yarn-error.log
 .eslintcache
