@@ -142,3 +142,16 @@ nav a {
 }
 
 @import 'spinkit.min.css';
+
+/*
+ * TODO: Remove when we complete global search impl. Explicitly hide some default form fields because reasons
+ * #views-exposed-form-solr-search-content-page-1
+ */
+
+#views-exposed-form-solr-search-content-page-1 label[for='edit-query'],
+#views-exposed-form-solr-search-content-page-1 #edit-sort-order,
+#views-exposed-form-solr-search-content-page-1 label[for='edit-sort-order'],
+#views-exposed-form-solr-search-content-page-1 #edit-sort-by,
+#views-exposed-form-solr-search-content-page-1 label[for='edit-sort-by'] {
+  display: none !important;
+}
