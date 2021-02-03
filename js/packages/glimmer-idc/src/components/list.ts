@@ -7,7 +7,7 @@ interface Args {
 
 export default class List extends Component<Args> {
   static template = hbs`
-    <div class="bg-white shadow">
+    <div class="bg-white">
       <div class="h-auto">
         {{#each @list as |listItem|}}
           <ListItem @listItem={{listItem}} />
