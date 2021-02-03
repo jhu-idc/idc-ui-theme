@@ -155,3 +155,11 @@ nav a {
 #views-exposed-form-solr-search-content-page-1 label[for='edit-sort-by'] {
   display: none !important;
 }
+
+#views-exposed-form-solr-search-content-page-1 label[for='edit-query--2'],
+#views-exposed-form-solr-search-content-page-1 #edit-sort-order--2,
+#views-exposed-form-solr-search-content-page-1 label[for='edit-sort-order--2'],
+#views-exposed-form-solr-search-content-page-1 #edit-sort-by--2,
+#views-exposed-form-solr-search-content-page-1 label[for='edit-sort-by--2'] {
+  display: none !important;
+}
