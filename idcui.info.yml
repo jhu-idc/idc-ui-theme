@@ -3,7 +3,8 @@ type: theme
 description: JHU's Islandora based data repository UI theme
 core: 8.x
 base theme: carapace
-# screenshot: screenshot.png
+layout: page-layout
+screenshot: screenshot.png
 # logo: logo.png
 
 libraries:
