@@ -6,18 +6,14 @@ import ListSpinner from './list-spinner';
 import PaginationControls from './pagination-controls';
 import { SearchApiResponse, Pager } from '../interfaces'
 import { action } from '@glimmerx/modifier';
+import { service } from '@glimmerx/service';
 
 interface Args {}
 export default class Collections extends Component<Args> {
+  @service results;
   @tracked title: string = 'All Collections';
   @tracked isLoading: boolean = false;
   @tracked list: {}[] = [];
-  @tracked pager: Pager = {
-    current_page: 0,
-    total_items: 0,
-    total_pages: 0,
-    items_per_page: 0
-  };
 
   constructor(owner: unknown, args: Args) {
     super(...arguments);
@@ -25,69 +21,39 @@ export default class Collections extends Component<Args> {
     this.fetchCollections();
   }
 
-  async fetchCollections() {
-    this.isLoading = true;
-    let url =
-      '/search_rest_endpoint?query=ss_type:collection_object';
-
-    try {
-      let res: Response = await fetch(url);
-      let data: SearchApiResponse = await res.json();
-
-      this.list = data.rows;
-      this.pager = data.pager;
-      this.pager.current_page = ++this.pager.current_page
-    } catch (e) {
-      console.log(e);
-    } finally {
-      this.isLoading = false;
-    }
-  }
-
-  @action
-  async updateResults(page) {
+  async fetchCollections(page: number) {
     this.isLoading = true;
 
-    let url =
-      `/search_rest_endpoint?query=ss_type:collection_object&page=${--page}`;
+    await this.results.fetchData(page);
 
-    try {
-      let res: Response = await fetch(url);
-      let data: SearchApiResponse = await res.json();
+    this.list = this.results.rows;
 
-      this.list = data.rows;
-      this.pager = data.pager;
-      this.pager.current_page = ++this.pager.current_page
-    } catch (e) {
-      console.log(e);
-    } finally {
-      this.isLoading = false;
-    }
+    this.isLoading = false;
   }
 
   @action
   goToPage(page: number) {
-    this.pager.current_page = page;
-    this.updateResults(page);
+    this.results.pager.current_page = page;
+    this.fetchCollections(page);
   }
 
   @action
   prevPage() {
-    this.pager.current_page = --this.pager.current_page;
-    this.updateResults(this.pager.current_page);
+    this.results.pager.current_page = --this.results.pager.current_page;
+    this.fetchCollections(this.results.pager.current_page);
   }
 
   @action
   nextPage() {
-    this.pager.current_page = ++this.pager.current_page;
-    this.updateResults(this.pager.current_page);
+    this.results.pager.current_page = ++this.results.pager.current_page;
+    this.fetchCollections(this.results.pager.current_page);
   }
 
   static template = hbs`
     <div class="bg-white shadow mb-4">
       <TitleBar
         @title={{this.title}}
-        @pager={{this.pager}}
+        @pager={{this.results.pager}}
         @goToPage={{this.goToPage}}
         @prevPage={{this.prevPage}}
         @nextPage={{this.nextPage}}
@@ -100,7 +66,7 @@ export default class Collections extends Component<Args> {
     </div>
     <div class="flex bg-white shadow p-4 items-center justify-center">
       <PaginationControls
-        @pager={{this.pager}}
+        @pager={{this.results.pager}}
         @goToPage={{this.goToPage}}
         @prevPage={{this.prevPage}}
         @nextPage={{this.nextPage}}

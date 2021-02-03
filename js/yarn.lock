@@ -1373,6 +1373,15 @@
     "@glimmer/modifier" "2.0.0-beta.7"
     ember-cli-babel "^7.18.0"
 
+"@glimmerx/service@^0.2.3":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@glimmerx/service/-/service-0.2.5.tgz#1eb2f6d5cf02ed73f8ed649052af6d04b5b94095"
+  integrity sha512-BJ7PMxSt1dxaVka5+SmfhX2boCV9v7WS4e839byksxNvWUN3LveDHqFQjQzZsA+mF5KmyC02Q6IBD1vTv/eyFg==
+  dependencies:
+    "@glimmer/env" "^0.1.7"
+    "@glimmerx/core" "0.2.5"
+    ember-cli-babel "^7.18.0"
+
 "@handlebars/parser@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@handlebars/parser/-/parser-2.0.0.tgz#5e8b7298f31ff8f7b260e6b7363c7e9ceed7d9c5"

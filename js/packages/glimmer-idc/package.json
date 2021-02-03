@@ -29,6 +29,7 @@
     "@glimmerx/eslint-plugin": "^0.4.0",
     "@glimmerx/helper": "^0.2.3",
     "@glimmerx/modifier": "^0.2.3",
+    "@glimmerx/service": "^0.2.3",
     "@types/qunit": "^2.9.1",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
