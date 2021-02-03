@@ -33,7 +33,7 @@ export default class ListItem extends Component<Args> {
   }
 
   async fetchThumbnail() {
-    let url = `https://islandora-idc.traefik.me/jsonapi/media/image?include=thumbnail&filter[media-filter][condition][value]=${this.args.listItem.uuid}&filter[media-filter][condition][operator]=IN&filter[media-filter][condition][path]=field_media_of.id&filter[thumb-filter][condition][value]=Thumbnail Image&filter[thumb-filter][condition][operator]=IN&filter[thumb-filter][condition][path]=field_media_use.name`;
+    let url = `/jsonapi/media/image?include=thumbnail&filter[media-filter][condition][value]=${this.args.listItem.uuid}&filter[media-filter][condition][operator]=IN&filter[media-filter][condition][path]=field_media_of.id&filter[thumb-filter][condition][value]=Thumbnail Image&filter[thumb-filter][condition][operator]=IN&filter[thumb-filter][condition][path]=field_media_use.name`;
 
     try {
       let res: Response = await fetch(url);
@@ -51,7 +51,7 @@ export default class ListItem extends Component<Args> {
     <a href="/node/{{@listItem.nid}}" type="button" class="flex items-center justify-between w-full min-h-12 p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer">
       <div class="flex items-center">
         {{#if this.imageUrl}}
-          <img src={{this.imageUrl}} class="h-24 w-24 mr-2 sm:mr-20 flex-shrink-0" />
+          <img src={{this.imageUrl}} alt="collection or item image" class="h-24 w-24 mr-2 sm:mr-20 flex-shrink-0" />
         {{else}}
           <MissingAsset />
         {{/if}}

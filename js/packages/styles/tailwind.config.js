@@ -62,6 +62,11 @@ module.exports = {
       'titling-medium': ['titling-medium'],
     },
   },
-  variants: {},
+  variants: {
+    extend: {
+      opacity: ['disabled'],
+      cursor: ['disabled'],
+    },
+  },
   plugins: [require('@tailwindcss/line-clamp')],
 };
