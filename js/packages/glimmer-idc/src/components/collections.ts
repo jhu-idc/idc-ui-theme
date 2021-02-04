@@ -5,9 +5,10 @@ import List from './list';
 import ListItem from './list-item';
 import ListSpinner from './list-spinner';
 import PaginationControls from './pagination-controls';
-import { SearchApiResponse, Pager } from '../interfaces'
+import { SearchApiResponse, Pager } from '../interfaces';
 import { action } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
+import Facet from '../models/facet';
 
 interface Args {}
 export default class Collections extends Component<Args> {
@@ -15,6 +16,10 @@ export default class Collections extends Component<Args> {
   @tracked title: string = 'All Collections';
   @tracked isLoading: boolean = false;
   @tracked list: {}[] = [];
+
+  // Facet stuffs
+  @tracked facets: Facet[] = [];
+  @tracked hasFacets: boolean = false;
 
   constructor(owner: unknown, args: Args) {
     super(...arguments);
@@ -30,6 +35,11 @@ export default class Collections extends Component<Args> {
     this.list = this.results.rows;
 
     this.isLoading = false;
+
+    // Load facets after loading overall search results
+    await this.results.fetchFacets();
+    this.facets = this.results.facets;
+    this.hasFacets = this.results.facets.length > 0;
   }
 
   @action
@@ -50,9 +60,15 @@ export default class Collections extends Component<Args> {
     this.fetchCollections(this.results.pager.current_page);
   }
 
+  @action
+  facetSelected() {}
+
   static template = hbs`
     <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-3 container mx-auto">
-      <Facets class="col-span-1" />
+      <Facets class="col-span-1"
+        @facets={{this.facets}}
+        @hasFacets={{this.hasFacets}}
+      />
       <div class="col-span-2">
         <div class="bg-white shadow mb-4">
           <TitleBar
