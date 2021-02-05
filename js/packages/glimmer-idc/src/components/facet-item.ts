@@ -2,7 +2,7 @@ import Component, { hbs, tracked } from '@glimmerx/component';
 import { fn } from '@glimmerx/helper';
 import { action, on } from '@glimmerx/modifier';
 import Facet, { Item } from '../models/facet';
-import SelectedFacet from '../models/selected-facet';
+import SelectedFacet, { SelectedFacetImpl } from '../models/selected-facet';
 
 interface Args {
   facet: Facet;
@@ -13,11 +13,9 @@ interface Args {
 export default class FacetItem extends Component<Args> {
   @action
   selectFacet() {
-    this.args.onClick({
-      field: this.args.facet.key,
-      key: this.args.item.values.value,
-      url: this.args.item.url,
-    });
+    this.args.onClick(
+      new SelectedFacetImpl(this.args.facet.key, this.args.item.values.value, this.args.item.url)
+    );
   }
 
   static template = hbs`

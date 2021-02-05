@@ -61,9 +61,24 @@ export default class Collections extends Component<Args> {
     this.fetchCollections(this.results.pager.current_page);
   }
 
+  /**
+   * Toggle a facet. Add the selected facet to the search query, or if the facet is already
+   * part of the search query, remove it
+   *
+   * @param item facet that the user selected
+   */
   @action
   facetSelected(item: SelectedFacet) {
-    // debugger;
+    debugger;
+    if (this.results.selectedFacets.find((el: SelectedFacet) => item.equals(el))) {
+      debugger;
+      this.results.selectedFacets = this.results.selectedFacets.filter((el: SelectedFacet) => {
+        return el.equals(item);
+      });
+    } else {
+      debugger;
+      this.results.selectedFacets.pop(item);
+    }
   }
 
   static template = hbs`

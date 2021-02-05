@@ -10,4 +10,22 @@ export default interface SelectedFacet {
   url: string;
   /** Search key used for search queries */
   key: string;
+
+  equals: (obj) => boolean;
+}
+
+export class SelectedFacetImpl implements SelectedFacet {
+  field: string;
+  key: string;
+  url: string;
+
+  constructor(field: string, key: string, url?: string) {
+    this.field = field;
+    this.key = key;
+    this.url = url;
+  }
+
+  equals(object): boolean {
+    return typeof object === 'object' && this.field === object.field && this.key === object.key;
+  }
 }

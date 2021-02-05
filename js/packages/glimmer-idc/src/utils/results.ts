@@ -2,6 +2,7 @@ import { SearchApiResponse, Pager } from '../interfaces';
 import Facet from '../models/facet';
 import { tracked } from '@glimmerx/component';
 import { action } from '@glimmerx/modifier';
+import SelectedFacet from '../models/selected-facet';
 
 const typeMap = {
   collections: {
@@ -25,9 +26,26 @@ export class ResultsService {
     items_per_page: 0,
   };
   facets: Facet[];
+  selectedFacets: SelectedFacet[] = [];
 
   constructor(type: string) {
     this.types = typeMap[type].types;
+  }
+
+  searchParams(page?: number): string {
+    let urlQuery: string = '';
+
+    const typeQ: string = this.types.map((type) => `ss_type:${type}`).join(' OR ');
+    const pageParam: string = `page=${--page}`;
+    const facetQ: string = this.selectedFacets
+      .map((facet, index) => `f[${index}]=${facet.field}:${facet.key}`)
+      .join('&');
+
+    const queryParam: string = `${typeQ}${!!facetQ ? `&${facetQ}` : ''}`;
+
+    urlQuery = `${queryParam}${!!page ? `&${pageParam}` : ''}`;
+    console.log(`SearchParams: ${urlQuery}`);
+    return '*:*';
   }
 
   async fetchData(page: number) {
@@ -55,10 +73,7 @@ export class ResultsService {
 
   async fetchFacets() {
     const baseUrl = '/search_facet_endpoint?query=';
-    // const typeParams: string = this.types.map((type) => `ss_type:${type}`).join(' OR ');
-
-    // let url: string = `${baseUrl}${typeParams}`;
-    const url: string = `${baseUrl}*:*`;
+    const url: string = `${baseUrl}${this.searchParams()}`;
 
     try {
       let res: Response = await fetch(url);
