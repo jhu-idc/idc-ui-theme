@@ -9,6 +9,7 @@ import { SearchApiResponse, Pager } from '../interfaces';
 import { action } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
 import Facet from '../models/facet';
+import SelectedFacet from '../models/selected-facet';
 
 interface Args {}
 export default class Collections extends Component<Args> {
@@ -61,13 +62,16 @@ export default class Collections extends Component<Args> {
   }
 
   @action
-  facetSelected() {}
+  facetSelected(item: SelectedFacet) {
+    // debugger;
+  }
 
   static template = hbs`
     <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-3 container mx-auto">
       <Facets class="col-span-1"
         @facets={{this.facets}}
         @hasFacets={{this.hasFacets}}
+        @facetSelected={{this.facetSelected}}
       />
       <div class="col-span-2">
         <div class="bg-white shadow mb-4">

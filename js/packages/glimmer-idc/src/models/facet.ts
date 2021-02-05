@@ -1,9 +1,19 @@
+export type ItemValue = {
+  value: any;
+  count: number;
+};
+
+export type Item = {
+  url: string;
+  values: ItemValue;
+};
+
 /**
  * TODO: How do we get a label for this facet?
  */
 export default class Facet {
   key: string;
-  items: [];
+  items: Item[];
   isEmpty: boolean;
   empty: {};
 

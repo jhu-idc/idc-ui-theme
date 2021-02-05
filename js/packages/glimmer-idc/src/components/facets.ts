@@ -1,5 +1,4 @@
-import Component, { hbs, tracked } from '@glimmerx/component';
-import { action } from '@glimmerx/modifier';
+import Component, { hbs } from '@glimmerx/component';
 import Facet from '../models/facet';
 import FacetItem from './facet-item';
 
@@ -9,20 +8,6 @@ interface Args {
 }
 
 export default class Facets extends Component<Args> {
-  @tracked selectedFacets: Facet[];
-
-  /**
-   * Get a string query representing the currently selected facets
-   */
-  facetsToQuery(): string {
-    return '';
-  }
-
-  @action
-  clickFacet(facet: Facet) {
-    debugger;
-  }
-
   static template = hbs`
     <div class="">
       {{#each @facets as |facet|}}
@@ -33,7 +18,7 @@ export default class Facets extends Component<Args> {
           <ul class="my-2 mx-4">
             {{#each facet.items as |item|}}
               <li class="">
-                <FacetItem @facet={{item}} @onClick={{this.clickFacet}} />
+                <FacetItem @facet={{facet}} @item={{item}} @onClick={{@facetSelected}} />
               </li>
             {{/each}}
           </ul>
