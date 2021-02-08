@@ -9,6 +9,7 @@ import { SearchApiResponse, Pager } from '../interfaces';
 import { action } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
 import { Facet, FacetValue } from '../models/facet';
+import { facetValueIncludes, removeSelectedItem } from '../utils/facet-utils';
 
 interface Args {}
 export default class Collections extends Component<Args> {
@@ -69,16 +70,13 @@ export default class Collections extends Component<Args> {
    */
   @action
   facetSelected(item: FacetValue) {
-    debugger;
-    // if (this.results.selectedFacets.find((el: SelectedFacet) => item.equals(el))) {
-    //   debugger;
-    //   this.results.selectedFacets = this.results.selectedFacets.filter((el: SelectedFacet) => {
-    //     return el.equals(item);
-    //   });
-    // } else {
-    //   debugger;
-    //   this.results.selectedFacets.pop(item);
-    // }
+    if (facetValueIncludes(item, this.results.selectedFacets)) {
+      this.results.selectedFacets = removeSelectedItem(item, this.results.selectedFacets);
+    } else {
+      this.results.selectedFacets.push(item);
+    }
+
+    this.fetchCollections(this.results.pager.current_page);
   }
 
   static template = hbs`
