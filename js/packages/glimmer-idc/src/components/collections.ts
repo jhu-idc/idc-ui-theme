@@ -1,5 +1,5 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
-import Facets from './facets';
+import FacetList from './facet-list';
 import TitleBar from './title-bar';
 import List from './list';
 import ListItem from './list-item';
@@ -8,8 +8,7 @@ import PaginationControls from './pagination-controls';
 import { SearchApiResponse, Pager } from '../interfaces';
 import { action } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
-import Facet from '../models/facet';
-import SelectedFacet from '../models/selected-facet';
+import { Facet, FacetValue } from '../models/facet';
 
 interface Args {}
 export default class Collections extends Component<Args> {
@@ -25,7 +24,8 @@ export default class Collections extends Component<Args> {
   constructor(owner: unknown, args: Args) {
     super(...arguments);
 
-    this.fetchCollections();
+    // TODO: this should read the page URL to check for correct page to load
+    this.fetchCollections(0);
   }
 
   async fetchCollections(page: number) {
@@ -68,22 +68,22 @@ export default class Collections extends Component<Args> {
    * @param item facet that the user selected
    */
   @action
-  facetSelected(item: SelectedFacet) {
+  facetSelected(item: FacetValue) {
     debugger;
-    if (this.results.selectedFacets.find((el: SelectedFacet) => item.equals(el))) {
-      debugger;
-      this.results.selectedFacets = this.results.selectedFacets.filter((el: SelectedFacet) => {
-        return el.equals(item);
-      });
-    } else {
-      debugger;
-      this.results.selectedFacets.pop(item);
-    }
+    // if (this.results.selectedFacets.find((el: SelectedFacet) => item.equals(el))) {
+    //   debugger;
+    //   this.results.selectedFacets = this.results.selectedFacets.filter((el: SelectedFacet) => {
+    //     return el.equals(item);
+    //   });
+    // } else {
+    //   debugger;
+    //   this.results.selectedFacets.pop(item);
+    // }
   }
 
   static template = hbs`
     <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-3 container mx-auto">
-      <Facets class="col-span-1"
+      <FacetList class="col-span-1"
         @facets={{this.facets}}
         @hasFacets={{this.hasFacets}}
         @facetSelected={{this.facetSelected}}

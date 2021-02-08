@@ -1,19 +1,21 @@
-export type ItemValue = {
+/**
+ * A facet value, should be selectable by the user.
+ * Should also contain enough information for the UI to act on to
+ * mutate the current search query.
+ */
+export type FacetValue = {
+  key: string;
   value: any;
   count: number;
-};
-
-export type Item = {
   url: string;
-  values: ItemValue;
 };
 
 /**
  * TODO: How do we get a label for this facet?
  */
-export default class Facet {
+export class Facet {
   key: string;
-  items: Item[];
+  items: FacetValue[];
   isEmpty: boolean;
   empty: {};
 
@@ -25,7 +27,7 @@ export default class Facet {
     const objkeys = Object.keys(facet);
 
     if (objkeys.length === 0) {
-      throw new Error(`No facet key found. ${facet}`);
+      throw new Error(`No facet field found. ${facet}`);
     }
 
     // Check the shape of this "facet" data to see if it's empty
@@ -34,11 +36,21 @@ export default class Facet {
       return;
     }
 
-    const key = objkeys[0];
+    const key: string = objkeys[0];
     this.isEmpty = false;
 
     this.key = key;
-    this.items = facet[key];
+
+    this.items = facet[key].map((data) => ({
+      key,
+      value: data.values.value,
+      count: data.values.count,
+      url: data.url,
+    }));
+
+    // For convenience of parsing when a user selects a facet value, let's add the facet field
+    // on all items now
+    this.items.forEach((item) => (item.key = key));
   }
 
   /**

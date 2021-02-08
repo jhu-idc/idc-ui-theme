@@ -3,18 +3,18 @@ import Facet from './facet';
 /**
  * A facet that has an item selected
  */
-export default interface SelectedFacet {
-  /** Facet field. I.e. facet_subject */
-  field: string;
-  /** Drupal may provide a URL to continue the current search with this facet appended */
-  url: string;
-  /** Search key used for search queries */
-  key: string;
+// export default interface SelectedFacet {
+//   /** Facet field. I.e. facet_subject */
+//   field: string;
+//   /** Drupal may provide a URL to continue the current search with this facet appended */
+//   url: string;
+//   /** Search key used for search queries */
+//   key: string;
 
-  equals: (obj) => boolean;
-}
+//   equals: (obj) => boolean;
+// }
 
-export class SelectedFacetImpl implements SelectedFacet {
+export default class SelectedFacet {
   field: string;
   key: string;
   url: string;
@@ -26,6 +26,7 @@ export class SelectedFacetImpl implements SelectedFacet {
   }
 
   equals(object): boolean {
+    debugger;
     return typeof object === 'object' && this.field === object.field && this.key === object.key;
   }
 }

@@ -1,8 +1,8 @@
 import { SearchApiResponse, Pager } from '../interfaces';
-import Facet from '../models/facet';
+import { Facet } from '../models/facet';
 import { tracked } from '@glimmerx/component';
 import { action } from '@glimmerx/modifier';
-import SelectedFacet from '../models/selected-facet';
+// import SelectedFacet from '../models/selected-facet';
 
 const typeMap = {
   collections: {
@@ -26,7 +26,7 @@ export class ResultsService {
     items_per_page: 0,
   };
   facets: Facet[];
-  selectedFacets: SelectedFacet[] = [];
+  // selectedFacets: SelectedFacet[] = [];
 
   constructor(type: string) {
     this.types = typeMap[type].types;
@@ -37,11 +37,12 @@ export class ResultsService {
 
     const typeQ: string = this.types.map((type) => `ss_type:${type}`).join(' OR ');
     const pageParam: string = `page=${--page}`;
-    const facetQ: string = this.selectedFacets
-      .map((facet, index) => `f[${index}]=${facet.field}:${facet.key}`)
-      .join('&');
+    // const facetQ: string = this.selectedFacets
+    //   .map((facet, index) => `f[${index}]=${facet.field}:${facet.key}`)
+    //   .join('&');
 
-    const queryParam: string = `${typeQ}${!!facetQ ? `&${facetQ}` : ''}`;
+    // const queryParam: string = `${typeQ}${!!facetQ ? `&${facetQ}` : ''}`;
+    const queryParam: string = `${typeQ}`;
 
     urlQuery = `${queryParam}${!!page ? `&${pageParam}` : ''}`;
     console.log(`SearchParams: ${urlQuery}`);

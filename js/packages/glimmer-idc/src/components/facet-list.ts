@@ -1,5 +1,5 @@
 import Component, { hbs } from '@glimmerx/component';
-import Facet from '../models/facet';
+import { Facet } from '../models/facet';
 import FacetItem from './facet-item';
 
 interface Args {
@@ -7,7 +7,7 @@ interface Args {
   hasFacets: boolean;
 }
 
-export default class Facets extends Component<Args> {
+export default class FacetList extends Component<Args> {
   static template = hbs`
     <div class="">
       {{#each @facets as |facet|}}
