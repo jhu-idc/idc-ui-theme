@@ -3,18 +3,18 @@ import { Pager } from '../interfaces';
 import PageItem from './page-item';
 
 interface Args {
-  compact: boolean,
-  pager: Pager,
-  goToPage: (page: number) => {},
-  prevPage: () => {},
-  nextPage: () => {}
+  compact: boolean;
+  pager: Pager;
+  goToPage: (page: number) => {};
+  prevPage: () => {};
+  nextPage: () => {};
 }
 
 export default class PaginationControls extends Component<Args> {
   @tracked compact: boolean = this.args.compact || false;
 
   get lastItemOnPage() {
-    const end = (this.offset + Number(this.args.pager.items_per_page)) - 1;
+    const end = this.offset + Number(this.args.pager.items_per_page) - 1;
 
     if (end > this.args.pager.total_items) {
       return this.args.pager.total_items;
@@ -24,7 +24,7 @@ export default class PaginationControls extends Component<Args> {
   }
 
   get offset() {
-    return (this.args.pager.current_page - 1) * Number(this.args.pager.items_per_page) + 1;
+    return this.args.pager.current_page * Number(this.args.pager.items_per_page) + 1;
   }
 
   get paginatedItems() {
@@ -48,24 +48,19 @@ export default class PaginationControls extends Component<Args> {
 
     const siblingsStart = Math.max(
       Math.min(
-        // Natural start
-        page - siblingCount,
-        // Lower boundary when page is high
-        count - boundaryCount - siblingCount * 2 - 1,
+        page - siblingCount, // Natural start
+        count - boundaryCount - siblingCount * 2 - 1 // Lower boundary when page is high
       ),
-      // Greater than startPages
-      boundaryCount + 2,
+      boundaryCount + 2 // Greater than startPages
     );
 
     const siblingsEnd = Math.min(
       Math.max(
-        // Natural end
-        page + siblingCount,
-        // Upper boundary when page is low
-        boundaryCount + siblingCount * 2 + 2,
+        page + siblingCount, // Natural end
+        boundaryCount + siblingCount * 2 + 2 // Upper boundary when page is low
       ),
       // Less than endPages
-      endPages.length > 0 ? endPages[0] - 2 : count - 1,
+      endPages.length > 0 ? endPages[0] - 2 : count - 1
     );
 
     // Basic list of items to render

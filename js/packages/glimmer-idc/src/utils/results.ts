@@ -37,8 +37,9 @@ export class ResultsService {
   }
 
   searchParams(): string {
-    const typeQ: string = 'query=' + this.types.map((type) => `ss_type:${type}`).join(' OR ');
-    const pageParam: string = this.pager.current_page ? `&page=${--this.pager.current_page}` : '';
+    // const typeQ: string = 'query=' + this.types.map((type) => `ss_type:${type}`).join(' OR ');
+    const typeQ: string = 'query=*:*';
+    const pageParam: string = this.pager.current_page ? `&page=${this.pager.current_page}` : '';
     const sortByParam: string = !!this.sortBy ? this.sortBy : '';
     const orderByParam: string = !!this.sortOrder ? this.sortOrder : '';
     const itemsPerPageParam: string = !!this.itemsPerPage
@@ -62,7 +63,7 @@ export class ResultsService {
 
     let url: string = baseUrl + params;
 
-    console.log(url);
+    // console.log(url);
 
     try {
       let res: Response = await fetch(url);
@@ -70,7 +71,7 @@ export class ResultsService {
 
       this.rows = data.rows;
       this.pager = data.pager;
-      this.pager.current_page = ++this.pager.current_page;
+      this.pager.current_page = this.pager.current_page;
     } catch (e) {
       console.log(e);
     }
