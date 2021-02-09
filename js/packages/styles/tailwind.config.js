@@ -68,5 +68,5 @@ module.exports = {
       cursor: ['disabled'],
     },
   },
-  plugins: [require('@tailwindcss/line-clamp')],
+  plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/forms')],
 };

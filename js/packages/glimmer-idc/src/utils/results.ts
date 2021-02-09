@@ -30,21 +30,34 @@ export class ResultsService {
     total_pages: 0,
     items_per_page: 0
   };
+  @tracked sortBy: string | null = null;
+  @tracked sortOrder: string | null = null;
+  @tracked itemsPerPage: number | null = null;
 
   constructor(type: string) {
     this.types = typeMap[type].types;
   }
 
-  async fetchData(page: number) {
+  searchParams(): string {
+    const typeQ: string = this.types.map((type) => `ss_type:${type}`).join(' OR ');
+    const pageParam: string = this.pager.current_page ? `&page=${--this.pager.current_page}` : '';
+    const sortByParam: string = !!this.sortBy ? this.sortBy : '';
+    const orderByParam: string = !!this.sortOrder ? this.sortOrder : '';
+    const itemsPerPageParam: string = !!this.itemsPerPage ? `&items_per_page=${this.itemsPerPage}` : '';
+
+    const queryParams: string = typeQ + pageParam + sortByParam + orderByParam + itemsPerPageParam;
+
+    return queryParams;
+  }
+
+  async fetchData() {
     const baseUrl = '/search_rest_endpoint?query='
-    const typeParams: string = this.types.map(type => `ss_type:${type}`).join(' OR ');
-    const pageParam = `&page=${--page}`;
 
-    let url: string = baseUrl + typeParams;
+    const params = this.searchParams();
 
-    if (page) {
-      url = url + pageParam;
-    }
+    let url: string = baseUrl + params;
+
+    console.log(url)
 
     try {
       let res: Response = await fetch(url);
