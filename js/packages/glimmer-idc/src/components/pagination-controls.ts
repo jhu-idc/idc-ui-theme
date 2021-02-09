@@ -14,7 +14,7 @@ export default class PaginationControls extends Component<Args> {
   @tracked compact: boolean = this.args.compact || false;
 
   get lastItemOnPage() {
-    const end = (this.offset + this.args.pager.items_per_page) - 1;
+    const end = (this.offset + Number(this.args.pager.items_per_page)) - 1;
 
     if (end > this.args.pager.total_items) {
       return this.args.pager.total_items;
@@ -24,7 +24,7 @@ export default class PaginationControls extends Component<Args> {
   }
 
   get offset() {
-    return (this.args.pager.current_page - 1) * this.args.pager.items_per_page + 1;
+    return (this.args.pager.current_page - 1) * Number(this.args.pager.items_per_page) + 1;
   }
 
   get paginatedItems() {

@@ -8,6 +8,7 @@ import PaginationControls from './pagination-controls';
 import { SearchApiResponse, Pager } from '../interfaces'
 import { action } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
+import { Options } from '../interfaces';
 
 interface Args {}
 export default class Collections extends Component<Args> {
@@ -22,10 +23,10 @@ export default class Collections extends Component<Args> {
     this.fetchCollections();
   }
 
-  async fetchCollections(page: number) {
+  async fetchCollections() {
     this.isLoading = true;
 
-    await this.results.fetchData(page);
+    await this.results.fetchData();
 
     this.list = this.results.rows;
 
@@ -35,19 +36,32 @@ export default class Collections extends Component<Args> {
   @action
   goToPage(page: number) {
     this.results.pager.current_page = page;
-    this.fetchCollections(page);
+    this.fetchCollections();
   }
 
   @action
   prevPage() {
     this.results.pager.current_page = --this.results.pager.current_page;
-    this.fetchCollections(this.results.pager.current_page);
+    this.fetchCollections();
   }
 
   @action
   nextPage() {
     this.results.pager.current_page = ++this.results.pager.current_page;
-    this.fetchCollections(this.results.pager.current_page);
+    this.fetchCollections();
+  }
+
+  @action
+  applySearchOptions(options: Options) {
+    Object.entries(options).map(([key, value]: [string, string | number | null], i) => {
+      if (key === 'currentPage') {
+        this.results.pager.current_page = Number(value) === 1 ? 0 : Number(value) ;
+      } else {
+        this.results[key] = value;
+      }
+    });
+
+    this.fetchCollections();
   }
 
   static template = hbs`
@@ -61,6 +75,10 @@ export default class Collections extends Component<Args> {
             @goToPage={{this.goToPage}}
             @prevPage={{this.prevPage}}
             @nextPage={{this.nextPage}}
+            @applySearchOptions={{this.applySearchOptions}}
+            @sortBy={{this.results.sortBy}}
+            @sortOrder={{this.results.sortOrder}}
+            @itemsPerPage={{this.results.itemsPerPage}}
           />
           {{#if this.isLoading}}
             <ListSpinner />
