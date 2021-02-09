@@ -7,6 +7,7 @@ export type FacetValue = {
   key: string;
   value: any;
   count: number;
+  frag: string;
   url: string;
 };
 
@@ -15,12 +16,14 @@ export type FacetValue = {
  */
 export class Facet {
   key: string;
+  label: string;
   items: FacetValue[];
   isEmpty: boolean;
   empty: {};
 
-  constructor(key: string, items: FacetValue[], isEmpty: boolean, empty?: any) {
+  constructor(key: string, label: string, items: FacetValue[], isEmpty: boolean, empty?: any) {
     this.key = key;
+    this.label = label;
     this.items = items;
     this.isEmpty = isEmpty;
     this.empty = empty;

@@ -18,9 +18,12 @@ export function parseFacet(facet: {}) {
     value: data.values.value,
     count: data.values.count,
     url: data.url,
+    frag: getFacetQueryFragment(data.url, key),
   }));
 
-  return new Facet(key, items, false);
+  const label: string = getFieldLabel(key);
+
+  return new Facet(key, label, items, false);
 }
 
 /**
@@ -87,13 +90,23 @@ export function removeSelectedItem(item: FacetValue, selectedFacets: FacetValue[
  * @param keys list of field keys that need labels
  * @returns Map of field keys -> label
  */
-function getFieldLabels(keys: string[]): Map<string, string> {
+export function getFieldLabels(keys: string[]): Map<string, string> {
   let result = new Map<string, string>();
   const regex = /_/g;
 
   keys.forEach((str: string) => result.set(str, str.replace(regex, ' ')));
 
   return result;
+}
+
+export function getFieldLabel(key: string): string {
+  const wordRegex = /(field)|(facet)/g;
+
+  return key
+    .replace(wordRegex, '')
+    .split('_')
+    .map((str) => `${str.charAt(0).toUpperCase()}${str.slice(1)}`)
+    .join(' ');
 }
 
 /**
@@ -120,9 +133,9 @@ function getFieldLabels(keys: string[]): Map<string, string> {
 
 /**
  *
- * @param url url target returned with the facet data
+ * @param urlStr url target returned with the facet data
  * @returns {string}
  */
-function getFacetQueryFragment(url: string): string {
-  return '';
+export function getFacetQueryFragment(urlStr: string, facet_key: string): string {
+  return decodeURI(urlStr.slice(urlStr.lastIndexOf('=') + 1));
 }

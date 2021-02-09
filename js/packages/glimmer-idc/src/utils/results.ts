@@ -37,8 +37,8 @@ export class ResultsService {
   }
 
   searchParams(): string {
-    const typeQ: string = 'query=' + this.types.map((type) => `ss_type:${type}`).join(' OR ');
-    // const typeQ: string = 'query=*:*';
+    // const typeQ: string = 'query=' + this.types.map((type) => `ss_type:${type}`).join(' OR ');
+    const typeQ: string = 'query=*:*';
     const pageParam: string = this.pager.current_page ? `&page=${this.pager.current_page}` : '';
     const sortByParam: string = !!this.sortBy ? this.sortBy : '';
     const orderByParam: string = !!this.sortOrder ? this.sortOrder : '';
@@ -46,12 +46,15 @@ export class ResultsService {
       ? `&items_per_page=${this.itemsPerPage}`
       : '';
 
-    const facetQ: string = this.selectedFacets
-      .map((facet, index) => `f[${index}]=${facet.key}:${facet.value}`)
-      .join('&');
+    const facetQ: string =
+      this.selectedFacets.length > 0
+        ? '&' + this.selectedFacets.map((facet, index) => `f[${index}]=${facet.frag}`).join('&')
+        : '';
 
     const queryParams: string =
       typeQ + pageParam + sortByParam + orderByParam + itemsPerPageParam + facetQ;
+
+    console.log(`Search params: ${queryParams}`);
 
     return queryParams;
   }
