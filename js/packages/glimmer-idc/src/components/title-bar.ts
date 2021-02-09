@@ -1,13 +1,15 @@
 import Component, { hbs } from '@glimmerx/component';
 import PaginationControls from './pagination-controls';
-import { Pager } from '../interfaces'
+import { Pager, Options } from '../interfaces';
+import SearchOptions from './search-options';
 
 interface Args {
   title: string,
   pager: Pager,
   goToPage: (page: number) => {},
   prevPage: () => {},
-  nextPage: () => {}
+  nextPage: () => {},
+  applySearchOptions: (options: Options) => {},
 }
 
 export default class TitleBar extends Component<Args> {
@@ -16,13 +18,22 @@ export default class TitleBar extends Component<Args> {
       <h2 class="text-xl font-bold leading-6">
         {{@title}}
       </h2>
-      <PaginationControls
-        @compact={{true}}
-        @pager={{@pager}}
-        @goToPage={{@goToPage}}
-        @prevPage={{@prevPage}}
-        @nextPage={{@nextPage}}
-      />
+      <div class="flex items-center">
+        <PaginationControls
+          @compact={{true}}
+          @pager={{@pager}}
+          @goToPage={{@goToPage}}
+          @prevPage={{@prevPage}}
+          @nextPage={{@nextPage}}
+        />
+        <SearchOptions
+          @applySearchOptions={{@applySearchOptions}}
+          @pager={{@pager}}
+          @sortBy={{@sortBy}}
+          @sortOrder={{@sortOrder}}
+          @itemsPerPage={{@itemsPerPage}}
+        />
+      </div>
     </div>
   `;
 }
