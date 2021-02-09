@@ -54,6 +54,10 @@ export default class SearchOptions extends Component<Args> {
     return pages;
   }
 
+  get currentPagePlusOne() {
+    return this.args.pager.current_page + 1;
+  }
+
   @action
   updateMenuDisplay() {
     this.displayMenu = !this.displayMenu;
@@ -162,7 +166,7 @@ export default class SearchOptions extends Component<Args> {
             >
               <option value="" disabled selected>Please make a selection ...</option>
               {{#each this.pages as |page|}}
-                <option value={{page}} selected={{is this.args.pager "current_page" page}}>{{page}}</option>
+                <option value={{page}} selected={{is this "currentPagePlusOne" page}}>{{page}}</option>
               {{/each}}
             </select>
           </div>
