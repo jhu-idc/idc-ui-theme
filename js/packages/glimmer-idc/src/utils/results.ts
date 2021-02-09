@@ -25,41 +25,44 @@ export class ResultsService {
     total_pages: 0,
     items_per_page: 0,
   };
-  facets: Facet[];
-  selectedFacets: FacetValue[] = [];
+  @tracked sortBy: string | null = null;
+  @tracked sortOrder: string | null = null;
+  @tracked itemsPerPage: number | null = null;
+
+  @tracked facets: Facet[];
+  @tracked selectedFacets: FacetValue[] = [];
 
   constructor(type: string) {
     this.types = typeMap[type].types;
   }
 
-  searchParams(page?: number): string {
-    const typeQ: string = this.types.map((type) => `ss_type:${type}`).join(' OR ');
-    const pageParam: string = `page=${page > 0 ? --page : 0}`;
+  searchParams(): string {
+    const typeQ: string = 'query=' + this.types.map((type) => `ss_type:${type}`).join(' OR ');
+    const pageParam: string = this.pager.current_page ? `&page=${--this.pager.current_page}` : '';
+    const sortByParam: string = !!this.sortBy ? this.sortBy : '';
+    const orderByParam: string = !!this.sortOrder ? this.sortOrder : '';
+    const itemsPerPageParam: string = !!this.itemsPerPage
+      ? `&items_per_page=${this.itemsPerPage}`
+      : '';
+
     const facetQ: string = this.selectedFacets
       .map((facet, index) => `f[${index}]=${facet.key}:${facet.value}`)
       .join('&');
 
-    const queryParam: string = `${typeQ}`;
-    // Explicitly set search q to find everything for debugging
-    // const queryParam: string = '*:*';
+    const queryParams: string =
+      typeQ + pageParam + sortByParam + orderByParam + itemsPerPageParam + facetQ;
 
-    let urlQuery: string = `query=${queryParam}${!!page ? `&${pageParam}` : ''}${
-      !!facetQ ? `&${facetQ}` : ''
-    }`;
-    // console.log(`SearchParams: ${urlQuery}`);
-    return urlQuery;
+    return queryParams;
   }
 
-  async fetchData(page: number) {
-    const baseUrl = '/search_rest_endpoint?query=';
-    const typeParams: string = this.types.map((type) => `ss_type:${type}`).join(' OR ');
-    const pageParam = `&page=${--page}`;
+  async fetchData() {
+    const baseUrl = '/search_rest_endpoint?';
 
-    let url: string = baseUrl + typeParams;
+    const params = this.searchParams();
 
-    if (page) {
-      url = url + pageParam;
-    }
+    let url: string = baseUrl + params;
+
+    console.log(url);
 
     try {
       let res: Response = await fetch(url);

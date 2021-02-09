@@ -40,3 +40,9 @@ export const is = helper(
     return obj[key] === value;
   }
 );
+
+/** `!` */
+export const not = helper(({}, value: unknown) => !value);
+
+/** `===` */
+export const eq = helper(<T>({}, left: unknown, right: T): left is T => left === right);
