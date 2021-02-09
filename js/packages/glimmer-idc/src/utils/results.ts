@@ -37,8 +37,8 @@ export class ResultsService {
   }
 
   searchParams(): string {
-    // const typeQ: string = 'query=' + this.types.map((type) => `ss_type:${type}`).join(' OR ');
-    const typeQ: string = 'query=*:*';
+    const typeQ: string = 'query=' + this.types.map((type) => `ss_type:${type}`).join(' OR ');
+    // const typeQ: string = 'query=*:*';
     const pageParam: string = this.pager.current_page ? `&page=${this.pager.current_page}` : '';
     const sortByParam: string = !!this.sortBy ? this.sortBy : '';
     const orderByParam: string = !!this.sortOrder ? this.sortOrder : '';

@@ -56,8 +56,10 @@ export default class PaginationControls extends Component<Args> {
 
     const siblingsEnd = Math.min(
       Math.max(
-        page + siblingCount, // Natural end
-        boundaryCount + siblingCount * 2 + 2 // Upper boundary when page is low
+        // Natural end
+        page + siblingCount,
+        // Upper boundary when page is low
+        boundaryCount + siblingCount * 2 + 2
       ),
       // Less than endPages
       endPages.length > 0 ? endPages[0] - 2 : count - 1
@@ -116,9 +118,9 @@ export default class PaginationControls extends Component<Args> {
         ? {
             type: 'page',
             page: item,
-            selected: item === page,
+            selected: item === page + 1,
             disabled,
-            'aria-current': item === page ? 'true' : undefined,
+            'aria-current': item === page + 1 ? 'true' : undefined,
           }
         : {
             type: item,
@@ -127,7 +129,7 @@ export default class PaginationControls extends Component<Args> {
             disabled:
               disabled ||
               (item.indexOf('ellipsis') === -1 &&
-                (item === 'next' || item === 'last' ? page >= count : page <= 1)),
+                (item === 'next' || item === 'last' ? page + 1 >= count : page <= 0)),
           };
     });
 

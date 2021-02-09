@@ -47,7 +47,7 @@ export default class Collections extends Component<Args> {
 
   @action
   goToPage(page: number) {
-    this.results.pager.current_page = page;
+    this.results.pager.current_page = page - 1;
     this.fetchCollections();
   }
 
@@ -67,7 +67,7 @@ export default class Collections extends Component<Args> {
   applySearchOptions(options: Options) {
     Object.entries(options).map(([key, value]: [string, string | number | null], i) => {
       if (key === 'currentPage') {
-        this.results.pager.current_page = Number(value) === 1 ? 0 : Number(value);
+        this.results.pager.current_page = Number(value) - 1;
       } else {
         this.results[key] = value;
       }
