@@ -33,19 +33,21 @@ export class ResultsService {
   @tracked sortBy: string | null = null;
   @tracked sortOrder: string | null = null;
   @tracked itemsPerPage: number | null = null;
+  @tracked searchTerms: string | null = null;
 
   constructor(type: string) {
     this.types = typeMap[type].types;
   }
 
   searchParams(): string {
+    const searchTermsParam: string = !!this.searchTerms ? `${this.searchTerms} AND ` : '';
     const typeQ: string = this.types.map((type) => `ss_type:${type}`).join(' OR ');
     const pageParam: string = this.pager.current_page ? `&page=${--this.pager.current_page}` : '';
     const sortByParam: string = !!this.sortBy ? this.sortBy : '';
     const orderByParam: string = !!this.sortOrder ? this.sortOrder : '';
     const itemsPerPageParam: string = !!this.itemsPerPage ? `&items_per_page=${this.itemsPerPage}` : '';
 
-    const queryParams: string = typeQ + pageParam + sortByParam + orderByParam + itemsPerPageParam;
+    const queryParams: string = searchTermsParam + typeQ + pageParam + sortByParam + orderByParam + itemsPerPageParam;
 
     return queryParams;
   }
