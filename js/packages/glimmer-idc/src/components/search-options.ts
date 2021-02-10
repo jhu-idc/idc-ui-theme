@@ -60,29 +60,30 @@ export default class SearchOptions extends Component<Args> {
   }
 
   @action
-  handleSortByChange(e) {
-    this.options.sortBy = e.target.value;
+  handleSortByChange(e: Event) {
+    this.options.sortBy = (<HTMLInputElement>e.target).value;
   }
 
   @action
-  handleSortOrderChange(e) {
-    this.options.sortOrder = e.target.value;
+  handleSortOrderChange(e: Event) {
+    this.options.sortOrder = (<HTMLInputElement>e.target).value;
   }
 
   @action
-  handleCurrentPageChange(e) {
-    this.options.currentPage = Number(e.target.value);
+  handleCurrentPageChange(e: Event) {
+    this.options.currentPage = Number((<HTMLInputElement>e.target).value);
   }
 
   @action
-  handleItemsPerPageChange(e) {
-    this.options.itemsPerPage = Number(e.target.value);
+  handleItemsPerPageChange(e: Event) {
+    this.options.itemsPerPage = Number((<HTMLInputElement>e.target).value);
   }
 
   @action
   handleApplySearchOptions() {
     this.displayMenu = !this.displayMenu;
 
+    debugger;
     this.args.applySearchOptions(this.options);
   }
 
