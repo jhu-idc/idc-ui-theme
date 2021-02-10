@@ -64,6 +64,13 @@ export default class Collections extends Component<Args> {
     this.fetchCollections();
   }
 
+  @action
+  applySearchTerms(searchTerms) {
+    this.results.searchTerms = searchTerms;
+
+    this.fetchCollections();
+  }
+
   static template = hbs`
     <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-3 container mx-auto">
       <Facets class="col-span-1" />
@@ -79,6 +86,8 @@ export default class Collections extends Component<Args> {
             @sortBy={{this.results.sortBy}}
             @sortOrder={{this.results.sortOrder}}
             @itemsPerPage={{this.results.itemsPerPage}}
+            @applySearchTerms={{this.applySearchTerms}}
+            @searchInputPlaceholder='Search collections ...'
           />
           {{#if this.isLoading}}
             <ListSpinner />
@@ -88,6 +97,7 @@ export default class Collections extends Component<Args> {
         </div>
         <div class="flex bg-white shadow p-4 items-center justify-center">
           <PaginationControls
+            @compact={{true}}
             @pager={{this.results.pager}}
             @goToPage={{this.goToPage}}
             @prevPage={{this.prevPage}}

@@ -87,7 +87,7 @@ export default class SearchOptions extends Component<Args> {
   }
 
   static template = hbs`
-    <div class="relative inline-block text-left ml-6">
+    <div class="relative inline-block text-left ml-0 2xl:ml-6">
       <span class="rounded-md shadow-sm">
         <button
           class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300 hover:text-gray-700 hover:bg-gray-200 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
