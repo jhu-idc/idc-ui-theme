@@ -65,7 +65,7 @@ export default class Collections extends Component<Args> {
   }
 
   @action
-  applySearchTerms(searchTerms) {
+  applySearchTerms(searchTerms?: string) {
     this.results.searchTerms = searchTerms;
 
     this.fetchCollections();
