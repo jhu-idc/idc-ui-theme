@@ -3,7 +3,10 @@ import { tracked } from '@glimmerx/component';
 import { action, on } from '@glimmerx/modifier';
 import { fn } from '@glimmerx/helper';
 
-export default class SearchInput extends Component {
+interface Args {
+  applySearchTerms: (searchTerms?: string) => {},
+}
+export default class SearchInput extends Component<Args> {
   @tracked searchTerms: string = '';
 
   @action
@@ -11,8 +14,18 @@ export default class SearchInput extends Component {
     this.searchTerms = e.target.value;
   }
 
+  @action
+  submitOnEnter(e) {
+    if (e.which === 13) {
+      this.args.applySearchTerms(this.searchTerms);
+    }
+  }
+
   static template = hbs`
-    <div class="flex flex-col">
+    <div
+      class="flex flex-col"
+      {{on "keyup" this.submitOnEnter}}
+    >
       <div class="flex flex-row">
         <input
           type="text"
@@ -22,7 +35,7 @@ export default class SearchInput extends Component {
           class="form-text h-10 border-gray-500 bg-gray-100 border-2 px-2"
           placeholder={{@placeholder}}
           value={{this.searchTerms}}
-          {{on "change" this.updateSearchTerms}}
+          {{on "keyup" this.updateSearchTerms}}
         />
         <button
           type="button"

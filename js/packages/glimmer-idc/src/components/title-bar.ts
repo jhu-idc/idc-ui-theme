@@ -11,7 +11,7 @@ interface Args {
   prevPage: () => {},
   nextPage: () => {},
   applySearchOptions: (options: Options) => {},
-  applySearchTerms: (options: Options) => {},
+  applySearchTerms: (searchTerms?: string) => {},
   searchInputPlaceholder: string | null,
 }
 
