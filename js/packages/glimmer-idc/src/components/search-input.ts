@@ -10,13 +10,13 @@ export default class SearchInput extends Component<Args> {
   @tracked searchTerms: string = '';
 
   @action
-  updateSearchTerms(e) {
-    this.searchTerms = e.target.value;
+  updateSearchTerms(e: Event) {
+    this.searchTerms = (<HTMLInputElement>e.target).value;
   }
 
   @action
-  submitOnEnter(e) {
-    if (e.which === 13) {
+  submitOnEnter(e: Event) {
+    if ((<any>e).which === 13) {
       this.args.applySearchTerms(this.searchTerms);
     }
   }
