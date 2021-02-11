@@ -5,14 +5,14 @@ import SearchOptions from './search-options';
 import SearchInput from './search-input';
 
 interface Args {
-  title: string,
-  pager: Pager,
-  goToPage: (page: number) => {},
-  prevPage: () => {},
-  nextPage: () => {},
-  applySearchOptions: (options: Options) => {},
-  applySearchTerms: (searchTerms?: string) => {},
-  searchInputPlaceholder: string | null,
+  title: string;
+  pager: Pager;
+  goToPage: (page: number) => {};
+  prevPage: () => {};
+  nextPage: () => {};
+  applySearchOptions: (options: Options) => {};
+  applySearchTerms: (searchTerms?: string) => {};
+  searchInputPlaceholder: string | null;
 }
 
 export default class TitleBar extends Component<Args> {
@@ -43,6 +43,7 @@ export default class TitleBar extends Component<Args> {
           @sortBy={{@sortBy}}
           @sortOrder={{@sortOrder}}
           @itemsPerPage={{@itemsPerPage}}
+          @changeSearchOptions={{@changeSearchOptions}}
         />
       </div>
     </div>

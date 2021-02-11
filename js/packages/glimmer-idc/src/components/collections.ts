@@ -5,7 +5,7 @@ import List from './list';
 import ListItem from './list-item';
 import ListSpinner from './list-spinner';
 import PaginationControls from './pagination-controls';
-import { SearchApiResponse, Pager } from '../interfaces'
+import { SearchApiResponse, Pager } from '../interfaces';
 import { action } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
 import { Options } from '../interfaces';
@@ -52,16 +52,14 @@ export default class Collections extends Component<Args> {
   }
 
   @action
-  applySearchOptions(options: Options) {
-    Object.entries(options).map(([key, value]: [string, string | number | null], i) => {
-      if (key === 'currentPage') {
-        this.results.pager.current_page = Number(value) === 1 ? 0 : Number(value) ;
-      } else {
-        this.results[key] = value;
-      }
-    });
-
+  applySearchOptions() {
     this.fetchCollections();
+  }
+
+  @action
+  changeSearchOptions(options: Options) {
+    debugger;
+    Object.assign(this.results, options, {});
   }
 
   @action
@@ -87,6 +85,7 @@ export default class Collections extends Component<Args> {
             @sortOrder={{this.results.sortOrder}}
             @itemsPerPage={{this.results.itemsPerPage}}
             @applySearchTerms={{this.applySearchTerms}}
+            @changeSearchOptions={{this.changeSearchOptions}}
             @searchInputPlaceholder='Search collections ...'
           />
           {{#if this.isLoading}}
