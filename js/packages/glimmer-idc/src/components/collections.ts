@@ -58,7 +58,6 @@ export default class Collections extends Component<Args> {
 
   @action
   changeSearchOptions(options: Options) {
-    debugger;
     Object.assign(this.results, options, {});
   }
 
