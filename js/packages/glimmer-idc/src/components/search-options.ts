@@ -16,12 +16,12 @@ interface Args {
 export default class SearchOptions extends Component<Args> {
   @service results;
 
-  @tracked options: Options = {
-    sortBy: this.args.sortBy,
-    sortOrder: this.args.sortOrder,
-    itemsPerPage: null,
-    currentPage: this.args.pager.current_page,
-  };
+  // @tracked options: Options = {
+  //   sortBy: this.args.sortBy,
+  //   sortOrder: this.args.sortOrder,
+  //   itemsPerPage: null,
+  //   currentPage: this.args.pager.current_page,
+  // };
   @tracked displayMenu: boolean = false;
 
   sortByOptions: {}[] = [
@@ -62,34 +62,28 @@ export default class SearchOptions extends Component<Args> {
 
   @action
   handleSortByChange(e: Event) {
-    // this.options.sortBy = (<HTMLInputElement>e.target).value;
+    debugger;
     this.args.changeSearchOptions({ sortBy: (<HTMLInputElement>e.target).value });
   }
 
   @action
   handleSortOrderChange(e: Event) {
-    // this.options.sortOrder = (<HTMLInputElement>e.target).value;
     this.args.changeSearchOptions({ sortOrder: (<HTMLInputElement>e.target).value });
   }
 
   @action
   handleCurrentPageChange(e: Event) {
-    // this.options.currentPage = Number((<HTMLInputElement>e.target).value);
     this.args.changeSearchOptions({ currentPage: Number((<HTMLInputElement>e.target).value) });
   }
 
   @action
   handleItemsPerPageChange(e: Event) {
-    // this.options.itemsPerPage = Number((<HTMLInputElement>e.target).value);
     this.args.changeSearchOptions({ itemsPerPage: Number((<HTMLInputElement>e.target).value) });
   }
 
   @action
   handleApplySearchOptions() {
     this.displayMenu = !this.displayMenu;
-
-    // debugger;
-    // this.args.applySearchOptions(this.options);
     this.args.applySearchOptions();
   }
 
