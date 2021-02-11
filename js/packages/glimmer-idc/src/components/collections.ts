@@ -58,7 +58,13 @@ export default class Collections extends Component<Args> {
 
   @action
   changeSearchOptions(options: Options) {
-    Object.assign(this.results, options, {});
+    Object.entries(options).map(([key, value]: [string, string | number | null], i) => {
+      if (key === 'currentPage') {
+        this.results.pager.current_page = Number(value) === 1 ? 0 : Number(value);
+      } else {
+        this.results[key] = value;
+      }
+    });
   }
 
   @action
