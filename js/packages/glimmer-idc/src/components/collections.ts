@@ -1,12 +1,18 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
+import Facets from './facets';
 import TitleBar from './title-bar';
 import List from './list';
 import ListItem from './list-item';
 import ListSpinner from './list-spinner';
+import PaginationControls from './pagination-controls';
+import { SearchApiResponse, Pager } from '../interfaces';
+import { action } from '@glimmerx/modifier';
+import { service } from '@glimmerx/service';
+import { Options } from '../interfaces';
 
 interface Args {}
-
 export default class Collections extends Component<Args> {
+  @service results;
   @tracked title: string = 'All Collections';
   @tracked isLoading: boolean = false;
   @tracked list: {}[] = [];
@@ -19,27 +25,90 @@ export default class Collections extends Component<Args> {
 
   async fetchCollections() {
     this.isLoading = true;
-    let url =
-      'https://islandora-idc.traefik.me/search_rest_endpoint?query=ss_type:collection_object';
 
-    try {
-      let res: Response = await fetch(url);
-      let data: { rows: [] } = await res.json();
+    await this.results.fetchData();
 
-      this.list = data.rows;
-    } catch (e) {
-      console.log(e);
-    } finally {
-      this.isLoading = false;
-    }
+    this.list = this.results.rows;
+
+    this.isLoading = false;
+  }
+
+  @action
+  goToPage(page: number) {
+    this.results.pager.current_page = page;
+    this.fetchCollections();
+  }
+
+  @action
+  prevPage() {
+    this.results.pager.current_page = --this.results.pager.current_page;
+    this.fetchCollections();
+  }
+
+  @action
+  nextPage() {
+    this.results.pager.current_page = ++this.results.pager.current_page;
+    this.fetchCollections();
+  }
+
+  @action
+  applySearchOptions() {
+    this.fetchCollections();
+  }
+
+  @action
+  changeSearchOptions(options: Options) {
+    Object.entries(options).map(([key, value]: [string, string | number | null], i) => {
+      if (key === 'currentPage') {
+        this.results.pager.current_page = Number(value) === 1 ? 0 : Number(value);
+      } else {
+        this.results[key] = value;
+      }
+    });
+  }
+
+  @action
+  applySearchTerms(searchTerms?: string) {
+    this.results.searchTerms = searchTerms;
+
+    this.fetchCollections();
   }
 
   static template = hbs`
-    <TitleBar @title={{this.title}} />
-    {{#if this.isLoading}}
-      <ListSpinner />
-    {{else}}
-      <List @list={{this.list}} />
-    {{/if}}
+    <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-3 container mx-auto">
+      <Facets />
+      <div class="col-span-3">
+        <div class="bg-white shadow mb-4">
+          <TitleBar
+            @title={{this.title}}
+            @pager={{this.results.pager}}
+            @goToPage={{this.goToPage}}
+            @prevPage={{this.prevPage}}
+            @nextPage={{this.nextPage}}
+            @applySearchOptions={{this.applySearchOptions}}
+            @sortBy={{this.results.sortBy}}
+            @sortOrder={{this.results.sortOrder}}
+            @itemsPerPage={{this.results.itemsPerPage}}
+            @applySearchTerms={{this.applySearchTerms}}
+            @changeSearchOptions={{this.changeSearchOptions}}
+            @searchInputPlaceholder='Search collections ...'
+          />
+          {{#if this.isLoading}}
+            <ListSpinner />
+          {{else}}
+            <List @list={{this.list}} />
+          {{/if}}
+        </div>
+        <div class="flex bg-white shadow p-4 items-center justify-center">
+          <PaginationControls
+            @compact={{true}}
+            @pager={{this.results.pager}}
+            @goToPage={{this.goToPage}}
+            @prevPage={{this.prevPage}}
+            @nextPage={{this.nextPage}}
+          />
+        </div>
+      </div>
+    </div>
   `;
 }
