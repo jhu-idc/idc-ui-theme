@@ -49,7 +49,7 @@ module.exports = {
         'accent-13': '#179949',
       },
       height: {
-        'front-banner': '169px',
+        'front-banner': '161px',
       },
       width: {
         'front-card': '485px',

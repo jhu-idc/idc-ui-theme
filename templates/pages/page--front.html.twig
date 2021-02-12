@@ -12,7 +12,11 @@
     </div>
     {# Featured Items grid #}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-      <div class="flex flex-col sm:w-front-card m-auto w-auto"> {#  Card container #}
+      <a
+        class="flex flex-col sm:w-front-card m-auto w-auto"
+        href="/collections"
+        aria-label="Library collections"
+      > {#  Card container #}
         <div> {#  Card image container #}
           <img
             src="/themes/contrib/idc-ui-theme/images/chinese-gardens-14.jpg"
@@ -30,7 +34,7 @@
             and more from JHU's unique library collections
           </p>
         </div>
-      </div>
+      </a>
       <div class="flex flex-col sm:w-front-card m-auto w-auto"> {#  Card container #}
         <div> {#  Card image container #}
           <img
