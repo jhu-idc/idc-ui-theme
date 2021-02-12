@@ -5,44 +5,38 @@ import { Options, Pager } from '../interfaces';
 import { is } from '../utils/helpers';
 
 interface Args {
-  applySearchOptions: (options: Options) => {},
-  pager: Pager,
-  sortBy: string | null,
-  sortOrder: string | null,
-  itemsPerPage: string | null,
+  applySearchOptions: () => {};
+  changeSearchOptions: (options: {}) => {};
+  pager: Pager;
+  sortBy: string | null;
+  sortOrder: string | null;
+  itemsPerPage: string | null;
 }
 
 export default class SearchOptions extends Component<Args> {
   @service results;
-
-  @tracked options: Options = {
-    sortBy: this.args.sortBy,
-    sortOrder: this.args.sortOrder,
-    itemsPerPage: null,
-    currentPage: this.args.pager.current_page
-  };
-  @tracked displayMenu:boolean = false;
+  @tracked displayMenu: boolean = false;
 
   sortByOptions: {}[] = [
     {
       value: '&sort_by=search_api_relevance',
-      displayValue: 'Relevance'
+      displayValue: 'Relevance',
     },
     {
       value: '&sort_by=title',
-      displayValue: 'Title'
-    }
+      displayValue: 'Title',
+    },
   ];
 
   sortOrderOptions: {}[] = [
     {
       value: '&sort_order=ASC',
-      displayValue: 'Ascending'
+      displayValue: 'Ascending',
     },
     {
       value: '&sort_order=DESC',
-      displayValue: 'Descending'
-    }
+      displayValue: 'Descending',
+    },
   ];
 
   itemsPerPage: number[] = [5, 10, 25, 50];
@@ -61,30 +55,28 @@ export default class SearchOptions extends Component<Args> {
 
   @action
   handleSortByChange(e: Event) {
-    this.options.sortBy = (<HTMLInputElement>e.target).value;
+    this.args.changeSearchOptions({ sortBy: (<HTMLInputElement>e.target).value });
   }
 
   @action
   handleSortOrderChange(e: Event) {
-    this.options.sortOrder = (<HTMLInputElement>e.target).value;
+    this.args.changeSearchOptions({ sortOrder: (<HTMLInputElement>e.target).value });
   }
 
   @action
   handleCurrentPageChange(e: Event) {
-    this.options.currentPage = Number((<HTMLInputElement>e.target).value);
+    this.args.changeSearchOptions({ currentPage: Number((<HTMLInputElement>e.target).value) });
   }
 
   @action
   handleItemsPerPageChange(e: Event) {
-    this.options.itemsPerPage = Number((<HTMLInputElement>e.target).value);
+    this.args.changeSearchOptions({ itemsPerPage: Number((<HTMLInputElement>e.target).value) });
   }
 
   @action
   handleApplySearchOptions() {
     this.displayMenu = !this.displayMenu;
-
-    debugger;
-    this.args.applySearchOptions(this.options);
+    this.args.applySearchOptions();
   }
 
   static template = hbs`
