@@ -15,13 +15,6 @@ interface Args {
 
 export default class SearchOptions extends Component<Args> {
   @service results;
-
-  // @tracked options: Options = {
-  //   sortBy: this.args.sortBy,
-  //   sortOrder: this.args.sortOrder,
-  //   itemsPerPage: null,
-  //   currentPage: this.args.pager.current_page,
-  // };
   @tracked displayMenu: boolean = false;
 
   sortByOptions: {}[] = [
@@ -62,7 +55,6 @@ export default class SearchOptions extends Component<Args> {
 
   @action
   handleSortByChange(e: Event) {
-    debugger;
     this.args.changeSearchOptions({ sortBy: (<HTMLInputElement>e.target).value });
   }
 
