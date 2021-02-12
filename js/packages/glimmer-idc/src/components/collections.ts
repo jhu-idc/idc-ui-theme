@@ -76,8 +76,8 @@ export default class Collections extends Component<Args> {
 
   static template = hbs`
     <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-3 container mx-auto">
-      <Facets class="col-span-1" />
-      <div class="col-span-2">
+      <Facets />
+      <div class="col-span-3">
         <div class="bg-white shadow mb-4">
           <TitleBar
             @title={{this.title}}
