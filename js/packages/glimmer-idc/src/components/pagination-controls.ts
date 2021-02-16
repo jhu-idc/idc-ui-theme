@@ -3,18 +3,19 @@ import { Pager } from '../interfaces';
 import PageItem from './page-item';
 
 interface Args {
-  compact: boolean,
-  pager: Pager,
-  goToPage: (page: number) => {},
-  prevPage: () => {},
-  nextPage: () => {}
+  compact: boolean;
+  pager: Pager;
+  goToPage: (page: number) => {};
+  prevPage: () => {};
+  nextPage: () => {};
+  itemLabel: string;
 }
 
 export default class PaginationControls extends Component<Args> {
   @tracked compact: boolean = this.args.compact || false;
 
   get lastItemOnPage() {
-    const end = (this.offset + Number(this.args.pager.items_per_page)) - 1;
+    const end = this.offset + Number(this.args.pager.items_per_page) - 1;
 
     if (end > this.args.pager.total_items) {
       return this.args.pager.total_items;
@@ -51,10 +52,10 @@ export default class PaginationControls extends Component<Args> {
         // Natural start
         page - siblingCount,
         // Lower boundary when page is high
-        count - boundaryCount - siblingCount * 2 - 1,
+        count - boundaryCount - siblingCount * 2 - 1
       ),
       // Greater than startPages
-      boundaryCount + 2,
+      boundaryCount + 2
     );
 
     const siblingsEnd = Math.min(
@@ -62,10 +63,10 @@ export default class PaginationControls extends Component<Args> {
         // Natural end
         page + siblingCount,
         // Upper boundary when page is low
-        boundaryCount + siblingCount * 2 + 2,
+        boundaryCount + siblingCount * 2 + 2
       ),
       // Less than endPages
-      endPages.length > 0 ? endPages[0] - 2 : count - 1,
+      endPages.length > 0 ? endPages[0] - 2 : count - 1
     );
 
     // Basic list of items to render
@@ -153,7 +154,7 @@ export default class PaginationControls extends Component<Args> {
           {{/each}}
         </div>
         <div class="text-gray-500 text-sm">
-          {{this.offset}} – {{this.lastItemOnPage}} of {{@pager.total_items}}
+          {{this.offset}} – {{this.lastItemOnPage}} of {{@pager.total_items}} {{@itemLabel}}
         </div>
       </div>
     {{else}}
@@ -169,7 +170,7 @@ export default class PaginationControls extends Component<Args> {
           {{/each}}
         </div>
         <div class="text-gray-500">
-          {{this.offset}} – {{this.lastItemOnPage}} of {{@pager.total_items}}
+          Showing {{this.offset}} – {{this.lastItemOnPage}} of {{@pager.total_items}} {{@itemLabel}}
         </div>
       </div>
     {{/if}}
