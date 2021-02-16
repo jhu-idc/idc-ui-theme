@@ -1,7 +1,7 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
 import { action, on } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
-import { Options, Pager } from '../interfaces';
+import { Pager } from '../interfaces';
 import { is } from '../utils/helpers';
 
 interface Args {
@@ -15,13 +15,6 @@ interface Args {
 export default class SearchOptions extends Component<Args> {
   @service results;
   @tracked displayMenu: boolean = false;
-
-  @tracked options: Options = {
-    sortBy: this.args.sortBy,
-    sortOrder: this.args.sortOrder,
-    itemsPerPage: null,
-    currentPage: null,
-  };
 
   sortByOptions: {}[] = [
     {
