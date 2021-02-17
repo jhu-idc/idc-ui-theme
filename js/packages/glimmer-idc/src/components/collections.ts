@@ -104,7 +104,7 @@ export default class Collections extends Component<Args> {
         </div>
         <div class="flex bg-white shadow p-4 items-center justify-center">
           <PaginationControls
-            @compact={{false}}
+            @compact={{true}}
             @pager={{this.results.pager}}
             @goToPage={{this.goToPage}}
             @prevPage={{this.prevPage}}
