@@ -13,7 +13,6 @@ interface Args {
 }
 
 export default class SearchOptions extends Component<Args> {
-  @service results;
   @tracked displayMenu: boolean = false;
 
   sortByOptions: {}[] = [
@@ -41,7 +40,7 @@ export default class SearchOptions extends Component<Args> {
   itemsPerPage: number[] = [5, 10, 25, 50];
 
   get pages() {
-    const length = this.results.pager.total_pages;
+    const length = this.args.pager.total_pages;
     const pages = Array.from({ length }, (_, i) => 1 + i);
 
     return pages;
