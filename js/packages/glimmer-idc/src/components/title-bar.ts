@@ -1,7 +1,6 @@
 import Component, { hbs } from '@glimmerx/component';
 import PaginationControls from './pagination-controls';
 import { Pager, Options } from '../interfaces';
-import SearchOptions from './search-options';
 import SearchInput from './search-input';
 
 interface Args {
@@ -10,9 +9,9 @@ interface Args {
   goToPage: (page: number) => {};
   prevPage: () => {};
   nextPage: () => {};
-  applySearchOptions: (options: Options) => {};
   applySearchTerms: (searchTerms?: string) => {};
   searchInputPlaceholder: string | null;
+  paginationItemLabel: string;
 }
 
 export default class TitleBar extends Component<Args> {
@@ -35,16 +34,9 @@ export default class TitleBar extends Component<Args> {
             @goToPage={{@goToPage}}
             @prevPage={{@prevPage}}
             @nextPage={{@nextPage}}
+            @itemLabel={{@paginationItemLabel}}
           />
         </div>
-        <SearchOptions
-          @applySearchOptions={{@applySearchOptions}}
-          @pager={{@pager}}
-          @sortBy={{@sortBy}}
-          @sortOrder={{@sortOrder}}
-          @itemsPerPage={{@itemsPerPage}}
-          @changeSearchOptions={{@changeSearchOptions}}
-        />
       </div>
     </div>
   `;

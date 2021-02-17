@@ -5,6 +5,7 @@ import List from './list';
 import ListItem from './list-item';
 import ListSpinner from './list-spinner';
 import PaginationControls from './pagination-controls';
+import SearchOptions from './search-options';
 import { SearchApiResponse, Pager } from '../interfaces';
 import { action } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
@@ -52,11 +53,6 @@ export default class Collections extends Component<Args> {
   }
 
   @action
-  applySearchOptions() {
-    this.fetchCollections();
-  }
-
-  @action
   changeSearchOptions(options: Options) {
     Object.entries(options).map(([key, value]: [string, string | number | null], i) => {
       if (key === 'currentPage') {
@@ -65,6 +61,8 @@ export default class Collections extends Component<Args> {
         this.results[key] = value;
       }
     });
+
+    this.fetchCollections();
   }
 
   @action
@@ -75,8 +73,17 @@ export default class Collections extends Component<Args> {
   }
 
   static template = hbs`
-    <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-3 container mx-auto">
-      <Facets />
+    <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-4 container mx-auto">
+      <div class="col-span-1">
+        <SearchOptions
+          @pager={{this.results.pager}}
+          @sortBy={{this.results.sortBy}}
+          @sortOrder={{this.results.sortOrder}}
+          @itemsPerPage={{this.results.itemsPerPage}}
+          @changeSearchOptions={{this.changeSearchOptions}}
+        />
+        <Facets />
+      </div>
       <div class="col-span-3">
         <div class="bg-white shadow mb-4">
           <TitleBar
@@ -85,13 +92,9 @@ export default class Collections extends Component<Args> {
             @goToPage={{this.goToPage}}
             @prevPage={{this.prevPage}}
             @nextPage={{this.nextPage}}
-            @applySearchOptions={{this.applySearchOptions}}
-            @sortBy={{this.results.sortBy}}
-            @sortOrder={{this.results.sortOrder}}
-            @itemsPerPage={{this.results.itemsPerPage}}
             @applySearchTerms={{this.applySearchTerms}}
-            @changeSearchOptions={{this.changeSearchOptions}}
-            @searchInputPlaceholder='Search collections ...'
+            @searchInputPlaceholder={{'Search collections ...'}}
+            @paginationItemLabel={{'collections'}}
           />
           {{#if this.isLoading}}
             <ListSpinner />
@@ -106,6 +109,7 @@ export default class Collections extends Component<Args> {
             @goToPage={{this.goToPage}}
             @prevPage={{this.prevPage}}
             @nextPage={{this.nextPage}}
+            @itemLabel={{'collections'}}
           />
         </div>
       </div>
