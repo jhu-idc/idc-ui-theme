@@ -80,10 +80,10 @@ export class ResultsService {
     return queryParams;
   }
 
-  async fetchData() {
+  async fetchData(nodeId?: string) {
     const baseUrl = '/search_rest_endpoint?query=';
 
-    const params = this.searchParams();
+    const params = this.searchParams(nodeId);
 
     let url: string = baseUrl + params;
 

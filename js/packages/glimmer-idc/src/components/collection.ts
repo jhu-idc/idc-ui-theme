@@ -12,23 +12,30 @@ import TitleBar from './title-bar';
 
 interface Args {}
 
+export const ELEMENT_ID = 'collection-details-list';
+
 export default class Collection extends Component<Args> {
   @service results: ResultsService;
 
   @tracked isLoading: boolean = false;
   @tracked list: {}[] = [];
 
-  title: string = '(Moo)';
+  @tracked collectionId: string = '';
+  @tracked title: string = '';
 
   constructor(owner: unknown, args: Args) {
     super(...arguments);
-    debugger;
+
+    const el = document.getElementById(ELEMENT_ID);
+    this.collectionId = el.dataset.collectionId;
+    this.title = el.dataset.collectionTitle;
+
     this.fetchCollection();
   }
 
   async fetchCollection() {
     this.isLoading = true;
-    await this.results.fetchData();
+    await this.results.fetchData(this.collectionId);
 
     this.list = this.results.rows;
     this.isLoading = false;
