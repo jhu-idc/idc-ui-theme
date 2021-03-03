@@ -5,7 +5,6 @@ import { is } from '../utils/helpers';
 interface Args {}
 
 export default class AboutCollectionDrawer extends Component<Args> {
-  @tracked
   @tracked drawerIsOpen: boolean = false;
   @tracked collectionUuid: string = '';
   @tracked descriptions: {}[] = [{value: '', language: ''}];
