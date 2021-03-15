@@ -21,7 +21,7 @@ export default class AboutCollectionDrawer extends Component<Args> {
   }
 
   async fetchCollectionData() {
-    const res = await fetch(`/jsonapi/node/collection_object/${this.collectionUuid}?include=field_description`);
+    const res = await fetch(`/jsonapi/node/collection_object/${this.collectionUuid}?include=field_description,field_alternative_title`);
     const payload = await res.json();
 
     this.descriptions = await this.processDescriptions(payload);
