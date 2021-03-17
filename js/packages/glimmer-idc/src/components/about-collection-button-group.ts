@@ -22,9 +22,30 @@ export default class AboutCollectionButtonGroup extends Component<Args> {
     navigator.clipboard.writeText(this.citableUrl);
   }
 
+  @action
+  toggleContactModal() {
+    const modal = document.getElementById('idc-modal-container');
+    if (!modal) {
+      console.error('Contact modal not found on page.');
+      return;
+    }
+
+    /**
+     * Note this button will likely only be used to un-hide the modal.
+     * Other code will be used to hide the modal, because it will render
+     * on top of this button :)
+     */
+    if (modal.classList.contains('hidden')) {
+      modal.classList.remove('hidden');
+    } else {
+      modal.classList.add('hidden');
+    }
+  }
 
   static template = hbs`
-    <button class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black mb-4 w-full">
+    <button class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black mb-4 w-full"
+      {{on "click" this.toggleContactModal}}
+    >
       Ask the collection admin
       <svg class="h-5 w-5 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
