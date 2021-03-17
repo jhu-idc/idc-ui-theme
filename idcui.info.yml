@@ -19,5 +19,6 @@ regions:
   highlighted: Highlighted
   content: Content
   footer: Footer
+  modal: Modal
   page_top: Page top
   page_bottom: Page bottom
