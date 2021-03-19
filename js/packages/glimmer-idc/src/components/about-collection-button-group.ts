@@ -8,12 +8,14 @@ interface Args {}
 export default class AboutCollectionButtonGroup extends Component<Args> {
   @tracked copied: boolean = false;
   @tracked citableUrl: string = '';
+  @tracked hasContact: boolean = false;
 
   constructor(owner: unknown, args: Args) {
     super(...arguments);
 
     let el = document.getElementById('about-collection-button-group');
     this.citableUrl = el.dataset.collectionUrl;
+    this.hasContact = !!el.dataset.contactEmail;
   }
 
   @action
@@ -43,14 +45,16 @@ export default class AboutCollectionButtonGroup extends Component<Args> {
   }
 
   static template = hbs`
-    <button class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black mb-4 w-full"
-      {{on "click" this.toggleContactModal}}
-    >
-      Ask the collection admin
-      <svg class="h-5 w-5 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-      </svg>
-    </button>
+    {{#if this.hasContact}}
+      <button class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black mb-4 w-full"
+        {{on "click" this.toggleContactModal}}
+      >
+        Ask the collection admin
+        <svg class="h-5 w-5 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      </button>
+    {{/if}}
     <AnimatedButton
       id="copy-url-button"
       {{on "click" this.copyCitableUrl}}
