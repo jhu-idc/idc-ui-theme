@@ -16,7 +16,6 @@ export default class AboutCollectionButtonGroup extends Component<Args> {
     let el = document.getElementById('about-collection-button-group');
     this.citableUrl = el.dataset.collectionUrl;
     this.hasContact = !!el.dataset.contactEmail;
-    // debugger
   }
 
   @action
