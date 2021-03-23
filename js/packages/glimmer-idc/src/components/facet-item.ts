@@ -29,7 +29,7 @@ export default class FacetItem extends Component<Args> {
   }
 
   static template = hbs`
-    <button {{on "click" this.selectFacet}} class="py-1 px-3 flex items-center {{if this.isSelected "bg-blue-spirit rounded-full text-black"}}">
+    <button {{on "click" this.selectFacet}} class="py-1 px-3 flex items-center {{if this.isSelected "bg-blue-spirit rounded-full text-black hover:bg-gray-200"}}">
       {{@item.value}}&nbsp;
       <span class="mr-3">({{@item.count}})</span>
       {{#if this.isSelected}}
