@@ -82,7 +82,6 @@ export default class Collections extends Component<Args> {
           @itemsPerPage={{this.results.itemsPerPage}}
           @changeSearchOptions={{this.changeSearchOptions}}
         />
-        <Facets />
       </div>
       <div class="col-span-3">
         <div class="bg-white shadow mb-4">
