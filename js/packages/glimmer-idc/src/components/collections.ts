@@ -1,5 +1,4 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
-import Facets from './facets';
 import TitleBar from './title-bar';
 import List from './list';
 import ListItem from './list-item';
@@ -82,7 +81,6 @@ export default class Collections extends Component<Args> {
           @itemsPerPage={{this.results.itemsPerPage}}
           @changeSearchOptions={{this.changeSearchOptions}}
         />
-        <Facets />
       </div>
       <div class="col-span-3">
         <div class="bg-white shadow mb-4">

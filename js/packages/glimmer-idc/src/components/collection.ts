@@ -3,12 +3,15 @@ import { action } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
 import { Options } from '../interfaces';
 import { ResultsService } from '../utils/results';
-import Facets from './facets';
+import FacetList from './facet-list';
 import List from './list';
 import ListSpinner from './list-spinner';
 import PaginationControls from './pagination-controls';
 import SearchOptions from './search-options';
 import TitleBar from './title-bar';
+import { Facet } from '../models/facet';
+import { FacetValue } from '../interfaces';
+import { facetValueIncludes, removeSelectedItem } from '../utils/facet-utils';
 
 interface Args {}
 
@@ -19,9 +22,10 @@ export default class Collection extends Component<Args> {
 
   @tracked isLoading: boolean = false;
   @tracked list: {}[] = [];
-
   @tracked collectionId: string = '';
   @tracked title: string = '';
+  @tracked facets: Facet[] = [];
+  @tracked hasFacets: boolean = false;
 
   constructor(owner: unknown, args: Args) {
     super(...arguments);
@@ -39,6 +43,9 @@ export default class Collection extends Component<Args> {
 
     this.list = this.results.rows;
     this.isLoading = false;
+
+    this.facets = this.results.facets;
+    this.hasFacets = this.results.facets.length > 0;
   }
 
   @action
@@ -79,6 +86,23 @@ export default class Collection extends Component<Args> {
     this.fetchCollection();
   }
 
+  /**
+   * Toggle a facet. Add the selected facet to the search query, or if the facet is already
+   * part of the search query, remove it
+   *
+   * @param item facet that the user selected
+   */
+   @action
+   facetSelected(item: FacetValue) {
+     if (facetValueIncludes(item, this.results.selectedFacets)) {
+       this.results.selectedFacets = removeSelectedItem(item, this.results.selectedFacets);
+     } else {
+       this.results.selectedFacets.push(item);
+     }
+
+     this.fetchCollection();
+   }
+
   static template = hbs`
     <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-4 container mx-auto">
       <div class="col-span-1">
@@ -89,7 +113,12 @@ export default class Collection extends Component<Args> {
           @itemsPerPage={{this.results.itemsPerPage}}
           @changeSearchOptions={{this.changeSearchOptions}}
         />
-        <Facets />
+        <FacetList
+          @facets={{this.facets}}
+          @hasFacets={{this.hasFacets}}
+          @facetSelected={{this.facetSelected}}
+          @selectedFacets={{this.results.selectedFacets}}
+        />
       </div>
       <div class="col-span-3">
         <div class="bg-white shadow mb-4">

@@ -73,9 +73,9 @@ export default class SearchOptions extends Component<Args> {
 
   static template = hbs`
     <div class="text-left ml-0">
-      <div class="bg-white border border-gray-300 divide-y divide-gray-100 px-10 py-2 outline-none">
-        <div class="flex flex-col h-full justify-between my-4 text-gray-500">
-          <h3 class="text-xl mb-2">List Options</h3>
+      <div class="bg-white shadow divide-y divide-gray-100 px-10 py-2 outline-none">
+        <div class="flex flex-col h-full justify-between my-4">
+          <div class="text-lg text-gray-500 mb-2">List Options</div>
           <div class="my-2">
             <label class="block text-sm font-medium text-gray-700 hidden" for="sort-by">
               Sort by
