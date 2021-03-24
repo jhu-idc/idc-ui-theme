@@ -18,10 +18,19 @@ textarea {
   @apply border-2 w-full;
 }
 
+input[type='checkbox'] {
+  @apply mr-2 border-2 border-gray-500;
+}
+
 .form-item {
   @apply my-2;
 }
 
 .js-form-item label:not([class='option']) {
   @apply block font-bold text-xl text-gray-600;
+}
+
+/* Title of the modal region */
+#idc-modal-container h2 {
+  @apply mb-4 text-2xl;
 }
