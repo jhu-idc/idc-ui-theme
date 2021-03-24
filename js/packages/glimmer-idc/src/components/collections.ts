@@ -1,5 +1,4 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
-import Facets from './facets';
 import TitleBar from './title-bar';
 import List from './list';
 import ListItem from './list-item';
