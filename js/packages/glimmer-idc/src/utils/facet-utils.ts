@@ -66,7 +66,6 @@ export function facetValueEquals(f1: FacetValue, f2: FacetValue): boolean {
  * @param array array to check in
  */
 export function facetValueIncludes(facet: FacetValue, array: FacetValue[]): boolean {
-  debugger
   return !!array.find((el) => facetValueEquals(el, facet));
 }
 

@@ -15,12 +15,16 @@ const typeMap = {
   mixed: {
     types: ['collection_object', 'islandora_object'],
   },
+  none: {
+    types: []
+  }
 };
 
 export const ITEM_TYPES = {
   COLLECTIONS: 'collections',
   COLLECTION: 'mixed',
   ITEM: 'items',
+  NONE: 'none'
 };
 
 export class ResultsService {
@@ -63,9 +67,10 @@ export class ResultsService {
    * @param nodeId {string} entity ID of the current node
    */
   searchParams(nodeId?: string): string {
-    const searchTermsParam: string = !!this.searchTerms ? `${this.searchTerms} AND ` : '';
-    const nodeFilter: string = !!nodeId ? `its_field_member_of:${nodeId} AND ` : '';
-    const typeQ: string = `(${this.types.map((type) => `ss_type:${type}`).join(' OR ')})`;
+    const searchTermsParam: string = !!this.searchTerms ? `${this.searchTerms}` : '';
+    const nodeFilter: string = !!nodeId ? `its_field_member_of:${nodeId}` : '';
+    const typeQ: string = (!!this.types && this.types.length > 0) ?
+        `(${this.types.map((type) => `ss_type:${type}`).join(' OR ')})` : '';
     const pageParam: string = this.pager.current_page ? `&page=${--this.pager.current_page}` : '';
     const sortByParam: string = !!this.sortBy ? this.sortBy : '';
     const orderByParam: string = !!this.sortOrder ? this.sortOrder : '';
@@ -78,8 +83,8 @@ export class ResultsService {
         : '';
 
     const queryParams: string =
-      searchTermsParam +
-      nodeFilter +
+      searchTermsParam + ((!!searchTermsParam && (!!nodeFilter || !!typeQ)) ? ' AND ' : '') +
+      nodeFilter + ((!!nodeFilter && !!typeQ) ? ' AND ' : '') +
       typeQ +
       pageParam +
       sortByParam +
