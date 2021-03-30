@@ -48,6 +48,91 @@ export class ResultsService {
   }
 
   /**
+   * Init this service according to a URL. Basically reverse of #searchParams.
+   *
+   * Parsing searchTerms, nodeFilter, and typeQ, are mashed together in the SOLR query
+   * making them a bit more tricky to tease apart
+   *
+   * Example: /search_rest_endpoint?query=this is a moo AND its_field_member_of:33 AND (ss_type:collection_object OR ss_type:islandora_object)&page=0&f[0]=date_created:2000-01-01
+   *
+   * We shouldn't allow query parameters here to disrupt some functionality, such
+   * as limiting the search to a certain type.
+   *
+   * @param currentUrl URL you wish to parse
+   */
+  initFromUrl(currentUrl: string) {
+    const url = new URL(currentUrl);
+
+    if (!url.search) {
+      return;
+    }
+
+    const queryParams = url.searchParams;
+
+    this.parseSolrQuery(queryParams.get('query'));
+
+    if (queryParams.has('page')) {
+      this.pager.current_page = parseInt(queryParams.get('page'));
+    }
+
+    if (queryParams.has('items_per_page')) {
+      const ipp = parseInt(queryParams.get('items_per_page'));
+      this.pager.items_per_page = ipp;
+      this.itemsPerPage = ipp;
+    }
+
+    /**
+     * Note for `sort_by` and `sort_order`, we re-create how the data is added
+     * to the results service from the UI
+     */
+    if (queryParams.has('sort_by')) {
+      this.sortBy = `&sort_by=${queryParams.get('sort_by')}`;
+    }
+
+    if (queryParams.has('sort_order')) {
+      this.sortOrder = `&sort_order=${queryParams.get('sort_order')}`;
+    }
+
+    /**
+     * TODO: How do we handle facets? Facets in this service contain quite a lot of
+     * information simply not available in the URL. We'd have to initiate the search
+     * then programmatically select the relevent facets?
+     * That would be super janky, since selecting each facet currently kicks off its
+     * own search...
+     *
+     * For now, let's get the rest working without facets
+     */
+
+  }
+
+  /**
+   * Break apart the SOLR query to get
+   *
+   *  - searchTerms
+   *  - nodeFilter
+   *  - type query (Do not override pre-defined type queries!)
+   *
+   * Example: query=this is a moo AND its_field_member_of:33 AND (ss_type:collection_object OR ss_type:islandora_object)
+   *
+   * @param query SOLR query, to be parsed
+   */
+  parseSolrQuery(query: string) {
+    if (!query) {
+      // NULL or undefined query can happen when loading the component with no URL params
+      return;
+    }
+
+    /**
+     * Get only the search term from the URL.
+     * We'll explicitly ignore `nodeFilter` and `type query` parts, since those
+     * will always be configured per component instance, thus shouldn't appear
+     * in the URL.
+     */
+    const parts: Array<string> = query.split(' AND ');
+    this.searchTerms = parts.find(qPart => !qPart.includes('ss_type') && !qPart.includes('field_memeber_of'));
+  }
+
+  /**
    * TODO: we may need to be careful of `searchTermsParam` + `typeQ` combination.
    *
    * searchTerm AND ss_type:collection_object OR ss_type:islandora_object

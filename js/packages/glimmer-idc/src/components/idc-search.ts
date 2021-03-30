@@ -45,6 +45,7 @@ export default class IDCSearch extends Component<Args> {
     this.searchInputPlaceholder = el.dataset.searchPlaceholder;
     this.paginationItemLabel = el.dataset.paginationLabel;
 
+    this.results.initFromUrl(document.location.href);
     this.doSearch();
   }
 
