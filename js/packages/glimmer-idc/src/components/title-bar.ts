@@ -10,6 +10,7 @@ interface Args {
   prevPage: () => {};
   nextPage: () => {};
   applySearchTerms: (searchTerms?: string) => {};
+  searchTerms: string;
   searchInputPlaceholder: string | null;
   paginationItemLabel: string;
 }
@@ -24,6 +25,7 @@ export default class TitleBar extends Component<Args> {
         <SearchInput
           @placeholder={{@searchInputPlaceholder}}
           @applySearchTerms={{@applySearchTerms}}
+          @searchTerms={{@searchTerms}}
         />
       </div>
       <div class="flex flex-col 2xl:flex-row items-center flex-shrink-0 items-center">

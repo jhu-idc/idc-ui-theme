@@ -5,9 +5,16 @@ import { fn } from '@glimmerx/helper';
 
 interface Args {
   applySearchTerms: (searchTerms?: string) => {},
+  searchTerms: string,
 }
 export default class SearchInput extends Component<Args> {
   @tracked searchTerms: string = '';
+
+  constructor(owner: unknown, args: Args) {
+    super(...arguments);
+
+    this.searchTerms = args.searchTerms;
+  }
 
   @action
   updateSearchTerms(e: Event) {

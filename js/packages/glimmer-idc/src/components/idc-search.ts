@@ -139,6 +139,7 @@ export default class IDCSearch extends Component<Args> {
             @goToPage={{this.goToPage}}
             @prevPage={{this.prevPage}}
             @nextPage={{this.nextPage}}
+            @searchTerms={{this.results.searchTerms}}
             @applySearchTerms={{this.applySearchTerms}}
             @searchInputPlaceholder={{this.searchInputPlaceholder}}
             @paginationItemLabel={{this.paginationItemLabel}}
