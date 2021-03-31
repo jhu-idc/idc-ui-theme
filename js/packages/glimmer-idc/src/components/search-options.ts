@@ -2,7 +2,7 @@ import Component, { hbs, tracked } from '@glimmerx/component';
 import { action, on } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
 import { Pager } from '../interfaces';
-import { is, not } from '../utils/helpers';
+import { is } from '../utils/helpers';
 
 interface Args {
   changeSearchOptions: (options: {}) => {};

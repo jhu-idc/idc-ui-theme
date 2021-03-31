@@ -145,11 +145,12 @@ export class ResultsService {
    * will always be configured per component instance, thus shouldn't appear
    * in the URL.
    *
+   * NULL or undefined query can happen when loading the component with no URL params
+   *
    * @param query SOLR query, to be parsed
    */
   parseSolrQuery(query: string) {
     if (!query) {
-      // NULL or undefined query can happen when loading the component with no URL params
       return;
     }
 
@@ -158,17 +159,15 @@ export class ResultsService {
   }
 
   /**
-   * TODO: we may need to be careful of `searchTermsParam` + `typeQ` combination.
+   * We need to be careful of `searchTermsParam` + `typeQ` combination.
    *
    * searchTerm AND ss_type:collection_object OR ss_type:islandora_object
    *  vs
    * searchTerm AND (ss_type:collection_object OR ss_type:islandora_object)
    *
-   * These two constructions may produce different results, warrants some investigation
-   *
-   *
    * Solr field:
    *    its_field_member_of - "Member Of" field showing parent node(s)
+   *    ss_type - "Type" field showing object model type (collection_object OR islandora_object)
    *
    * If an node ID is provided, we should restrict the search to return results that are
    * children of the provided node. This can be done by querying the provided ID against
@@ -230,7 +229,8 @@ export class ResultsService {
         this.selectedFacets = this.facets
           .map(facet => facet.items)
           .flat()
-          // Check each item to see if they can be found in the init selected facets
+          // facet.frag is the only value we can rely on as being consistent between
+          // the URL fragment and facet data from a search request
           .filter(item => initFacets.some(val => val.frag === item.frag));
 
         this.initMode = false;
