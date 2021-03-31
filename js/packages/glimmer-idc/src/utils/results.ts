@@ -124,7 +124,7 @@ export class ResultsService {
         this.selectedFacets.push({
           key: parts[0],
           value: parts[1],
-          frag: frag,
+          frag: decodeURI(frag),
           count: 0,
           url: ''
         });
