@@ -1,9 +1,8 @@
 import { SearchApiResponse, Pager } from '../interfaces';
 import { tracked } from '@glimmerx/component';
-import { action } from '@glimmerx/modifier';
 import { Facet } from '../models/facet';
 import { FacetValue } from '../interfaces';
-import { parseFacet } from './facet-utils';
+import { facetValueIncludes, parseFacet } from './facet-utils';
 
 const typeMap = {
   collections: {
@@ -42,6 +41,14 @@ export class ResultsService {
   @tracked searchTerms: string | null = null;
   @tracked facets: Facet[];
   @tracked selectedFacets: FacetValue[] = [];
+
+  /**
+   * Init mode should only be set to TRUE when initializing this service from a URL.
+   * Its intent is to mark facets in the URL as selected _after_ the initial search has
+   * been complete and we have the full facet data. It will also prevent new searches
+   * from being requested when facets are selected.
+   */
+  @tracked initMode: boolean = false;
 
   constructor(type: string) {
     this.types = typeMap[type].types;
@@ -94,15 +101,35 @@ export class ResultsService {
     }
 
     /**
-     * TODO: How do we handle facets? Facets in this service contain quite a lot of
-     * information simply not available in the URL. We'd have to initiate the search
-     * then programmatically select the relevent facets?
-     * That would be super janky, since selecting each facet currently kicks off its
-     * own search...
+     * Mark facets found in the URL as "selected"
      *
-     * For now, let's get the rest working without facets
+     * These "selected" facets will not be fully populated with the full facet
+     * data that would normally be returned in search requests, since we are limited
+     * by the data available in the URL. Thus we can only rely on the facet `frag`
+     * property, and potentially the facet `value` property.
+     *
+     * Once the initial search request returns, we will try matching initially
+     * selected facets to real facets by matching the facet frag and replace
+     * the initial data with the real facet data.
      */
+    if (url.search.includes('f[')) {
+      this.initMode = true;
 
+      const facetParams = url.search.split('&').filter(param => param.startsWith('f['));
+
+      facetParams.forEach((param) => {
+        const frag = param.slice(param.indexOf('=') + 1); // Fragment without the f[#] piece
+        const parts = frag.split(':');
+
+        this.selectedFacets.push({
+          key: parts[0],
+          value: parts[1],
+          frag: frag,
+          count: 0,
+          url: ''
+        });
+      });
+    }
   }
 
   /**
@@ -114,6 +141,10 @@ export class ResultsService {
    *
    * Example: query=this is a moo AND its_field_member_of:33 AND (ss_type:collection_object OR ss_type:islandora_object)
    *
+   * We'll explicitly ignore `nodeFilter` and `type query` parts, since those
+   * will always be configured per component instance, thus shouldn't appear
+   * in the URL.
+   *
    * @param query SOLR query, to be parsed
    */
   parseSolrQuery(query: string) {
@@ -122,12 +153,6 @@ export class ResultsService {
       return;
     }
 
-    /**
-     * Get only the search term from the URL.
-     * We'll explicitly ignore `nodeFilter` and `type query` parts, since those
-     * will always be configured per component instance, thus shouldn't appear
-     * in the URL.
-     */
     const parts: Array<string> = query.split(' AND ');
     this.searchTerms = parts.find(qPart => !qPart.includes('ss_type') && !qPart.includes('field_memeber_of'));
   }
@@ -197,6 +222,19 @@ export class ResultsService {
       this.pager = data.pager;
       this.pager.current_page = ++this.pager.current_page;
       this.facets = this.parseFacets(data.facets, data.facets_metadata);
+
+      if (this.initMode) {
+        // Select facets here only when in init mode. Otherwise, rely on the
+        // user to select facets in the UI
+        const initFacets = [...this.selectedFacets]; // Clone the array
+        this.selectedFacets = this.facets
+          .map(facet => facet.items)
+          .flat()
+          // Check each item to see if they can be found in the init selected facets
+          .filter(item => initFacets.some(val => val.frag === item.frag));
+
+        this.initMode = false;
+      }
     } catch (e) {
       console.log(e);
     }
