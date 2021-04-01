@@ -191,7 +191,7 @@ export class ResultsService {
         ? '&' + this.selectedFacets.map((facet, index) => `f[${index}]=${facet.frag}`).join('&')
         : '';
 
-    const queryParams: string =
+    let queryParams: string =
       searchTermsParam + ((!!searchTermsParam && (!!nodeFilter || !!typeQ)) ? ' AND ' : '') +
       nodeFilter + ((!!nodeFilter && !!typeQ) ? ' AND ' : '') +
       typeQ +
@@ -201,21 +201,25 @@ export class ResultsService {
       itemsPerPageParam +
       facetParam;
 
+    queryParams = `query=${queryParams}`;
+
     return queryParams;
   }
 
   async fetchData(nodeId?: string) {
-    const baseUrl = '/search_rest_endpoint?query=';
-
+    const baseUrl = '/search_rest_endpoint';
     const params = this.searchParams(nodeId);
 
-    let url: string = baseUrl + params;
+    let url: string = `${baseUrl}?${params}`;
 
     console.log(url);
 
     try {
       let res: Response = await fetch(url);
       let data: SearchApiResponse = await res.json();
+
+      // Update the URL after successful response
+      this.updateClientUrl(params);
 
       this.rows = data.rows;
       this.pager = data.pager;
@@ -253,5 +257,34 @@ export class ResultsService {
     });
 
     return result.filter((facet) => !facet.isEmpty);
+  }
+
+  /**
+   * Update the client URL query fragment to (mostly) match the search request
+   * query fragment.
+   *
+   * We need to slightly rebuild in order to ignore the `typeQ` and `nodeFilter`
+   * pieces of the query.
+   *
+   * @param searchParams query parameters used when submitting a search request
+   */
+  updateClientUrl(searchRequest: string) {
+    let url = new URL(window.location.href);
+
+    const queriless = searchRequest
+      .split('&')
+      .filter(part => !!part && !part.startsWith('query'));
+
+    let updatedQueryParts = [];
+    if (!!this.searchTerms) {
+      updatedQueryParts = updatedQueryParts.concat(`query=${this.searchTerms}`);
+    }
+
+    updatedQueryParts = updatedQueryParts.concat(queriless);
+
+    if (updatedQueryParts.length > 0) {
+      url.search = updatedQueryParts.join('&');
+      history.replaceState({}, '', url.toString());
+    }
   }
 }
