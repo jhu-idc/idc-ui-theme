@@ -15,29 +15,41 @@ import { facetValueIncludes, removeSelectedItem } from '../utils/facet-utils';
 
 interface Args {}
 
-export const ELEMENT_ID = 'collection-details-list';
+export const ELEMENT_ID: string = 'idc-search';
 
-export default class Collection extends Component<Args> {
+export default class IDCSearch extends Component<Args> {
   @service results: ResultsService;
 
   @tracked isLoading: boolean = false;
   @tracked list: {}[] = [];
-  @tracked collectionId: string = '';
-  @tracked title: string = '';
   @tracked facets: Facet[] = [];
   @tracked hasFacets: boolean = false;
+
+  // These properties should be populated through data attributes
+  /** Attribute data-title */
+  @tracked title: string = '';
+  /** Attribute data-collection-id */
+  @tracked collectionId: string = '';
+  /** Attribute data-search-placeholder */
+  @tracked searchInputPlaceholder: string = '';
+  /** Attribute data-pagination-label */
+  @tracked paginationItemLabel: string = '';
 
   constructor(owner: unknown, args: Args) {
     super(...arguments);
 
     const el = document.getElementById(ELEMENT_ID);
-    this.collectionId = el.dataset.collectionId;
-    this.title = el.dataset.collectionTitle;
 
-    this.fetchCollection();
+    this.collectionId = el.dataset.collectionId;
+    this.title = el.dataset.title;
+    this.searchInputPlaceholder = el.dataset.searchPlaceholder;
+    this.paginationItemLabel = el.dataset.paginationLabel;
+
+    this.results.initFromUrl(document.location.href);
+    this.doSearch();
   }
 
-  async fetchCollection() {
+  async doSearch() {
     this.isLoading = true;
     await this.results.fetchData(this.collectionId);
 
@@ -51,19 +63,19 @@ export default class Collection extends Component<Args> {
   @action
   goToPage(page: number) {
     this.results.pager.current_page = page;
-    this.fetchCollection();
+    this.doSearch();
   }
 
   @action
   prevPage() {
     this.results.pager.current_page = --this.results.pager.current_page;
-    this.fetchCollection();
+    this.doSearch();
   }
 
   @action
   nextPage() {
     this.results.pager.current_page = ++this.results.pager.current_page;
-    this.fetchCollection();
+    this.doSearch();
   }
 
   @action
@@ -76,14 +88,13 @@ export default class Collection extends Component<Args> {
       }
     });
 
-    this.fetchCollection();
+    this.doSearch();
   }
 
   @action
   applySearchTerms(searchTerms?: string) {
     this.results.searchTerms = searchTerms;
-
-    this.fetchCollection();
+    this.doSearch();
   }
 
   /**
@@ -100,10 +111,10 @@ export default class Collection extends Component<Args> {
        this.results.selectedFacets.push(item);
      }
 
-     this.fetchCollection();
+     this.doSearch();
    }
 
-  static template = hbs`
+   static template = hbs`
     <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-4 container mx-auto">
       <div class="col-span-1">
         <SearchOptions
@@ -128,9 +139,10 @@ export default class Collection extends Component<Args> {
             @goToPage={{this.goToPage}}
             @prevPage={{this.prevPage}}
             @nextPage={{this.nextPage}}
+            @searchTerms={{this.results.searchTerms}}
             @applySearchTerms={{this.applySearchTerms}}
-            @searchInputPlaceholder={{'Search collections ...'}}
-            @paginationItemLabel={{'collections'}}
+            @searchInputPlaceholder={{this.searchInputPlaceholder}}
+            @paginationItemLabel={{this.paginationItemLabel}}
           />
           {{#if this.isLoading}}
             <ListSpinner />
@@ -145,7 +157,7 @@ export default class Collection extends Component<Args> {
             @goToPage={{this.goToPage}}
             @prevPage={{this.prevPage}}
             @nextPage={{this.nextPage}}
-            @itemLabel={{'collections'}}
+            @itemLabel={{this.paginationItemLabel}}
           />
         </div>
       </div>
