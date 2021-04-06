@@ -41,7 +41,7 @@ services:
 
 Note: you'll need to update this text and replace your current working directory of this repository in place of `<dir_of_this_repo>`.
 
-We'll also want to enable template debugging in Drupal to aid development. To do this, you can manually change Drupal's `services.yml` file in `codebase/web/sites/default/`. In this file, you can change `twig.config.debug` to `true`. Twig debugging statements will appear in pages once you clear Drupal's cache. **Note: this change should not make it into any production-ready snapshots**
+We'll also want to enable template debugging in Drupal to aid development. To do this, you can manually rename Drupal's `default.services.yml` file in `codebase/web/sites/default/` to `services.yml`. In this file, you can change `twig.config.debug` to `true`. To make these changes you may need to change permissions on the `codebase/web/sites/default/` directory with a `chmod` command like `sudo chmod +w default`. Twig debugging statements will appear in pages once you clear Drupal's cache. **Note: this change should not make it into any production-ready snapshots**
 
 ### Handling the theme in Drupal
 
