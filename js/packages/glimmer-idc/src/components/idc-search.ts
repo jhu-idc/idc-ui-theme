@@ -115,7 +115,7 @@ export default class IDCSearch extends Component<Args> {
    }
 
    static template = hbs`
-    <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-4 container mx-auto">
+    <div class="grid md:gap-4 grid-cols-1 md:grid-cols-4 container mx-auto">
       <div class="col-span-1">
         <SearchOptions
           @pager={{this.results.pager}}
