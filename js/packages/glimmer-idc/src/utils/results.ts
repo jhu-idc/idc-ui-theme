@@ -115,7 +115,13 @@ export class ResultsService {
     if (url.search.includes('f[')) {
       this.initMode = true;
 
-      const facetParams = url.search.split('&').filter(param => param.startsWith('f['));
+      let queryStr = url.search;
+
+      if (queryStr.startsWith('?')) {
+        queryStr = queryStr.slice(1);
+      }
+
+      const facetParams = queryStr.split('&').filter(param => param.startsWith('f['));
 
       facetParams.forEach((param) => {
         const frag = param.slice(param.indexOf('=') + 1); // Fragment without the f[#] piece
