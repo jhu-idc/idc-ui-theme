@@ -10,6 +10,7 @@ interface Args {
   sortBy: string | null;
   sortOrder: string | null;
   itemsPerPage: string | null;
+  resetOptions: () => {};
 }
 
 export default class SearchOptions extends Component<Args> {
@@ -73,9 +74,12 @@ export default class SearchOptions extends Component<Args> {
 
   static template = hbs`
     <div class="text-left ml-0">
+      <div class="flex my-4 px-4 justify-between text-black">
+        <h3 class="text-lg">List Options</h3>
+        <button class="" {{on "click" @resetOptions}}>Clear</button>
+      </div>
       <div class="bg-white shadow divide-y divide-gray-100 px-10 py-2 outline-none">
         <div class="flex flex-col h-full justify-between my-4">
-          <div class="text-lg text-gray-500 mb-2">List Options</div>
           <div class="my-2">
             <label class="block text-sm font-medium text-gray-700 hidden" for="sort-by">
               Sort by
