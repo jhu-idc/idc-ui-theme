@@ -14,10 +14,12 @@ interface Args {
 export default class FacetList extends Component<Args> {
   static template = hbs`
     <div>
-      <div class="flex my-4 px-4 justify-between text-black">
-        <h3 class="text-lg">Filters</h3>
-        <button class="" {{on "click" @resetFacets}}>Clear</button>
-      </div>
+      {{#if this.facets.length}}
+        <div class="flex my-4 px-4 justify-between text-black">
+          <h3 class="text-lg">Filters</h3>
+          <button class="" {{on "click" @resetFacets}}>Clear</button>
+        </div>
+      {{/if}}
       {{#each @facets as |facet|}}
         <Facet
           @facet={{facet}}
