@@ -13,14 +13,14 @@
     {# Featured Items grid #}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       <a
-        class="flex flex-col sm:w-front-card m-auto w-auto"
+        class="flex flex-col sm:w-front-card m-auto w-auto hover:opacity-95 hover:shadow-xl"
         href="/collections"
         aria-label="Library collections"
       > {#  Card container #}
         <div> {#  Card image container #}
           <img
             src="/themes/contrib/idc-ui-theme/images/chinese-gardens-14.jpg"
-            alt="Library Collections image"
+            alt="" {# Empty alt for decorative image #}
             data-entity-type="file"
             class="object-cover w-full"
           >
@@ -39,7 +39,7 @@
         <div> {#  Card image container #}
           <img
             src="/themes/contrib/idc-ui-theme/images/student-writing-on-blc-window.jpg"
-            alt="JHU Scholarship image"
+            alt=""
             class="object-cover w-full"
           >
         </div>
@@ -78,8 +78,11 @@
       <div class="border shadow text-blue-heritage text-center">
         <h4 class="px-8 py-4 text-lg font-bold">Need more information?</h4>
         <div class="bg-gray-200 flex p-6">
-          <a class="bg-blue-spirit w-full p-2 cursor-pointer" href="/contact">
+          <a class="flex items-center place-content-center w-full p-2 bg-blue-spirit cursor-pointer hover:bg-opacity-80 hover:shadow-xl" href="/contact">
             Contact Us
+            <svg class="h-5 w-5 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
           </a>
         </div>
       </div>

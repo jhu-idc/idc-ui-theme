@@ -18,6 +18,10 @@
     "Chrome": [
       "--headless",
       "--remote-debugging-port=9222"
+    ],
+    "Firefox": [
+      "--headless",
+      "--remote-debugging-port=9222"
     ]
   },
   "launch_in_ci": [

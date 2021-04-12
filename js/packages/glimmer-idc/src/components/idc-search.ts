@@ -114,8 +114,24 @@ export default class IDCSearch extends Component<Args> {
      this.doSearch();
    }
 
+   @action
+   resetOptions() {
+    this.changeSearchOptions({
+      sortBy: null,
+      sortOrder: null,
+      itemsPerPage: 0,
+      currentPage: 0
+    });
+   }
+
+   @action
+   resetFacets() {
+     this.results.selectedFacets = [];
+     this.doSearch();
+   }
+
    static template = hbs`
-    <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-4 container mx-auto">
+    <div class="grid md:gap-4 grid-cols-1 md:grid-cols-4 container mx-auto">
       <div class="col-span-1">
         <SearchOptions
           @pager={{this.results.pager}}
@@ -123,12 +139,14 @@ export default class IDCSearch extends Component<Args> {
           @sortOrder={{this.results.sortOrder}}
           @itemsPerPage={{this.results.itemsPerPage}}
           @changeSearchOptions={{this.changeSearchOptions}}
+          @resetOptions={{this.resetOptions}}
         />
         <FacetList
           @facets={{this.facets}}
           @hasFacets={{this.hasFacets}}
           @facetSelected={{this.facetSelected}}
           @selectedFacets={{this.results.selectedFacets}}
+          @resetFacets={{this.resetFacets}}
         />
       </div>
       <div class="col-span-3">

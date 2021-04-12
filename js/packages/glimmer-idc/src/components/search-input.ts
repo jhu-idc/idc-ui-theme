@@ -35,6 +35,7 @@ export default class SearchInput extends Component<Args> {
     >
       <div class="flex flex-row">
         <input
+          aria-label="Search"
           type="text"
           value=""
           size="30"

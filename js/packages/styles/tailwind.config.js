@@ -18,17 +18,8 @@
 module.exports = {
   theme: {
     extend: {
-      keyframes: {
-        wiggle: {
-          '0%, 100%': { transform: 'rotate(-0.5deg)' },
-          '50%': { transform: 'rotate(0.5deg)' },
-        },
-      },
       animation: {
         wiggle: 'wiggle 200ms ease-in-out',
-      },
-      transitionProperty: {
-        height: 'height',
       },
       colors: {
         footer: '#2c2c33',
@@ -60,6 +51,15 @@ module.exports = {
       },
       height: {
         'front-banner': '161px',
+      },
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-0.5deg)' },
+          '50%': { transform: 'rotate(0.5deg)' },
+        },
+      },
+      transitionProperty: {
+        height: 'height',
       },
       width: {
         'front-card': '485px',

@@ -10,6 +10,7 @@ interface Args {
   sortBy: string | null;
   sortOrder: string | null;
   itemsPerPage: string | null;
+  resetOptions: () => {};
 }
 
 export default class SearchOptions extends Component<Args> {
@@ -73,9 +74,12 @@ export default class SearchOptions extends Component<Args> {
 
   static template = hbs`
     <div class="text-left ml-0">
+      <div class="flex my-4 px-4 justify-between text-black">
+        <h3 class="text-lg">List Options</h3>
+        <button class="" {{on "click" @resetOptions}}>Clear</button>
+      </div>
       <div class="bg-white shadow divide-y divide-gray-100 px-10 py-2 outline-none">
         <div class="flex flex-col h-full justify-between my-4">
-          <div class="text-lg text-gray-500 mb-2">List Options</div>
           <div class="my-2">
             <label class="block text-sm font-medium text-gray-700 hidden" for="sort-by">
               Sort by
@@ -86,7 +90,7 @@ export default class SearchOptions extends Component<Args> {
               name="sort-by"
               {{on "change" this.handleSortByChange}}
             >
-              <option value="" disabled selected>Sort by</option>
+              <option value="" disabled={{this.args.sortBy}} selected>Sort by</option>
               {{#each this.sortByOptions as |selectOption|}}
                 <option value={{selectOption.value}} selected={{is this.args "sortBy" selectOption.value}}>Sort by: {{selectOption.displayValue}}</option>
               {{/each}}
@@ -100,7 +104,7 @@ export default class SearchOptions extends Component<Args> {
               name="sort-order"
               {{on "change" this.handleSortOrderChange}}
             >
-              <option value="" disabled selected>Sort order</option>
+              <option value="" disabled={{this.args.sortOrder}} selected>Sort order</option>
               {{#each this.sortOrderOptions as |selectOption|}}
                 <option value={{selectOption.value}} selected={{is this.args "sortOrder" selectOption.value}}>Sort order: {{selectOption.displayValue}}</option>
               {{/each}}
@@ -114,7 +118,7 @@ export default class SearchOptions extends Component<Args> {
               name="items-per-page"
               {{on "change" this.handleItemsPerPageChange}}
             >
-              <option value="" disabled selected>Items per page</option>
+              <option value="" disabled={{this.args.itemsPerPage}} selected>Items per page</option>
               {{#each this.itemsPerPage as |numItems|}}
                 <option value={{numItems}} selected={{is this.args "itemsPerPage" numItems}}>Items per page: {{numItems}}</option>
               {{/each}}
