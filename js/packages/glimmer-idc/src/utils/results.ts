@@ -288,9 +288,7 @@ export class ResultsService {
 
     updatedQueryParts = updatedQueryParts.concat(queriless);
 
-    if (updatedQueryParts.length > 0) {
-      url.search = updatedQueryParts.join('&');
-      history.replaceState({}, '', url.toString());
-    }
+    url.search = updatedQueryParts.join('&');
+    history.replaceState({}, '', url.toString());
   }
 }

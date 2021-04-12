@@ -117,9 +117,9 @@ export default class IDCSearch extends Component<Args> {
    @action
    resetOptions() {
     this.changeSearchOptions({
-      sortBy: "",
-      sortOrder: "",
-      itemsPerPage: 10,
+      sortBy: null,
+      sortOrder: null,
+      itemsPerPage: 0,
       currentPage: 0
     });
    }
