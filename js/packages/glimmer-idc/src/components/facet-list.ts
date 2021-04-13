@@ -12,9 +12,14 @@ interface Args {
 }
 
 export default class FacetList extends Component<Args> {
+
+  get hasSelectedFacets() {
+    return this.args.selectedFacets && this.args.selectedFacets.length > 0;
+  }
+
   static template = hbs`
     <div>
-      {{#if this.facets.length}}
+      {{#if this.hasSelectedFacets}}
         <div class="flex my-4 px-4 justify-between text-black">
           <h3 class="text-lg">Filters</h3>
           <button class="" {{on "click" @resetFacets}}>Clear</button>
