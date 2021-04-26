@@ -20,6 +20,8 @@ export const ELEMENT_ID: string = 'idc-search';
 export default class IDCSearch extends Component<Args> {
   @service results: ResultsService;
 
+  hasAdvancedSearch: boolean = false;
+
   @tracked isLoading: boolean = false;
   @tracked list: {}[] = [];
   @tracked facets: Facet[] = [];
@@ -44,6 +46,7 @@ export default class IDCSearch extends Component<Args> {
     this.title = el.dataset.title;
     this.searchInputPlaceholder = el.dataset.searchPlaceholder;
     this.paginationItemLabel = el.dataset.paginationLabel;
+    this.hasAdvancedSearch = !!el.dataset.enableAdvancedSearch;
 
     this.results.initFromUrl(document.location.href);
     this.doSearch();
@@ -161,6 +164,7 @@ export default class IDCSearch extends Component<Args> {
             @applySearchTerms={{this.applySearchTerms}}
             @searchInputPlaceholder={{this.searchInputPlaceholder}}
             @paginationItemLabel={{this.paginationItemLabel}}
+            @hasAdvancedSearch={{this.hasAdvancedSearch}}
           />
           {{#if this.isLoading}}
             <ListSpinner />

@@ -128,5 +128,13 @@ nav a {
   @apply m-8 px-20 py-12 shadow bg-white;
 }
 
+.idc-dropdown {
+  @apply mb-3 inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300 ;
+}
+
+#idc-advanced-search label {
+  @apply flex flex-col h-full justify-between my-4 hidden;
+}
+
 @import 'spinkit.min.css';
 
