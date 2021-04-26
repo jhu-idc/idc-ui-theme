@@ -11,14 +11,14 @@ export default class SearchInput extends Component<Args> {
   @tracked searchTerms: string = '';
 
   constructor(owner: unknown, args: Args) {
-    super(...arguments);
+    super(owner, args);
 
     this.searchTerms = args.searchTerms;
   }
 
   @action
   updateSearchTerms(e: Event) {
-    this.searchTerms = (<HTMLInputElement>e.target).value;
+    this.searchTerms = (e.target as HTMLInputElement).value;
   }
 
   @action

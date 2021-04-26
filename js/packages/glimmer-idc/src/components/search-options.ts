@@ -54,22 +54,22 @@ export default class SearchOptions extends Component<Args> {
 
   @action
   handleSortByChange(e: Event) {
-    this.args.changeSearchOptions({ sortBy: (<HTMLInputElement>e.target).value });
+    this.args.changeSearchOptions({ sortBy: (e.target as HTMLInputElement).value });
   }
 
   @action
   handleSortOrderChange(e: Event) {
-    this.args.changeSearchOptions({ sortOrder: (<HTMLInputElement>e.target).value });
+    this.args.changeSearchOptions({ sortOrder: (e.target as HTMLInputElement).value });
   }
 
   @action
   handleCurrentPageChange(e: Event) {
-    this.args.changeSearchOptions({ currentPage: Number((<HTMLInputElement>e.target).value) });
+    this.args.changeSearchOptions({ currentPage: Number((e.target as HTMLInputElement).value) });
   }
 
   @action
   handleItemsPerPageChange(e: Event) {
-    this.args.changeSearchOptions({ itemsPerPage: Number((<HTMLInputElement>e.target).value) });
+    this.args.changeSearchOptions({ itemsPerPage: Number((e.target as HTMLInputElement).value) });
   }
 
   static template = hbs`

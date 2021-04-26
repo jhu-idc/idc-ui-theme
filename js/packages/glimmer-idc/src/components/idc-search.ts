@@ -38,7 +38,7 @@ export default class IDCSearch extends Component<Args> {
   @tracked paginationItemLabel: string = '';
 
   constructor(owner: unknown, args: Args) {
-    super(...arguments);
+    super(owner, args);
 
     const el = document.getElementById(ELEMENT_ID);
 
