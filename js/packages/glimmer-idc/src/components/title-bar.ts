@@ -20,7 +20,14 @@ interface Args {
 export default class TitleBar extends Component<Args> {
   static template = hbs`
     <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-      {{#if this.hasAdvancedSearch}}
+      {{#if @hasAdvancedSearch}}
+        <div class="">
+          <AdvancedQueryInput
+            @applySearchTerms={{@applySearchTerms}}
+            @searchTerms={{@searchTerms}}
+          />
+        </div>
+      {{else}}
         <div class="flex flex-col lg:flex-row justify-between items-center">
           <div class="flex flex-col 2xl:flex-row items-center lg:mr-6 mb-4 lg:mb-0 w-full justify-between">
             <h2 class="text-xl font-bold leading-6 mb-2 2xl:mb-0 mr-4">
@@ -44,13 +51,6 @@ export default class TitleBar extends Component<Args> {
               />
             </div>
           </div>
-        </div>
-      {{else}}
-        <div class="">
-          <AdvancedQueryInput
-            @applySearchTerms={{@applySearchTerms}}
-            @searchTerms={{@searchTerms}}
-          />
         </div>
       {{/if}}
     </div>
