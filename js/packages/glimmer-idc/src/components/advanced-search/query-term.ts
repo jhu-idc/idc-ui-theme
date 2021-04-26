@@ -111,7 +111,7 @@ export default class QueryTermInput extends Component<Args> {
           <label for={{this.proxyTermAId}} class="">Search for term</label>
           <input
             id={{this.proxyTermAId}}
-            class=""
+            class="idc-advanced-text-input"
             placeholder="Enter a term"
             type="text"
             value={{this.localTerm.term}}
@@ -122,7 +122,7 @@ export default class QueryTermInput extends Component<Args> {
           <label for={{this.proxyRangeId}} class="">Within a range of</label>
           <input
             id={{this.proxyRangeId}}
-            class=""
+            class="idc-advanced-text-input"
             placeholder="Enter a number"
             type="text"
             value={{this.localTerm.proximity}}
@@ -133,7 +133,7 @@ export default class QueryTermInput extends Component<Args> {
           <label for={{this.proxyTermBId}} class="">The following term</label>
           <input
             id={{this.proxyTermBId}}
-            class=""
+            class="idc-advanced-text-input"
             placeholder="Enter a term"
             type="text"
             value={{this.localTerm.termB}}
@@ -160,7 +160,7 @@ export default class QueryTermInput extends Component<Args> {
           <input
             id={{this.termInputId}}
             aria-label="Enter a word or phrase to search for"
-            class="h-full"
+            class="idc-advanced-text-input h-full"
             placeholder="Enter search term"
             size="30"
             type="text"
@@ -169,6 +169,15 @@ export default class QueryTermInput extends Component<Args> {
           />
         </div>
       {{/if}}
+      <div class="ml-auto self-center">
+        <button
+          class="border border-accent-7 text-3xl font-bold text-accent-7 px-4 pb-1 ml-4 hover:bg-accent-7 hover:text-white"
+          title="Remove this term"
+          {{on "click" @removeTerm}}
+        >
+          &times;
+        </button>
+      </div>
     </div>
   `;
 

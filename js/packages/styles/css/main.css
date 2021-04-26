@@ -136,5 +136,9 @@ nav a {
   @apply flex flex-col h-full justify-between my-4 hidden;
 }
 
+.idc-advanced-text-input {
+  @apply border-gray-500 bg-gray-100 border-2 px-2;
+}
+
 @import 'spinkit.min.css';
 

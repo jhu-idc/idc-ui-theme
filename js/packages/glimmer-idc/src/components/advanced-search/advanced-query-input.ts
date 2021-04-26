@@ -51,6 +51,12 @@ export default class AdvancedQueryInput extends Component<Args> {
     this.terms[index] = term;
   }
 
+  @action
+  removeTerm(term: QueryTerm) {
+    // TODO: implement
+    console.log(`### Remove term : ${JSON.stringify(term)} ###`);
+  }
+
   static template = hbs`
     <div>
       <ul>
