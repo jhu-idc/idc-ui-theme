@@ -14,7 +14,7 @@ interface Args {
 export default class FacetList extends Component<Args> {
 
   get hasSelectedFacets() {
-    return this.args.selectedFacets && this.args.selectedFacets.length > 0;
+    return this.args.facets && this.args.facets.length > 0;
   }
 
   static template = hbs`
