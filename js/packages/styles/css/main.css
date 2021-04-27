@@ -118,10 +118,20 @@ nav a {
 }
 
 .button {
-  @apply px-4 py-2 cursor-pointer;
+  @apply inline-flex items-center px-4 py-2 border cursor-pointer;
 }
-.button--primary {
-  @apply bg-blue-spirit text-blue-heritage;
+.button:hover {
+  @apply shadow-xl;
+}
+.button-primary {
+  @apply border-transparent bg-blue-heritage text-white;
+}
+.button-primary:hover {
+  @apply bg-gray-200 text-blue-heritage;
+}
+
+.button .svg-icon {
+  @apply h-5 w-5;
 }
 
 .card {

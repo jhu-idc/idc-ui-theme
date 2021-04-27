@@ -65,23 +65,63 @@ export default class AdvancedQueryInput extends Component<Args> {
 
   @action
   removeTerm(term: QueryTerm) {
-    console.log(`### Remove term : ${JSON.stringify(term)} ###`);
     this.terms = this.terms.filter(t => t.id !== term.id);
+  }
+
+  /**
+   * Reset terms by clearing all terms and adding a blank term to kick off the UI
+   */
+  @action
+  resetTerms() {
+    this.terms = [];
+    this.addTerm();
+  }
+
+  /**
+   * Translate the query terms present in this component to a single Solr query string
+   */
+  query2string() {
+
   }
 
   static template = hbs`
     <div class="">
-      <div>
-        <button
-          class="border px-4 py-2"
-          {{on "click" this.addTerm}}
-        >
-          Add term
-        </button>
+      <div class="flex justify-between">
+        <div class="">
+          <button
+            class="button mr-4 border-blue-heritage text-blue-heritage hover:bg-blue-heritage hover:text-white"
+            {{on "click" this.addTerm}}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            Add term
+          </button>
+          <button
+            class="button border-accent-7 text-accent-7 hover:bg-accent-7 hover:text-white"
+            {{on "click" this.resetTerms}}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Clear
+          </button>
+        </div>
+        <div>
+          <button
+            aria-label="Submit advanced search query"
+            class="button button-primary inline-flex items-center"
+          >
+            Search
+            <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
       </div>
       <ul>
         {{#each this.terms as |term|}}
-          <li>
+          <li class="my-4">
             <QueryTermInput
               @term={{term}}
               @updateTerm={{this.updateTerm}}

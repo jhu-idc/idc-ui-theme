@@ -105,7 +105,7 @@ export default class QueryTermInput extends Component<Args> {
           value={{this.localTerm.isProxy}}
           {{on "change" this.toggleProxy}}
         />
-        <label for={{this.proxyId}} class="py-2 cursor-pointer">Proximity search?</label>
+        <label for={{this.proxyId}} class="py-2 cursor-pointer">Proximity search</label>
       </div>
       {{#if this.localTerm.isProxy}}
         <!-- Proxy search -->
@@ -173,11 +173,13 @@ export default class QueryTermInput extends Component<Args> {
       {{/if}}
       <div class="ml-auto self-center">
         <button
-          class="border border-accent-7 text-2xl leading-none font-bold text-accent-7 px-2 pb-1 ml-4 hover:bg-accent-7 hover:text-white"
+          class="rounded-full text-2xl leading-none font-bold text-accent-7 px-2 p-1 ml-4 hover:bg-accent-7 hover:text-white"
           title="Remove this term"
           {{on "click" (fn @removeTerm @term)}}
         >
-          &times;
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
         </button>
       </div>
     </div>
