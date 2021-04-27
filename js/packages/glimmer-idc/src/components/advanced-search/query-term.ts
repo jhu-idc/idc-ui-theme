@@ -1,4 +1,5 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
+import { fn } from '@glimmerx/helper';
 import { action, on } from '@glimmer/modifier';
 import { service } from '@glimmerx/service';
 import SearchInfoService, { SearchField } from './searchInfoService';
@@ -174,7 +175,7 @@ export default class QueryTermInput extends Component<Args> {
         <button
           class="border border-accent-7 text-2xl leading-none font-bold text-accent-7 px-2 pb-1 ml-4 hover:bg-accent-7 hover:text-white"
           title="Remove this term"
-          {{on "click" @removeTerm}}
+          {{on "click" (fn @removeTerm @term)}}
         >
           &times;
         </button>

@@ -1,4 +1,4 @@
-import { action } from '@glimmer/modifier';
+import { action, on } from '@glimmer/modifier';
 import Component, { hbs, tracked } from '@glimmerx/component';
 import { service } from '@glimmerx/service';
 import { uuidv4 } from '../../utils/utils';
@@ -23,8 +23,20 @@ export default class AdvancedQueryInput extends Component<Args> {
   }
 
   @action
-  addTerm() {
-    this.terms.push({
+  addTerm(options?:unknown) {
+    console.log(`### Add new term ${JSON.stringify(options)} ###`);
+    /**
+     * Some reason, running `this.terms.push(...)` doesn't seem to trigger the template
+     * to re-render. Changing to the below - reassigning `this.terms = this.terms.concat(...)`
+     * seems to work, though
+     */
+    // this.terms.push({
+    //   id: uuidv4(),
+    //   isProxy: false,
+    //   term: '',
+    //   operation: 'AND'
+    // });
+    this.terms = this.terms.concat({
       id: uuidv4(),
       isProxy: false,
       term: '',
@@ -53,14 +65,19 @@ export default class AdvancedQueryInput extends Component<Args> {
 
   @action
   removeTerm(term: QueryTerm) {
-    // TODO: implement
     console.log(`### Remove term : ${JSON.stringify(term)} ###`);
+    this.terms = this.terms.filter(t => t.id !== term.id);
   }
 
   static template = hbs`
     <div class="">
       <div>
-        <button class="border px-4 py-2">Add term</button>
+        <button
+          class="border px-4 py-2"
+          {{on "click" this.addTerm}}
+        >
+          Add term
+        </button>
       </div>
       <ul>
         {{#each this.terms as |term|}}
@@ -68,6 +85,7 @@ export default class AdvancedQueryInput extends Component<Args> {
             <QueryTermInput
               @term={{term}}
               @updateTerm={{this.updateTerm}}
+              @removeTerm={{this.removeTerm}}
             />
           </li>
         {{/each}}
