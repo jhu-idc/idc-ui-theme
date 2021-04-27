@@ -77,11 +77,33 @@ export default class AdvancedQueryInput extends Component<Args> {
     this.addTerm();
   }
 
+  @action
+  doSearch() {
+    const query = this.query2string();
+    console.log(`### query: ${query} ###`);
+  }
+
   /**
    * Translate the query terms present in this component to a single Solr query string
    */
   query2string() {
+    let query = '';
+    this.terms.map((term, index) => {
+      if (index > 0) {
+        query += ` ${term.operation} `;
+      }
 
+      if (term.isProxy) {
+        query += `"${term.term} ${term.termB}"~${term.proximity}`
+      } else if (!!term.field) {
+        // Field will be falsy iff 'Keyword' is selected in the field dropdown
+        query += `${term.field}:${term.term}`;
+      } else {
+        query += term.term;
+      }
+    });
+
+    return query;
   }
 
   static template = hbs`
@@ -111,6 +133,7 @@ export default class AdvancedQueryInput extends Component<Args> {
           <button
             aria-label="Submit advanced search query"
             class="button button-primary inline-flex items-center"
+            {{on "click" this.doSearch}}
           >
             Search
             <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
