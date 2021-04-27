@@ -99,11 +99,12 @@ export default class QueryTermInput extends Component<Args> {
       <div class="w-48 self-center">
         <input
           id={{this.proxyId}}
+          class="cursor-pointer"
           type="checkbox"
           value={{this.localTerm.isProxy}}
           {{on "change" this.toggleProxy}}
         />
-        <label for={{this.proxyId}} class="">Proximity search?</label>
+        <label for={{this.proxyId}} class="py-2 cursor-pointer">Proximity search?</label>
       </div>
       {{#if this.localTerm.isProxy}}
         <!-- Proxy search -->
@@ -146,7 +147,7 @@ export default class QueryTermInput extends Component<Args> {
           <label for={{this.fieldId}} class="sr-only">Select search term field</label>
           <select
             id={{this.fieldId}}
-            class="idc-dropdown h-full hover:bg-gray-200 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+            class="idc-dropdown h-full "
             name={{this.fieldId}}
             {{on "change" this.updateField}}
           >
@@ -171,7 +172,7 @@ export default class QueryTermInput extends Component<Args> {
       {{/if}}
       <div class="ml-auto self-center">
         <button
-          class="border border-accent-7 text-3xl font-bold text-accent-7 px-4 pb-1 ml-4 hover:bg-accent-7 hover:text-white"
+          class="border border-accent-7 text-2xl leading-none font-bold text-accent-7 px-2 pb-1 ml-4 hover:bg-accent-7 hover:text-white"
           title="Remove this term"
           {{on "click" @removeTerm}}
         >

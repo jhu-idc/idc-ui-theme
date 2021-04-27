@@ -86,7 +86,7 @@ export default class SearchOptions extends Component<Args> {
             </label>
             <select
               id="sort-by"
-              class="idc-dropdown hover:bg-gray-200 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+              class="idc-dropdown"
               name="sort-by"
               {{on "change" this.handleSortByChange}}
             >
@@ -100,7 +100,7 @@ export default class SearchOptions extends Component<Args> {
             </label>
             <select
               id="sort-order"
-              class="idc-dropdown hover:bg-gray-200 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+              class="idc-dropdown"
               name="sort-order"
               {{on "change" this.handleSortOrderChange}}
             >
@@ -114,7 +114,7 @@ export default class SearchOptions extends Component<Args> {
             </label>
             <select
               id="items-per-page"
-              class="idc-dropdown hover:bg-gray-200 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+              class="idc-dropdown"
               name="items-per-page"
               {{on "change" this.handleItemsPerPageChange}}
             >
@@ -128,7 +128,7 @@ export default class SearchOptions extends Component<Args> {
             </label>
             <select
               id="current-page"
-              class="idc-dropdown hover:bg-gray-200 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+              class="idc-dropdown"
               name="current-page"
               {{on "change" this.handleCurrentPageChange}}
             >

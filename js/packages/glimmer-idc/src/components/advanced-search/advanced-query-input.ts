@@ -58,7 +58,10 @@ export default class AdvancedQueryInput extends Component<Args> {
   }
 
   static template = hbs`
-    <div>
+    <div class="">
+      <div>
+        <button class="border px-4 py-2">Add term</button>
+      </div>
       <ul>
         {{#each this.terms as |term|}}
           <li>
