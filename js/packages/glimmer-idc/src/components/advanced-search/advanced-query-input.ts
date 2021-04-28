@@ -11,7 +11,7 @@ interface Args {
 }
 
 export default class AdvancedQueryInput extends Component<Args> {
-  @service searchInfo:SearchInfoService;
+  @service searchInfo: SearchInfoService;
 
   @tracked terms: QueryTerm[] = [];
   @tracked disableSearch: boolean = false;
@@ -87,15 +87,18 @@ export default class AdvancedQueryInput extends Component<Args> {
    * Reset terms by clearing all terms and adding a blank term to kick off the UI
    */
   @action
-  resetTerms() {
+  clearSearch() {
     this.terms = [];
     this.addTerm();
+    // Reset search results
+    this.args.applySearchTerms();
   }
 
   @action
   doSearch() {
-    const query = this.query2string();
-    console.log(`### query: ${query} ###`);
+    this.args.applySearchTerms(
+      this.query2string()
+    );
   }
 
   /**
@@ -144,7 +147,7 @@ export default class AdvancedQueryInput extends Component<Args> {
           </button>
           <button
             class="button border-accent-7 text-accent-7 hover:bg-accent-7 hover:text-white"
-            {{on "click" this.resetTerms}}
+            {{on "click" this.clearSearch}}
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
