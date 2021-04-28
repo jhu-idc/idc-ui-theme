@@ -24,18 +24,30 @@ export interface QueryTerm {
   termB?: string;
   /** Proxy range for proxy terms */
   proximity?: number;
+  /**
+   * Self-reported validity of this query term
+   *
+   * Standard term: MUST have a term, operation. May have field
+   *    (If the user selects the "Keyword" field, the `field` property will be empty
+   *     representing a search across all terms)
+   *
+   * Proximity term: MUST have an `operation`, a `term`, a `termB` and a `proximity`
+   */
+  valid: boolean;
 }
 
 interface Args {
   term: QueryTerm;
-  updateTerm: (term: QueryTerm) => {}
-  removeTerm: (term: QueryTerm) => {}
+  validationErrors: string[];
+  updateTerm: (term: QueryTerm) => {};
+  removeTerm: (term: QueryTerm) => {};
 }
 
 export default class QueryTermInput extends Component<Args> {
   @service searchInfo: SearchInfoService;
 
-  @tracked localTerm = this.args.term;
+  /** QueryTerm that drives this component because args.term tracking can be wonky */
+  @tracked localTerm: QueryTerm = this.args.term;
 
   fields: SearchField[] = [];
 
@@ -80,19 +92,91 @@ export default class QueryTermInput extends Component<Args> {
 
     try {
       const proximity: number = parseInt(value);
-      if (!isNaN(proximity)) {
-        this.updateTerm({ proximity });
-      }
+      this.updateTerm({ proximity });
     } catch (ex) {
       console.log(`Invalid "proximity" input: "${value}"`);
     }
   }
 
+  /**
+   *
+   * @param term If a QueryTerm is provided, validate that term.
+   *             If NO QueryTerm is provided, use `this.args.term`
+   * @returns TRUE if this term validates successfully
+   */
+  validateTerm(term?: QueryTerm) {
+    this.resetValidation();
+
+    if (!term) {
+      term = this.args.term;
+    }
+
+    let result = true;
+
+    if (term.isProxy) {
+      if (!term.term) {
+        this.toggleInputValid(this.proxyTermAId, false);
+        result = false;
+      }
+      if (!term.termB) {
+        this.toggleInputValid(this.proxyTermBId, false);
+        result = false;
+      }
+      if (!term.proximity || isNaN(term.proximity)) {
+        this.toggleInputValid(this.proxyRangeId, false);
+        result = false;
+      }
+    } else {
+      if (!term.term) {
+        this.toggleInputValid(this.termInputId, false);
+        result = false;
+      }
+    }
+
+    return result;
+  }
+
+  resetValidation() {
+    const ids = [
+      this.termInputId,
+      this.proxyTermAId,
+      this.proxyTermBId,
+      this.proxyRangeId,
+    ];
+
+    ids.forEach(id => this.toggleInputValid(id, true));
+  }
+
   updateTerm(options) {
-    const updated = Object.assign(this.args.term, options);
+    let updated = Object.assign(
+      this.args.term,
+      options
+    );
+
+    updated = Object.assign(updated, { valid: this.validateTerm(updated) });
 
     this.localTerm = updated;
     this.args.updateTerm(updated);
+  }
+
+  /**
+   * @param id input element ID
+   * @param valid {boolean} whether the element should be marked as valid or not
+   *                        FALSE will mark the element as invalid
+   *                        TRUE will clear invalid mark
+   */
+  toggleInputValid(id, valid) {
+    const element = document.getElementById(id);
+
+    if (!element) {
+      return;
+    }
+
+    if (valid) {
+      element.classList.remove('invalid');
+    } else {
+      element.classList.add('invalid');
+    }
   }
 
   static template = hbs`
@@ -113,7 +197,7 @@ export default class QueryTermInput extends Component<Args> {
           <label for={{this.proxyTermAId}} class="">Search for term</label>
           <input
             id={{this.proxyTermAId}}
-            class="idc-advanced-text-input"
+            class="idc-advanced-text-input invalid"
             placeholder="Enter a term"
             type="text"
             value={{this.localTerm.term}}
@@ -124,7 +208,7 @@ export default class QueryTermInput extends Component<Args> {
           <label for={{this.proxyRangeId}} class="">Within a range of</label>
           <input
             id={{this.proxyRangeId}}
-            class="idc-advanced-text-input"
+            class="idc-advanced-text-input invalid"
             placeholder="Enter a number"
             type="text"
             value={{this.localTerm.proximity}}
@@ -135,7 +219,7 @@ export default class QueryTermInput extends Component<Args> {
           <label for={{this.proxyTermBId}} class="">The following term</label>
           <input
             id={{this.proxyTermBId}}
-            class="idc-advanced-text-input"
+            class="idc-advanced-text-input invalid"
             placeholder="Enter a term"
             type="text"
             value={{this.localTerm.termB}}
@@ -162,7 +246,7 @@ export default class QueryTermInput extends Component<Args> {
           <input
             id={{this.termInputId}}
             aria-label="Enter a word or phrase to search for"
-            class="idc-advanced-text-input h-full"
+            class="idc-advanced-text-input h-full invalid"
             placeholder="Enter search term"
             size="30"
             type="text"

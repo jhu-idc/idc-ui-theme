@@ -14,6 +14,7 @@ export default class AdvancedQueryInput extends Component<Args> {
   @service searchInfo:SearchInfoService;
 
   @tracked terms: QueryTerm[] = [];
+  @tracked disableSearch: boolean = false;
 
   constructor(owner: unknown, args: Args) {
     super(owner, args);
@@ -22,9 +23,19 @@ export default class AdvancedQueryInput extends Component<Args> {
     this.addTerm();
   }
 
+  /**
+   * The search button should be disabled when:
+   *   - There are no search terms present
+   *   - Any of the search terms are reported as not valid
+   *
+   * @returns {boolean} whether the search button should be disabled
+   */
+  shouldDisableSearch() {
+    return this.terms.length === 0 || this.terms.some(term => !term.valid);
+  }
+
   @action
   addTerm(options?:unknown) {
-    console.log(`### Add new term ${JSON.stringify(options)} ###`);
     /**
      * Some reason, running `this.terms.push(...)` doesn't seem to trigger the template
      * to re-render. Changing to the below - reassigning `this.terms = this.terms.concat(...)`
@@ -40,8 +51,10 @@ export default class AdvancedQueryInput extends Component<Args> {
       id: uuidv4(),
       isProxy: false,
       term: '',
-      operation: 'AND'
+      operation: 'AND',
+      valid: false
     });
+    this.disableSearch = this.shouldDisableSearch();
   }
 
   /**
@@ -52,7 +65,6 @@ export default class AdvancedQueryInput extends Component<Args> {
    */
   @action
   updateTerm(term: QueryTerm) {
-    console.log(`Updating term: ${JSON.stringify(term)}`);
     const index = this.terms.map(t => t.id).findIndex(id => id === term.id);
 
     if (index < 0) {
@@ -61,11 +73,14 @@ export default class AdvancedQueryInput extends Component<Args> {
     }
 
     this.terms[index] = term;
+    // Disable search if any term is invalid
+    this.disableSearch = this.shouldDisableSearch();
   }
 
   @action
   removeTerm(term: QueryTerm) {
     this.terms = this.terms.filter(t => t.id !== term.id);
+    this.disableSearch = this.shouldDisableSearch();
   }
 
   /**
@@ -87,27 +102,29 @@ export default class AdvancedQueryInput extends Component<Args> {
    * Translate the query terms present in this component to a single Solr query string
    */
   query2string() {
-    const parts = this.terms.map((term, index) => {
-      let part = '';
+    const parts = this.terms
+      .filter(term => term.valid)
+      .map((term, index) => {
+        let part = '';
 
-      if (index > 0) {
-        part += ` ${term.operation} `;
-      }
-
-      if (term.isProxy) {
-        if (!term.term || !term.termB || !term.proximity) {
-          return;
+        if (index > 0) {
+          part += ` ${term.operation} `;
         }
-        part += `"${term.term} ${term.termB}"~${term.proximity}`
-      } else if (!!term.field) {
-        // Field will be falsy iff 'Keyword' is selected in the field dropdown
-        part += `${term.field}:${term.term}`;
-      } else {
-        part += term.term;
-      }
 
-      return part;
-    });
+        if (term.isProxy) {
+          if (!term.term || !term.termB || !term.proximity) {
+            return;
+          }
+          part += `"${term.term} ${term.termB}"~${term.proximity}`
+        } else if (!!term.field) {
+          // Field will be falsy iff 'Keyword' is selected in the field dropdown
+          part += `${term.field}:${term.term}`;
+        } else {
+          part += term.term;
+        }
+
+        return part;
+      });
 
     return parts.join('');
   }
@@ -138,6 +155,7 @@ export default class AdvancedQueryInput extends Component<Args> {
         <div>
           <button
             aria-label="Submit advanced search query"
+            disabled={{this.disableSearch}}
             class="button button-primary inline-flex items-center"
             {{on "click" this.doSearch}}
           >

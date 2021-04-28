@@ -123,6 +123,7 @@ nav a {
 .button:hover {
   @apply shadow-xl;
 }
+
 .button-primary {
   @apply border-transparent bg-blue-heritage text-white;
 }
@@ -132,6 +133,13 @@ nav a {
 
 .button .svg-icon {
   @apply h-5 w-5;
+}
+
+.button[disabled] {
+  @apply bg-gray-200 text-black cursor-default;
+}
+.button[disabled] {
+  @apply shadow-none;
 }
 
 .card {
@@ -157,6 +165,13 @@ nav a {
 
 .idc-advanced-text-input {
   @apply border-gray-500 bg-gray-100 border-2 px-2;
+}
+
+.invalid {
+  @apply border-accent-7;
+}
+.invalid:focus {
+  @apply border-accent-7;
 }
 
 @import 'spinkit.min.css';
