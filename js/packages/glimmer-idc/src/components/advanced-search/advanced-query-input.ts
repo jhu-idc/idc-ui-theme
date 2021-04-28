@@ -87,23 +87,29 @@ export default class AdvancedQueryInput extends Component<Args> {
    * Translate the query terms present in this component to a single Solr query string
    */
   query2string() {
-    let query = '';
-    this.terms.map((term, index) => {
+    const parts = this.terms.map((term, index) => {
+      let part = '';
+
       if (index > 0) {
-        query += ` ${term.operation} `;
+        part += ` ${term.operation} `;
       }
 
       if (term.isProxy) {
-        query += `"${term.term} ${term.termB}"~${term.proximity}`
+        if (!term.term || !term.termB || !term.proximity) {
+          return;
+        }
+        part += `"${term.term} ${term.termB}"~${term.proximity}`
       } else if (!!term.field) {
         // Field will be falsy iff 'Keyword' is selected in the field dropdown
-        query += `${term.field}:${term.term}`;
+        part += `${term.field}:${term.term}`;
       } else {
-        query += term.term;
+        part += term.term;
       }
+
+      return part;
     });
 
-    return query;
+    return parts.join('');
   }
 
   static template = hbs`
@@ -114,7 +120,7 @@ export default class AdvancedQueryInput extends Component<Args> {
             class="button mr-4 border-blue-heritage text-blue-heritage hover:bg-blue-heritage hover:text-white"
             {{on "click" this.addTerm}}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
             Add term
@@ -123,7 +129,7 @@ export default class AdvancedQueryInput extends Component<Args> {
             class="button border-accent-7 text-accent-7 hover:bg-accent-7 hover:text-white"
             {{on "click" this.resetTerms}}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
             Clear
@@ -136,7 +142,7 @@ export default class AdvancedQueryInput extends Component<Args> {
             {{on "click" this.doSearch}}
           >
             Search
-            <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="svg-icon ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
