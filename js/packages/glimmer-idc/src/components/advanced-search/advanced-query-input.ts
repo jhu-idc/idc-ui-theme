@@ -118,7 +118,7 @@ export default class AdvancedQueryInput extends Component<Args> {
           part += `"${term.term} ${term.termB}"~${term.proximity}`
         } else if (!!term.field) {
           // Field will be falsy iff 'Keyword' is selected in the field dropdown
-          part += `${term.field}:${term.term}`;
+          part += `(${term.field.map(field => `${field}:${term.term}`).join(' OR ')})`;
         } else {
           part += term.term;
         }

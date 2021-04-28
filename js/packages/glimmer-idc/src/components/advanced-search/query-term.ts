@@ -19,7 +19,7 @@ export interface QueryTerm {
   /** Solr boolean operation, [AND|OR] */
   operation: string;
   /** The Solr field applicable to the term. Null or empty if term is applied to all fields */
-  field?: string;
+  field?: string[];
   /** Term for proxy terms */
   termB?: string;
   /** Proxy range for proxy terms */
@@ -73,7 +73,12 @@ export default class QueryTermInput extends Component<Args> {
 
   @action
   updateField(e: Event) {
-    this.updateTerm({ field: (e.target as HTMLSelectElement).value });
+    const value = (e.target as HTMLSelectElement).value;
+    if (!value) {
+      this.updateTerm({ field: undefined });
+    } else {
+      this.updateTerm({ field: value.split(',') });
+    }
   }
 
   @action
@@ -237,7 +242,7 @@ export default class QueryTermInput extends Component<Args> {
             {{on "change" this.updateField}}
           >
             {{#each this.fields as |field|}}
-              <option value={{field.key}}>{{field.label}}</option>
+              <option value={{field.keys}}>{{field.label}}</option>
             {{/each}}
           </select>
         </div>

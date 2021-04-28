@@ -2,7 +2,7 @@ export interface SearchField {
   /** Human readable label, useful for a UI */
   label: string;
   /** Machine-readable name, useful for constructing queries */
-  key: string;
+  keys: string[];
 }
 
 export default class SearchInfoService {
@@ -12,11 +12,11 @@ export default class SearchInfoService {
    */
   searchFields(): SearchField[] {
     return [
-      { key: '', label: 'Keywords' },
-      { key: 'title', label: 'Title' },
-      { key: 'author', label: 'Author / creator' },
-      { key: 'subject', label: 'Subject' },
-      { key: 'publisher', label: 'Publisher' },
+      { keys: [], label: 'Keywords' },
+      { keys: ['tm_X3b_en_title'], label: 'Title' },
+      { keys: ['ss_author', 'sm_field_creator'], label: 'Author / creator' },
+      { keys: ['sm_field_subject'], label: 'Subject' },
+      { keys: ['sm_field_publisher'], label: 'Publisher' },
     ];
   }
 
