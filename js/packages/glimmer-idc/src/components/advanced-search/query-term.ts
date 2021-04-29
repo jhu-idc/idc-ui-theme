@@ -199,7 +199,7 @@ export default class QueryTermInput extends Component<Args> {
 
   static template = hbs`
     <div id={{this.id}}>
-      <div id={{this.opGroupId}} class="flex flex-row">
+      <div id={{this.opGroupId}} class="flex flex-row ops-button-group">
         <button
           class="button selected"
           name="AND"
