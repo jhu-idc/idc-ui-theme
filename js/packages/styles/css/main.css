@@ -142,6 +142,13 @@ nav a {
   @apply shadow-none;
 }
 
+.button.selected {
+  @apply bg-blue-spirit text-blue-heritage;
+}
+.button.selected:hover {
+  @apply shadow-none;
+}
+
 .card {
   @apply m-8 px-20 py-12 shadow bg-white;
 }

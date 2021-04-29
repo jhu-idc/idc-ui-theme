@@ -133,7 +133,7 @@ export default class AdvancedQueryInput extends Component<Args> {
   }
 
   static template = hbs`
-    <div class="">
+    <div id="idc-advanced-search-inputs" class="">
       <div class="flex justify-between">
         <div class="">
           <button
@@ -169,10 +169,11 @@ export default class AdvancedQueryInput extends Component<Args> {
           </button>
         </div>
       </div>
-      <ul>
-        {{#each this.terms as |term|}}
-          <li class="my-4">
+      <ul id="idc-advanced-search-terms-list">
+        {{#each this.terms as |term index|}}
+          <li class="my-2">
             <QueryTermInput
+              @index={{index}}
               @term={{term}}
               @updateTerm={{this.updateTerm}}
               @removeTerm={{this.removeTerm}}
