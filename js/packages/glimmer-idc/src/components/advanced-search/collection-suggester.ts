@@ -65,10 +65,6 @@ export default class CollectionSuggester extends Component<Args> {
 
     const results = await this.searchInfo.suggestCollection(query, this.field, this.operator);
     this.results = results;
-
-    if (results.length === 0) {
-      this.cleanup();
-    }
   }
 
   @action
@@ -114,14 +110,15 @@ export default class CollectionSuggester extends Component<Args> {
   }
 
   static template = hbs`
-    <div id={{this.id}} class="p-2 bg-white overflow-x-auto">
+    <div id={{this.id}} class="p-2 bg-white">
       {{#if this.selected}}
-        <ul class="autocomplete-selected">
+        <ul class="autocomplete-selected mb-4">
           {{#each this.selected as |collection|}}
             <li class="flex items-center my-2">
               <button
                 class="rounded-full px-4 py-1 bg-blue-spirit text-black"
                 title="Remove this selection"
+                type="button"
                 {{on "click" (fn this.unselect collection)}}
               >
                 {{collection.title}}
@@ -130,25 +127,30 @@ export default class CollectionSuggester extends Component<Args> {
           {{/each}}
         </ul>
       {{/if}}
-      <div class="flex">
+      <div class="relative w-full">
         <input
           class=""
           type="text"
           {{on "keyup" this.getSuggestion}}
           value={{this.query}}
         />
-        <button class="px-2" {{on "click" this.cleanup}}>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <button
+          class="absolute right-0 px-2 h-full text-accent-7"
+          title="Clear"
+          type="button"
+          {{on "click" this.cleanup}}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </button>
       </div>
       {{#if this.results}}
-        <div class="p-1">
-          <ul class="autocomplete-results">
+        <div class="border p-2">
+          <ul class="autocomplete-results overflow-x-auto">
             {{#each this.results as |suggestion|}}
               <li
-                class="cursor-pointer hover:bg-gray-200"
+                class="cursor-pointer py-1 px-4 mb-1 hover:bg-gray-200"
                 title="Search within this collection"
                 {{on "click" (fn this.doSelect suggestion)}}
               >
