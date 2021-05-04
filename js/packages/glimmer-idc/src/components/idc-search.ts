@@ -13,7 +13,6 @@ import TitleBar from './title-bar';
 import { Facet } from '../models/facet';
 import { FacetValue } from '../interfaces';
 import { facetValueIncludes, removeSelectedItem } from '../utils/facet-utils';
-import { suggestionEquals, suggestionsInclude } from '../utils/utils';
 
 interface Args {}
 

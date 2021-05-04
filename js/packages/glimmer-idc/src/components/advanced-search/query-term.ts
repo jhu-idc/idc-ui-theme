@@ -2,7 +2,8 @@ import Component, { hbs, tracked } from '@glimmerx/component';
 import { fn } from '@glimmerx/helper';
 import { action, on } from '@glimmer/modifier';
 import { service } from '@glimmerx/service';
-import SearchInfoService, { SearchField } from './searchInfoService';
+import SearchInfoService from './searchInfoService';
+import { SearchField } from '../../interfaces';
 
 export interface QueryTerm {
   readonly id: string;
