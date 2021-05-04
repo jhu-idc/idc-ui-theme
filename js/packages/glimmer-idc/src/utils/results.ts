@@ -1,4 +1,4 @@
-import { SearchApiResponse, Pager } from '../interfaces';
+import { SearchApiResponse, Pager, CollectionSuggestion } from '../interfaces';
 import { tracked } from '@glimmerx/component';
 import { Facet } from '../models/facet';
 import { FacetValue } from '../interfaces';
@@ -41,6 +41,8 @@ export class ResultsService {
   @tracked searchTerms: string | null = null;
   @tracked facets: Facet[];
   @tracked selectedFacets: FacetValue[] = [];
+  /** Filter results using these collection IDs */
+  @tracked nodeFilters: CollectionSuggestion[] = [];
 
   /**
    * Init mode should only be set to TRUE when initializing this service from a URL.
@@ -183,7 +185,17 @@ export class ResultsService {
    */
   searchParams(nodeId?: string): string {
     const searchTermsParam: string = !!this.searchTerms ? `${this.searchTerms}` : '';
+
+    /**
+     * NodeFilter and collectionFilter represent the same kind of query, but
+     * come from different sources, so they are kept separate
+     */
     const nodeFilter: string = !!nodeId ? `its_field_member_of:${nodeId}` : '';
+    const collectionFilter = this.nodeFilters.length > 0 ? this.nodeFilters
+        .map(col => `its_field_member_of:${col.id}`)
+        .join(' OR ')
+      : '';
+
     const typeQ: string = (!!this.types && this.types.length > 0) ?
         `(${this.types.map((type) => `ss_type:${type}`).join(' OR ')})` : '';
     const pageParam: string = this.pager.current_page ? `&page=${--this.pager.current_page}` : '';
@@ -197,19 +209,29 @@ export class ResultsService {
         ? '&' + this.selectedFacets.map((facet, index) => `f[${index}]=${facet.frag}`).join('&')
         : '';
 
-    let queryParams: string =
-      searchTermsParam + ((!!searchTermsParam && (!!nodeFilter || !!typeQ)) ? ' AND ' : '') +
-      nodeFilter + ((!!nodeFilter && !!typeQ) ? ' AND ' : '') +
-      typeQ +
-      pageParam +
-      sortByParam +
-      orderByParam +
-      itemsPerPageParam +
-      facetParam;
+    let queryParams: string = '';
 
-    queryParams = `query=${queryParams}`;
+    queryParams = queryParams.concat(searchTermsParam);
+    if (searchTermsParam && (collectionFilter || nodeFilter || typeQ)) {
+      queryParams = queryParams.concat(' AND ');
+    }
+    queryParams = queryParams.concat(nodeFilter);
+    if (nodeFilter && (collectionFilter || typeQ)) {
+      queryParams = queryParams.concat(' AND ');
+    }
+    queryParams = queryParams.concat(collectionFilter);
+    if (collectionFilter && typeQ) {
+      queryParams = queryParams.concat(' AND ');
+    }
+    queryParams = queryParams
+      .concat(typeQ)
+      .concat(pageParam)
+      .concat(sortByParam)
+      .concat(orderByParam)
+      .concat(itemsPerPageParam)
+      .concat(facetParam);
 
-    return queryParams;
+    return `query=${queryParams}`;
   }
 
   async fetchData(nodeId?: string) {

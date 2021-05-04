@@ -1,8 +1,9 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
-import { action } from '@glimmerx/modifier';
+import { action, on } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
-import { Options } from '../interfaces';
+import { CollectionSuggestion, Options } from '../interfaces';
 import { ResultsService } from '../utils/results';
+import AdvancedSearchFilters from './advanced-search/advanced-search-filters';
 import FacetList from './facet-list';
 import List from './list';
 import ListSpinner from './list-spinner';
@@ -12,6 +13,7 @@ import TitleBar from './title-bar';
 import { Facet } from '../models/facet';
 import { FacetValue } from '../interfaces';
 import { facetValueIncludes, removeSelectedItem } from '../utils/facet-utils';
+import { suggestionEquals, suggestionsInclude } from '../utils/utils';
 
 interface Args {}
 
@@ -37,6 +39,8 @@ export default class IDCSearch extends Component<Args> {
   /** Attribute data-pagination-label */
   @tracked paginationItemLabel: string = '';
 
+  @tracked activeCollectionFilter: boolean = false;
+
   constructor(owner: unknown, args: Args) {
     super(owner, args);
 
@@ -54,7 +58,7 @@ export default class IDCSearch extends Component<Args> {
 
   async doSearch() {
     this.isLoading = true;
-    await this.results.fetchData(this.collectionId);
+    await this.results.fetchData();
 
     this.list = this.results.rows;
     this.isLoading = false;
@@ -106,34 +110,49 @@ export default class IDCSearch extends Component<Args> {
    *
    * @param item facet that the user selected
    */
-   @action
-   facetSelected(item: FacetValue) {
-     if (facetValueIncludes(item, this.results.selectedFacets)) {
-       this.results.selectedFacets = removeSelectedItem(item, this.results.selectedFacets);
-     } else {
-       this.results.selectedFacets.push(item);
-     }
+  @action
+  facetSelected(item: FacetValue) {
+    if (facetValueIncludes(item, this.results.selectedFacets)) {
+      this.results.selectedFacets = removeSelectedItem(item, this.results.selectedFacets);
+    } else {
+      this.results.selectedFacets.push(item);
+    }
 
-     this.doSearch();
-   }
+    this.doSearch();
+  }
 
-   @action
-   resetOptions() {
+  @action
+  resetOptions() {
     this.changeSearchOptions({
       sortBy: null,
       sortOrder: null,
       itemsPerPage: 0,
       currentPage: 0
     });
-   }
+  }
 
-   @action
-   resetFacets() {
-     this.results.selectedFacets = [];
-     this.doSearch();
-   }
+  @action
+  resetFilters() {
+    this.results.selectedFacets = [];
+    this.results.nodeFilters = [];
 
-   static template = hbs`
+    this.doSearch();
+  }
+
+  /**
+   * @param collections list of CollectionSuggestions selected by the user
+   */
+  @action
+  collectionFilterSelected(collections: CollectionSuggestion[]) {
+    this.results.nodeFilters = collections;
+    this.doSearch();
+  }
+
+  hasActiveFilters() {
+    return this.results.selectedFacets.length > 0 || this.activeCollectionFilter;
+  }
+
+  static template = hbs`
     <div class="grid md:gap-4 grid-cols-1 md:grid-cols-4 container mx-auto">
       <div class="col-span-1">
         <SearchOptions
@@ -144,13 +163,26 @@ export default class IDCSearch extends Component<Args> {
           @changeSearchOptions={{this.changeSearchOptions}}
           @resetOptions={{this.resetOptions}}
         />
-        <FacetList
-          @facets={{this.facets}}
-          @hasFacets={{this.hasFacets}}
-          @facetSelected={{this.facetSelected}}
-          @selectedFacets={{this.results.selectedFacets}}
-          @resetFacets={{this.resetFacets}}
-        />
+        <div>
+          <div class="flex my-4 px-4 justify-between text-black">
+            <h3 class="text-lg">Filters</h3>
+            {{#if this.hasActiveFilters}}
+              <button class="" {{on "click" this.resetFilters}}>Clear</button>
+            {{/if}}
+          </div>
+          {{#if hasAdvancedSearch}}
+            <AdvancedSearchFilters
+              @collectionFilterSelected={{this.collectionFilterSelected}}
+              @selectedCollections={{this.results.nodeFilters}}
+            />
+          {{/if}}
+          <FacetList
+            @facets={{this.facets}}
+            @hasFacets={{this.hasFacets}}
+            @facetSelected={{this.facetSelected}}
+            @selectedFacets={{this.results.selectedFacets}}
+          />
+        </div>
       </div>
       <div class="col-span-3">
         <div class="bg-white shadow mb-4">

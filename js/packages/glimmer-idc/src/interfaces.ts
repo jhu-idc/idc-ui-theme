@@ -44,3 +44,18 @@ export type FacetMetaValue = {
 export type FacetMeta = {
   [key: string]: FacetMetaValue;
 }
+
+/**
+ * Search field selectable by the user to narrow a query term
+ */
+export interface SearchField {
+  /** Human readable label, useful for a UI */
+  label: string;
+  /** Machine-readable name, useful for constructing queries */
+  keys: string[];
+}
+
+export interface CollectionSuggestion {
+  id: string;
+  title: string;
+}
