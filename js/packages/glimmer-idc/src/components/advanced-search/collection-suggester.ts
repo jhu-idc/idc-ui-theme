@@ -152,15 +152,18 @@ export default class CollectionSuggester extends Component<Args> {
         </button>
       </div>
       {{#if this.suggestions}}
-        <div class="border p-2">
-          <ul class="autocomplete-suggestions overflow-x-auto">
+        <div class="border-r border-l pt-2">
+          <ul class="autocomplete-suggestions overflow-x-auto px-2">
             {{#each this.suggestions as |suggestion|}}
-              <li
-                class="cursor-pointer py-1 px-4 mb-1 hover:bg-gray-200"
-                title="Search within this collection"
-                {{on "click" (fn this.doSelect suggestion)}}
-              >
-                {{suggestion.title}}
+              <li class="">
+                <button
+                  class="rounded-full cursor-pointer py-1 px-4 mb-1 hover:bg-gray-200"
+                  title="Search within this collection"
+                  type="button"
+                  {{on "click" (fn this.doSelect suggestion)}}
+                >
+                  {{suggestion.title}}
+                </button>
               </li>
             {{/each}}
           </ul>
