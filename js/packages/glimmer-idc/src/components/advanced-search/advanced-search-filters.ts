@@ -4,17 +4,15 @@ import { CollectionSuggestion } from '../../interfaces';
 import CollectionSuggester from './collection-suggester';
 
 interface Args {
-  selectedCollections: CollectionSuggestion[];
   collectionFilterSelected: (collections: CollectionSuggestion[]) => {};
 }
 
 export default class AdvancedSearchFilters extends Component<Args> {
   static template = hbs`
     <div class="bg-white shadow my-4 p-4">
-      <h3 class="text-lg text-gray-500">Filter by collection</h3>
+      <h3 class="text-lg text-gray-500">Filter by collections</h3>
       <CollectionSuggester
         @collectionSelected={{@collectionFilterSelected}}
-        @selected={{@selectedCollections}}
       />
     </div>
   `;

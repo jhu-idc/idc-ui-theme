@@ -172,7 +172,6 @@ export default class IDCSearch extends Component<Args> {
           {{#if hasAdvancedSearch}}
             <AdvancedSearchFilters
               @collectionFilterSelected={{this.collectionFilterSelected}}
-              @selectedCollections={{this.results.nodeFilters}}
             />
           {{/if}}
           <FacetList

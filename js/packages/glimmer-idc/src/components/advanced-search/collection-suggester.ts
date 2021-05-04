@@ -5,6 +5,7 @@ import { service } from '@glimmerx/service';
 import { CollectionSuggestion } from '../../interfaces';
 import SearchInfoService from './searchInfoService';
 import { uuidv4 } from '../../utils/utils';
+import { ResultsService } from '../../utils/results';
 
 interface Args {
   /**
@@ -26,7 +27,7 @@ interface Args {
    * If no operator is provided, the component will default to use 'CONTAINS'
    */
   operator?: string;
-  selected: CollectionSuggestion[];
+  /** Action to call when a collection is selected or deselected */
   collectionSelected: (collections: CollectionSuggestion[]) => {};
 }
 
@@ -38,6 +39,7 @@ interface Args {
  */
 export default class CollectionSuggester extends Component<Args> {
   @service searchInfo: SearchInfoService;
+  @service results: ResultsService;
 
   id: string = uuidv4();
 
@@ -45,7 +47,7 @@ export default class CollectionSuggester extends Component<Args> {
   @tracked operator: string;
 
   @tracked query: string = '';
-  @tracked results: CollectionSuggestion[] = [];
+  @tracked suggestions: CollectionSuggestion[] = [];
 
   @tracked selected: CollectionSuggestion[] = [];
 
@@ -63,23 +65,24 @@ export default class CollectionSuggester extends Component<Args> {
     const query: string = (e.target as HTMLInputElement).value;
     this.query = query;
 
-    const results = await this.searchInfo.suggestCollection(query, this.field, this.operator);
-    this.results = results;
+    const suggestions = await this.searchInfo.suggestCollection(query, this.field, this.operator);
+    this.suggestions = suggestions;
   }
 
   @action
   doSelect(suggestion: CollectionSuggestion) {
-    if (!this.suggestionsInclude(this.args.selected, suggestion)) {
+    if (!this.suggestionsInclude(this.results.nodeFilters, suggestion)) {
       // Re-assign instead of .push() because push may not trigger tracking :(
-      this.selected = this.selected.concat(suggestion);
-      this.args.collectionSelected(this.selected);
+      this.results.nodeFilters = this.results.nodeFilters.concat(suggestion);
+      this.args.collectionSelected(this.results.nodeFilters);
     }
   }
 
   @action
   unselect(suggestion: CollectionSuggestion) {
-    this.selected = this.selected.filter(col => !this.suggestionEquals(col, suggestion));
-    this.args.collectionSelected(this.selected);
+    this.results.nodeFilters = this.results.nodeFilters
+      .filter(col => !this.suggestionEquals(col, suggestion));
+    this.args.collectionSelected(this.results.nodeFilters);
   }
 
   /**
@@ -88,7 +91,7 @@ export default class CollectionSuggester extends Component<Args> {
    */
   @action
   cleanup() {
-    this.results = [];
+    this.suggestions = [];
     this.query = '';
   }
 
@@ -111,9 +114,9 @@ export default class CollectionSuggester extends Component<Args> {
 
   static template = hbs`
     <div id={{this.id}} class="p-2 bg-white">
-      {{#if this.selected}}
+      {{#if this.results.nodeFilters}}
         <ul class="autocomplete-selected mb-4">
-          {{#each this.selected as |collection|}}
+          {{#each this.results.nodeFilters as |collection|}}
             <li class="flex items-center my-2">
               <button
                 class="rounded-full px-4 py-1 bg-blue-spirit text-black"
@@ -145,10 +148,10 @@ export default class CollectionSuggester extends Component<Args> {
           </svg>
         </button>
       </div>
-      {{#if this.results}}
+      {{#if this.suggestions}}
         <div class="border p-2">
-          <ul class="autocomplete-results overflow-x-auto">
-            {{#each this.results as |suggestion|}}
+          <ul class="autocomplete-suggestions overflow-x-auto">
+            {{#each this.suggestions as |suggestion|}}
               <li
                 class="cursor-pointer py-1 px-4 mb-1 hover:bg-gray-200"
                 title="Search within this collection"
