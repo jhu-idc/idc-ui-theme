@@ -119,12 +119,15 @@ export default class CollectionSuggester extends Component<Args> {
           {{#each this.results.nodeFilters as |collection|}}
             <li class="flex items-center my-2">
               <button
-                class="rounded-full px-4 py-1 bg-blue-spirit text-black"
+                class="flex items-center rounded-full px-4 py-1 bg-blue-spirit text-black max-w-full"
                 title="Remove this selection"
                 type="button"
                 {{on "click" (fn this.unselect collection)}}
               >
-                {{collection.title}}
+                <span class="truncate">{{collection.title}}</span>
+                <svg class="inline-flex ml-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="{2}" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
               </button>
             </li>
           {{/each}}
