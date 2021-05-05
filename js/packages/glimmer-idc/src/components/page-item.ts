@@ -2,6 +2,7 @@ import Component, { hbs } from '@glimmerx/component';
 import { action, on } from '@glimmerx/modifier';
 import { fn } from '@glimmerx/helper';
 import { is } from '../utils/helpers';
+import { ChevronLeftIcon, ChevronRightIcon } from './icons';
 
 interface Args {
   item: any,
@@ -27,9 +28,7 @@ export default class PageItem extends Component<Args> {
         disabled={{@item.disabled}}
         {{on "click" @prevPage}}
       >
-        <svg class="h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
+      <ChevronLeftIcon @styles="h-4 w-4 text-gray-500" />
       </button>
     {{else if (is @item 'type' 'next')}}
       <button
@@ -38,9 +37,7 @@ export default class PageItem extends Component<Args> {
         disabled={{@item.disabled}}
         {{on "click" @nextPage}}
       >
-        <svg class="h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
+        <ChevronRightIcon @styles="h-4 w-4 text-gray-500" />
       </button>
     {{/if}}
   `;

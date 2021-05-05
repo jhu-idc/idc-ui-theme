@@ -6,6 +6,7 @@ import { CollectionSuggestion } from '../../interfaces';
 import SearchInfoService from './searchInfoService';
 import { uuidv4 } from '../../utils/utils';
 import { ResultsService } from '../../utils/results';
+import { XIcon, XCircleIcon } from '../icons';
 
 interface Args {
   /**
@@ -125,9 +126,7 @@ export default class CollectionSuggester extends Component<Args> {
                 {{on "click" (fn this.unselect collection)}}
               >
                 <span class="truncate">{{collection.title}}</span>
-                <svg class="inline-flex ml-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="{2}" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
+                <XIcon @styles="inline-flex ml-3 h-5 w-5" />
               </button>
             </li>
           {{/each}}
@@ -151,9 +150,7 @@ export default class CollectionSuggester extends Component<Args> {
           type="button"
           {{on "click" this.cleanup}}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+          <XCircleIcon @styles="h-6 w-6" />
         </button>
       </div>
       {{#if this.suggestions}}

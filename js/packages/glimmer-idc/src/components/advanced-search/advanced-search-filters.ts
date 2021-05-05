@@ -6,7 +6,7 @@ import { CollectionSuggestion, LanguageValue } from '../../interfaces';
 import { uuidv4 } from '../../utils/utils';
 import CollectionSuggester from './collection-suggester';
 import SearchInfoService from './searchInfoService';
-import { CarrotDown, CarrotUp } from '../icons/icons';
+import { ChevronDownIcon, ChevronUpIcon } from '../icons';
 import { ResultsService } from '../../utils/results';
 import LangFilterItem from './lang-filter-item';
 
@@ -71,9 +71,9 @@ export default class AdvancedSearchFilters extends Component<Args> {
       >
         <h3 class="text-lg">Languages</h3>
         {{#if this.langOpen}}
-          <CarrotUp @styles="h-6 w-6"/>
+          <ChevronUpIcon />
         {{else}}
-          <CarrotDown @styles="h-6 w-6" />
+          <ChevronDownIcon />
         {{/if}}
       </button>
       <ul id={{this.id}} class="flex flex-col px-8 overflow-hidden transition-all ease-in-out duration-500">

@@ -1,5 +1,6 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
 import MissingAsset from './missing-asset';
+import { ChevronRightIcon } from './icons';
 
 interface Args {
   listItem: ListItemObject,
@@ -93,9 +94,7 @@ export default class ListItem extends Component<Args> {
         </ul>
       </div>
       <div>
-        <svg class="h-6 w-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
+        <ChevronRightIcon @styles="h-6 w-6 text-gray-500" />
       </div>
     </a>
   `;
