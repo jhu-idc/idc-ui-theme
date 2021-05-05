@@ -42,6 +42,7 @@ export default class CollectionSuggester extends Component<Args> {
   @service results: ResultsService;
 
   id: string = uuidv4();
+  inputId: string = `${this.id}-searcher`;
 
   @tracked field: string;
   @tracked operator: string;
@@ -134,8 +135,13 @@ export default class CollectionSuggester extends Component<Args> {
         </ul>
       {{/if}}
       <div class="relative w-full">
+        <label for={{this.inputId}} class="sr-only">
+          Look for collections to limit your search results
+        </label>
         <input
+          id={{this.inputId}}
           class=""
+          placeholder="Start typing to look for collections"
           type="text"
           {{on "keyup" this.getSuggestion}}
           value={{this.query}}
@@ -152,7 +158,7 @@ export default class CollectionSuggester extends Component<Args> {
         </button>
       </div>
       {{#if this.suggestions}}
-        <div class="border-r border-l pt-2">
+        <div class="border pt-2">
           <ul class="autocomplete-suggestions overflow-x-auto px-2">
             {{#each this.suggestions as |suggestion|}}
               <li class="">
