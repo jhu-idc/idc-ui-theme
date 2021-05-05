@@ -58,7 +58,7 @@ export default class IDCSearch extends Component<Args> {
   @action
   async doSearch() {
     this.isLoading = true;
-    await this.results.fetchData();
+    await this.results.fetchData(this.collectionId);
 
     this.list = this.results.rows;
     this.isLoading = false;
