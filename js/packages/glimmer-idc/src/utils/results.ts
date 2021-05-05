@@ -1,4 +1,4 @@
-import { SearchApiResponse, Pager, CollectionSuggestion } from '../interfaces';
+import { SearchApiResponse, Pager, CollectionSuggestion, LanguageValue } from '../interfaces';
 import { tracked } from '@glimmerx/component';
 import { Facet } from '../models/facet';
 import { FacetValue } from '../interfaces';
@@ -43,6 +43,7 @@ export class ResultsService {
   @tracked selectedFacets: FacetValue[] = [];
   /** Filter results using these collection IDs */
   @tracked nodeFilters: CollectionSuggestion[] = [];
+  @tracked langFilters: LanguageValue[] = [];
 
   /**
    * Init mode should only be set to TRUE when initializing this service from a URL.
@@ -209,22 +210,23 @@ export class ResultsService {
         ? '&' + this.selectedFacets.map((facet, index) => `f[${index}]=${facet.frag}`).join('&')
         : '';
 
-    let queryParams: string = '';
+    const langParam: string = this.langFilters.length > 0 ?
+      '(' + this.langFilters
+        .map(lang => `ss_langcode:${lang.langCode}`)
+        .join(' OR ') + ')'
+      : '';
 
-    queryParams = queryParams.concat(searchTermsParam);
-    if (searchTermsParam && (collectionFilter || nodeFilter || typeQ)) {
-      queryParams = queryParams.concat(' AND ');
-    }
-    queryParams = queryParams.concat(nodeFilter);
-    if (nodeFilter && (collectionFilter || typeQ)) {
-      queryParams = queryParams.concat(' AND ');
-    }
-    queryParams = queryParams.concat(collectionFilter);
-    if (collectionFilter && typeQ) {
-      queryParams = queryParams.concat(' AND ');
-    }
+    const solrParts: string[] = [
+      searchTermsParam,
+      nodeFilter,
+      collectionFilter,
+      `${langParam}`,
+      typeQ
+    ].filter(part => !!part);
+
+    let queryParams = solrParts.join(' AND ');
+
     queryParams = queryParams
-      .concat(typeQ)
       .concat(pageParam)
       .concat(sortByParam)
       .concat(orderByParam)

@@ -1,4 +1,4 @@
-import { CollectionSuggestion, SearchField } from '../../interfaces';
+import { CollectionSuggestion, LanguageValue, SearchField } from '../../interfaces';
 
 /**
  * Drupal JSONAPI filtering docs:
@@ -65,6 +65,19 @@ export default class SearchInfoService {
       id: collection.attributes['drupal_internal__nid'],
       title: collection.attributes.title
     }));;
+  }
+
+  async getLanguages(): Promise<LanguageValue[]> {
+    const url = '/jsonapi/taxonomy_term/language';
+
+    const resp = await fetch(url);
+    const json = await resp.json();
+
+    return json.data.map(lang => ({
+      id: lang.attributes.drupal_internal__tid,
+      label: lang.attributes.name,
+      langCode: lang.attributes.langcode
+    }));
   }
 
 }

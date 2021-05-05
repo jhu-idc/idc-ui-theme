@@ -27,8 +27,7 @@ interface Args {
    * If no operator is provided, the component will default to use 'CONTAINS'
    */
   operator?: string;
-  /** Action to call when a collection is selected or deselected */
-  collectionSelected: (collections: CollectionSuggestion[]) => {};
+  doSearch: () => {};
 }
 
 /**
@@ -75,7 +74,7 @@ export default class CollectionSuggester extends Component<Args> {
     if (!this.suggestionsInclude(this.results.nodeFilters, suggestion)) {
       // Re-assign instead of .push() because push may not trigger tracking :(
       this.results.nodeFilters = this.results.nodeFilters.concat(suggestion);
-      this.args.collectionSelected(this.results.nodeFilters);
+      this.args.doSearch();
     }
   }
 
@@ -83,7 +82,7 @@ export default class CollectionSuggester extends Component<Args> {
   unselect(suggestion: CollectionSuggestion) {
     this.results.nodeFilters = this.results.nodeFilters
       .filter(col => !this.suggestionEquals(col, suggestion));
-    this.args.collectionSelected(this.results.nodeFilters);
+    this.args.doSearch();
   }
 
   /**

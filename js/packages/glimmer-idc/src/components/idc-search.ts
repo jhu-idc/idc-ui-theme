@@ -1,7 +1,7 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
 import { action, on } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
-import { CollectionSuggestion, Options } from '../interfaces';
+import { CollectionSuggestion, LanguageValue, Options } from '../interfaces';
 import { ResultsService } from '../utils/results';
 import AdvancedSearchFilters from './advanced-search/advanced-search-filters';
 import FacetList from './facet-list';
@@ -55,6 +55,7 @@ export default class IDCSearch extends Component<Args> {
     this.doSearch();
   }
 
+  @action
   async doSearch() {
     this.isLoading = true;
     await this.results.fetchData();
@@ -134,16 +135,8 @@ export default class IDCSearch extends Component<Args> {
   resetFilters() {
     this.results.selectedFacets = [];
     this.results.nodeFilters = [];
+    this.results.langFilters = [];
 
-    this.doSearch();
-  }
-
-  /**
-   * @param collections list of CollectionSuggestions selected by the user
-   */
-  @action
-  collectionFilterSelected(collections: CollectionSuggestion[]) {
-    this.results.nodeFilters = collections;
     this.doSearch();
   }
 
@@ -171,7 +164,8 @@ export default class IDCSearch extends Component<Args> {
           </div>
           {{#if hasAdvancedSearch}}
             <AdvancedSearchFilters
-              @collectionFilterSelected={{this.collectionFilterSelected}}
+              @doSearch={{this.doSearch}}
+              @selectedLangs={{this.results.langFilters}}
             />
           {{/if}}
           <FacetList

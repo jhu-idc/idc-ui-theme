@@ -48,14 +48,20 @@ export type FacetMeta = {
 /**
  * Search field selectable by the user to narrow a query term
  */
-export interface SearchField {
+export type SearchField = {
   /** Human readable label, useful for a UI */
   label: string;
   /** Machine-readable name, useful for constructing queries */
   keys: string[];
 }
 
-export interface CollectionSuggestion {
+export type CollectionSuggestion = {
   id: string;
   title: string;
+}
+
+export type LanguageValue = {
+  id: string;
+  label: string;
+  langCode: string;
 }
