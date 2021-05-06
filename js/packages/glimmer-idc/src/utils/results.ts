@@ -212,7 +212,7 @@ export class ResultsService {
 
     const langParam: string = this.langFilters.length > 0 ?
       '(' + this.langFilters
-        .map(lang => `ss_langcode:${lang.langCode}`)
+        .map(lang => `itm_field_language:${lang.id}`)
         .join(' OR ') + ')'
       : '';
 

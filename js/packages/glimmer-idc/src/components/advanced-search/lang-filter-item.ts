@@ -3,6 +3,7 @@ import { action, on } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
 import { LanguageValue } from '../../interfaces';
 import { ResultsService } from '../../utils/results';
+import { XIcon } from '../icons';
 
 interface Args {
   language: LanguageValue;
@@ -32,6 +33,9 @@ export default class LangFilterItem extends Component<Args> {
       {{on "click" this.select}}
     >
       {{@language.label}}
+      {{#if this.selected}}
+        <XIcon @styles="h-5 w-5" />
+      {{/if}}
     </button>
   `;
 }

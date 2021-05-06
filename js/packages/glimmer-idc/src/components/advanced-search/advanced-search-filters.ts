@@ -76,7 +76,7 @@ export default class AdvancedSearchFilters extends Component<Args> {
           <ChevronDownIcon />
         {{/if}}
       </button>
-      <ul id={{this.id}} class="flex flex-col px-8 overflow-hidden transition-all ease-in-out duration-500">
+      <ul id={{this.id}} class="flex flex-wrap px-8 overflow-hidden transition-all ease-in-out duration-500">
         {{#each this.languages as |language|}}
           <li>
             <LangFilterItem
