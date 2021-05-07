@@ -14,14 +14,14 @@ export default class SearchTips extends Component<Args> {
         </div>
         <div class="m-4 text-sm">
           <ul class="list-disc list-inside">
-            <li class="my-2">Use quotation marks to search as a phrase</li>
-            <li class="my-2">
+            <li class="my-1">Use quotation marks to search as a phrase</li>
+            <li class="my-1">
               Use the <span class="text-lg font-bold">%</span> wildcard character to search for words with one alternate character
             </li>
-            <li class="my-2">
+            <li class="my-1">
               Use the <span class="text-lg font-bold">?</span> wildcard character to search for words with multiple alternate characters
             </li>
-            <li class="my-2">Add as many search term inputs as you need</li>
+            <li class="my-1">Add as many search term inputs as you need</li>
           </ul>
         </div>
       </div>

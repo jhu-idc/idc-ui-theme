@@ -4,7 +4,7 @@ import { service } from '@glimmerx/service';
 import { uuidv4 } from '../../utils/utils';
 import QueryTermInput, { QueryTerm } from './query-term';
 import SearchInfoService from './searchInfoService';
-import { PlusIcon, QuestionMarkIcon, ResetIcon, SearchIcon } from '../icons';
+import { ChevronDownIcon, ChevronUpIcon, PlusIcon, QuestionMarkIcon, ResetIcon, SearchIcon } from '../icons';
 import SearchTips from './search-tips';
 
 interface Args {
@@ -181,6 +181,11 @@ export default class AdvancedQueryInput extends Component<Args> {
             title="Toggle help text"
             {{on "click" this.toggleHelp}}
           >
+          {{#if this.helpOpen}}
+            <ChevronUpIcon @styles="h-5 w-5" />
+          {{else}}
+            <ChevronDownIcon @styles="h-5 w-5" />
+          {{/if}}
             <QuestionMarkIcon @styles="h-6 w-6" />
           </button>
           <button
