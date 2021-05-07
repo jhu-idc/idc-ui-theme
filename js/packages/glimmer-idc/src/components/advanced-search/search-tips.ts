@@ -8,8 +8,8 @@ interface Args {}
 export default class SearchTips extends Component<Args> {
   static template = hbs`
     <div class=""><!-- Help-text -->
-      <div class="bg-gray-200 p-4 text-gray-700">
-        <div class="border-b border-blue-spirit text-center pb-2 mb-2">
+      <div class="p-4 my-2 bg-gray-200 text-gray-500">
+        <div class="border-b border-gray-500 text-center pb-2 mb-2">
           <h3 class="text-lg font-bold">Need some help?</h3>
         </div>
         <div class="m-4 text-sm">

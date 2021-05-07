@@ -4,18 +4,28 @@ import { service } from '@glimmerx/service';
 import { uuidv4 } from '../../utils/utils';
 import QueryTermInput, { QueryTerm } from './query-term';
 import SearchInfoService from './searchInfoService';
-import { PlusIcon, ResetIcon, SearchIcon } from '../icons';
+import { PlusIcon, QuestionMarkIcon, ResetIcon, SearchIcon } from '../icons';
+import SearchTips from './search-tips';
 
 interface Args {
   applySearchTerms: (searchTerms?: string) => {};
   searchTerms: string;
 }
 
+/**
+ * Component that holds advanced search query inputs, allowing a user to
+ * input arbitrary search terms, specifying boolean operations between
+ * those terms. Supports proximity searches.
+ */
 export default class AdvancedQueryInput extends Component<Args> {
   @service searchInfo: SearchInfoService;
 
+  readonly helpId: string = uuidv4();
+
   @tracked terms: QueryTerm[] = [];
   @tracked disableSearch: boolean = false;
+
+  @tracked helpOpen: boolean = false;
 
   constructor(owner: unknown, args: Args) {
     super(owner, args);
@@ -102,6 +112,18 @@ export default class AdvancedQueryInput extends Component<Args> {
     );
   }
 
+  @action
+  toggleHelp() {
+    this.helpOpen = !this.helpOpen;
+    const element = document.getElementById(this.helpId);
+
+    if (this.helpOpen) {
+      element.style['max-height'] = `${element.scrollHeight}px`;
+    } else {
+      element.style['max-height'] = '0';
+    }
+  }
+
   /**
    * Translate the query terms present in this component to a single Solr query string
    */
@@ -136,7 +158,7 @@ export default class AdvancedQueryInput extends Component<Args> {
   static template = hbs`
     <div id="idc-advanced-search-inputs" class="">
       <div class="flex justify-between">
-        <div class="">
+        <div class="flex">
           <button
             class="button mr-4 border-blue-heritage text-blue-heritage hover:bg-blue-heritage hover:text-white"
             {{on "click" this.addTerm}}
@@ -152,7 +174,15 @@ export default class AdvancedQueryInput extends Component<Args> {
             Clear
           </button>
         </div>
-        <div>
+        <div class="flex">
+          <button
+            aria-label="Toggle help with advanced search query syntax"
+            class="button mx-2 text-gray-500 hover:text-black"
+            title="Toggle help text"
+            {{on "click" this.toggleHelp}}
+          >
+            <QuestionMarkIcon @styles="h-6 w-6" />
+          </button>
           <button
             aria-label="Submit advanced search query"
             disabled={{this.disableSearch}}
@@ -163,6 +193,9 @@ export default class AdvancedQueryInput extends Component<Args> {
             <SearchIcon @styles="svg-icon ml-2" />
           </button>
         </div>
+      </div>
+      <div id={{this.helpId}} class="relative overflow-hidden transition-all ease-in-out duration-300 max-h-0">
+        <SearchTips />
       </div>
       <ul id="idc-advanced-search-terms-list">
         {{#each this.terms as |term index|}}
