@@ -192,9 +192,9 @@ export class ResultsService {
      * come from different sources, so they are kept separate
      */
     const nodeFilter: string = !!nodeId ? `its_field_member_of:${nodeId}` : '';
-    const collectionFilter = this.nodeFilters.length > 0 ? this.nodeFilters
+    const collectionFilter = this.nodeFilters.length > 0 ? '(' + this.nodeFilters
         .map(col => `its_field_member_of:${col.id}`)
-        .join(' OR ')
+        .join(' OR ') + ')'
       : '';
 
     const typeQ: string = (!!this.types && this.types.length > 0) ?
