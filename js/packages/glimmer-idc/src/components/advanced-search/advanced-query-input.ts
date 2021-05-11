@@ -175,6 +175,11 @@ export default class AdvancedQueryInput extends Component<Args> {
           </button>
         </div>
         <div class="flex">
+        {{!--
+          "Drawer" like component here can't use our stand-alone Drawer component
+          because of the layout below, where the Search button appears between the
+          drawer toggle button and the drawer content
+        --}}
           <button
             aria-label="Toggle help with advanced search query syntax"
             class="button mx-2 text-gray-500 hover:text-black"

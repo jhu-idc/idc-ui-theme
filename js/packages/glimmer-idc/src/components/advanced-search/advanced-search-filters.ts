@@ -6,9 +6,9 @@ import { CollectionSuggestion, LanguageValue } from '../../interfaces';
 import { uuidv4 } from '../../utils/utils';
 import CollectionSuggester from './collection-suggester';
 import SearchInfoService from './searchInfoService';
-import { ChevronDownIcon, ChevronUpIcon } from '../icons';
 import { ResultsService } from '../../utils/results';
 import LangFilterItem from './lang-filter-item';
+import Drawer from '../drawer';
 
 interface Args {
   doSearch: () => {};
@@ -18,10 +18,16 @@ export default class AdvancedSearchFilters extends Component<Args> {
   @service searchInfo: SearchInfoService;
   @service results: ResultsService;
 
-  id: string = uuidv4();
+  readonly id: string = uuidv4();
+  readonly dateId1: string = uuidv4();
+  readonly dateId2: string = uuidv4();
+
+  readonly yearMatcher = /^\d{4}$/;
 
   @tracked languages: LanguageValue[];
-  @tracked langOpen: boolean = true;
+
+  @tracked date1: number;
+  @tracked date2: number;
 
   constructor(owner: unknown, args: Args) {
     super(owner, args);
@@ -48,15 +54,35 @@ export default class AdvancedSearchFilters extends Component<Args> {
   }
 
   @action
-  toggleLang() {
-    this.langOpen = !this.langOpen;
-    const el = document.getElementById(this.id);
+  handleDateInput(e: Event) {
+    const input = (e.target as HTMLInputElement);
+    const value = input.value;
 
-    if (this.langOpen) {
-      el.style['max-height'] = `${el.scrollHeight}px`;
-    } else {
-      el.style['max-height'] = '0';
+    input.classList.remove('invalid');
+    if (!!value && !value.match(this.yearMatcher)) {
+      input.classList.add('invalid');
+      return;
     }
+
+    this.updateDateFilter();
+  }
+
+  updateDateFilter() {
+    const date1 = (document.getElementById(this.dateId1) as HTMLInputElement).value;
+    const date2 = (document.getElementById(this.dateId2) as HTMLInputElement).value;
+
+    const dates = [];
+
+    if (!!date1 && date1.match(this.yearMatcher)) {
+      dates.push(Number(date1));
+    }
+    if (!!date2 && date2.match(this.yearMatcher)) {
+      dates.push(Number(date2));
+    }
+
+    this.results.dateFilters = dates;
+
+    this.args.doSearch();
   }
 
   static template = hbs`
@@ -64,18 +90,7 @@ export default class AdvancedSearchFilters extends Component<Args> {
       <h3 class="text-lg text-gray-500">Collections</h3>
       <CollectionSuggester @doSearch={{@doSearch}} />
     </div>
-    <div class="bg-white shadow my-4">
-      <button
-        class="flex w-full justify-between py-2 px-4 border-b text-gray-500 hover:bg-gray-100 focus:bg-gray-100"
-        {{on "click" this.toggleLang}}
-      >
-        <h3 class="text-lg">Languages</h3>
-        {{#if this.langOpen}}
-          <ChevronUpIcon />
-        {{else}}
-          <ChevronDownIcon />
-        {{/if}}
-      </button>
+    <Drawer @label="Language" @isOpen=true>
       <ul id={{this.id}} class="flex flex-wrap px-8 overflow-hidden transition-all ease-in-out duration-500">
         {{#each this.languages as |language|}}
           <li>
@@ -86,6 +101,30 @@ export default class AdvancedSearchFilters extends Component<Args> {
           </li>
         {{/each}}
       </ul>
-    </div>
+    </Drawer>
+    <Drawer @label="Date" @isOpen=true>
+      <div class="flex flex-col p-4">
+        <p class="w-full mb-2 leading-snug text-gray-500">
+          Filter by date range. Enter a single year to filter by that date.
+        </p>
+        <div class="flex">
+          <label for={{this.dateId1}} class="sr-only">Start date</label>
+          <label for={{this.dateId2}} class="sr-only">End date</label>
+        </div>
+        <div class="flex items-center">
+          <input
+            id={{this.dateId1}}
+            type="text"
+            placeholder="yyyy"
+            {{on "change" this.handleDateInput}} />
+          <span class="mx-4">-</span>
+          <input
+            id={{this.dateId2}}
+            type="text"
+            placeholder="yyyy"
+            {{on "change" this.handleDateInput}} />
+        </div>
+      </div>
+    </Drawer>
   `;
 }

@@ -44,6 +44,7 @@ export class ResultsService {
   /** Filter results using these collection IDs */
   @tracked nodeFilters: CollectionSuggestion[] = [];
   @tracked langFilters: LanguageValue[] = [];
+  @tracked dateFilters: number[] = [];
 
   /**
    * Init mode should only be set to TRUE when initializing this service from a URL.
@@ -156,6 +157,11 @@ export class ResultsService {
    *
    * NULL or undefined query can happen when loading the component with no URL params
    *
+   * NOTE: this won't work with Advanced Search queries, since `its_field_member_of` query
+   * parts can be added arbitrarily and are thus indistinguishable from a site route
+   * filter. TODO: we'd have to parse all of these parts out, then remove the one part that
+   * comes from calling `#fetchData(nodeId)`
+   *
    * @param query SOLR query, to be parsed
    */
   parseSolrQuery(query: string) {
@@ -196,7 +202,7 @@ export class ResultsService {
         .map(col => `its_field_member_of:${col.id}`)
         .join(' OR ') + ')'
       : '';
-
+    const dateFilter = this.dateRangeQuery();
     const typeQ: string = (!!this.types && this.types.length > 0) ?
         `(${this.types.map((type) => `ss_type:${type}`).join(' OR ')})` : '';
     const pageParam: string = this.pager.current_page ? `&page=${--this.pager.current_page}` : '';
@@ -221,6 +227,7 @@ export class ResultsService {
       nodeFilter,
       collectionFilter,
       `${langParam}`,
+      dateFilter,
       typeQ
     ].filter(part => !!part);
 
@@ -314,5 +321,21 @@ export class ResultsService {
 
     url.search = updatedQueryParts.join('&');
     history.replaceState({}, '', url.toString());
+  }
+
+  dateRangeQuery(): string {
+    if (!this.dateFilters || this.dateFilters.length === 0) {
+      return '';
+    }
+
+    let query: string = '';
+
+    if (this.dateFilters.length === 1) {
+      query = `sm_field_years:${this.dateFilters[0]}`;
+    } else if (this.dateFilters.length === 2) {
+      query = `sm_field_years:[${this.dateFilters.join(' TO ')}]`;
+    }
+
+    return query;
   }
 }
