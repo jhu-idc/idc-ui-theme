@@ -1,7 +1,7 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
 import { action, on } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
-import { CollectionSuggestion, LanguageValue, Options } from '../interfaces';
+import { Options } from '../interfaces';
 import { ResultsService } from '../utils/results';
 import AdvancedSearchFilters from './advanced-search/advanced-search-filters';
 import FacetList from './facet-list';
@@ -38,8 +38,6 @@ export default class IDCSearch extends Component<Args> {
   /** Attribute data-pagination-label */
   @tracked paginationItemLabel: string = '';
 
-  @tracked activeCollectionFilter: boolean = false;
-
   constructor(owner: unknown, args: Args) {
     super(owner, args);
 
@@ -53,6 +51,10 @@ export default class IDCSearch extends Component<Args> {
 
     this.results.initFromUrl(document.location.href);
     this.doSearch();
+  }
+
+  get showFilterLabel() {
+    return this.hasFacets || this.hasAdvancedSearch;
   }
 
   @action
@@ -141,10 +143,6 @@ export default class IDCSearch extends Component<Args> {
     this.doSearch();
   }
 
-  hasActiveFilters() {
-    return this.results.selectedFacets.length > 0 || this.activeCollectionFilter;
-  }
-
   static template = hbs`
     <div class="grid md:gap-4 grid-cols-1 md:grid-cols-4 container mx-auto">
       <div class="col-span-1">
@@ -156,26 +154,26 @@ export default class IDCSearch extends Component<Args> {
           @changeSearchOptions={{this.changeSearchOptions}}
           @resetOptions={{this.resetOptions}}
         />
-        <div>
-          <div class="flex my-4 px-4 justify-between text-black">
-            <h3 class="text-lg">Filters</h3>
-            {{#if this.hasActiveFilters}}
+        {{#if this.showFilterLabel}}
+          <div>
+            <div class="flex my-4 px-4 justify-between text-black">
+              <h3 class="text-lg">Filters</h3>
               <button class="" {{on "click" this.resetFilters}}>Clear</button>
+            </div>
+            {{#if hasAdvancedSearch}}
+              <AdvancedSearchFilters
+                @doSearch={{this.doSearch}}
+                @selectedLangs={{this.results.langFilters}}
+              />
             {{/if}}
-          </div>
-          {{#if hasAdvancedSearch}}
-            <AdvancedSearchFilters
-              @doSearch={{this.doSearch}}
-              @selectedLangs={{this.results.langFilters}}
+            <FacetList
+              @facets={{this.facets}}
+              @hasFacets={{this.hasFacets}}
+              @facetSelected={{this.facetSelected}}
+              @selectedFacets={{this.results.selectedFacets}}
             />
-          {{/if}}
-          <FacetList
-            @facets={{this.facets}}
-            @hasFacets={{this.hasFacets}}
-            @facetSelected={{this.facetSelected}}
-            @selectedFacets={{this.results.selectedFacets}}
-          />
-        </div>
+          </div>
+        {{/if}}
       </div>
       <div class="col-span-3">
         <div class="bg-white shadow mb-4">

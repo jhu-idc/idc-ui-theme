@@ -83,6 +83,10 @@ export default class AdvancedSearchFilters extends Component<Args> {
     if (!!value && !value.match(this.yearMatcher)) {
       input.classList.add('invalid');
       return;
+    } else if (!value) {
+      this.results.dateFilters[index] = null;
+      this.args.doSearch();
+      return;
     }
 
     const newDate = new Date();

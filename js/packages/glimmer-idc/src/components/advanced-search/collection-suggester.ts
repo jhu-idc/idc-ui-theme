@@ -59,9 +59,13 @@ export default class CollectionSuggester extends Component<Args> {
     this.operator = this.args.operator || 'CONTAINS'
   }
 
+  get showClearBtn(): boolean {
+    return !!this.query;
+  }
+
   @action
   async getSuggestion(e: Event) {
-    // TODO: throttle
+    // TODO: throttle/debounce
     // TODO: Limit suggestions to 10 at a time?
     const query: string = (e.target as HTMLInputElement).value;
     this.query = query;
@@ -114,7 +118,7 @@ export default class CollectionSuggester extends Component<Args> {
   }
 
   static template = hbs`
-    <div id={{this.id}} class="p-2 bg-white">
+    <div id={{this.id}} class="mt-2">
       {{#if this.results.nodeFilters}}
         <ul class="autocomplete-selected mb-4">
           {{#each this.results.nodeFilters as |collection|}}
@@ -144,14 +148,16 @@ export default class CollectionSuggester extends Component<Args> {
           {{on "keyup" this.getSuggestion}}
           value={{this.query}}
         />
-        <button
-          class="absolute right-0 px-2 h-full text-accent-7"
-          title="Clear"
-          type="button"
-          {{on "click" this.cleanup}}
-        >
-          <XCircleIcon @styles="h-6 w-6" />
-        </button>
+        {{#if this.showClearBtn}}
+          <button
+            class="absolute top-0 right-0 px-2 h-full text-accent-7"
+            title="Clear"
+            type="button"
+            {{on "click" this.cleanup}}
+          >
+            <XCircleIcon @styles="h-6 w-6" />
+          </button>
+        {{/if}}
       </div>
       {{#if this.suggestions}}
         <div class="border pt-2">
