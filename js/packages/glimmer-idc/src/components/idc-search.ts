@@ -136,6 +136,7 @@ export default class IDCSearch extends Component<Args> {
     this.results.selectedFacets = [];
     this.results.nodeFilters = [];
     this.results.langFilters = [];
+    this.results.dateFilters = [null, null];
 
     this.doSearch();
   }

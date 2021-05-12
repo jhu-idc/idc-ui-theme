@@ -44,7 +44,8 @@ export class ResultsService {
   /** Filter results using these collection IDs */
   @tracked nodeFilters: CollectionSuggestion[] = [];
   @tracked langFilters: LanguageValue[] = [];
-  @tracked dateFilters: number[] = [];
+  /** Only pay attention to the Years */
+  @tracked dateFilters: Date[] = [null, null];
 
   /**
    * Init mode should only be set to TRUE when initializing this service from a URL.
@@ -328,12 +329,13 @@ export class ResultsService {
       return '';
     }
 
+    const dates: Date[] = this.dateFilters.filter(date => !!date);
     let query: string = '';
 
-    if (this.dateFilters.length === 1) {
-      query = `sm_field_years:${this.dateFilters[0]}`;
-    } else if (this.dateFilters.length === 2) {
-      query = `sm_field_years:[${this.dateFilters.join(' TO ')}]`;
+    if (dates.length === 1) {
+      query = `sm_field_years:${dates[0].getFullYear()}`;
+    } else if (dates.length === 2) {
+      query = `sm_field_years:[${dates.map(year => year.getFullYear()).join(' TO ')}]`;
     }
 
     return query;

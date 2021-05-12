@@ -26,12 +26,19 @@ export default class AdvancedSearchFilters extends Component<Args> {
 
   @tracked languages: LanguageValue[];
 
-  @tracked date1: number;
-  @tracked date2: number;
-
   constructor(owner: unknown, args: Args) {
     super(owner, args);
     this.getLangauges();
+  }
+
+  get date1() {
+    const date = this.results.dateFilters[0];
+    return date ? date.getFullYear() : '';
+  }
+
+  get date2() {
+    const date = this.results.dateFilters[1];
+    return date ? date.getFullYear() : '';
   }
 
   async getLangauges() {
@@ -54,8 +61,22 @@ export default class AdvancedSearchFilters extends Component<Args> {
   }
 
   @action
-  handleDateInput(e: Event) {
-    const input = (e.target as HTMLInputElement);
+  handleDateInput1(e: Event) {
+    this.handleDateChange(e, 0);
+  }
+
+  @action
+  handleDateInput2(e: Event) {
+    this.handleDateChange(e, 1);
+  }
+
+  /**
+   *
+   * @param event DOM event
+   * @param index which year to change
+   */
+  handleDateChange(event: Event, index: number) {
+    const input = (event.target as HTMLInputElement);
     const value = input.value;
 
     input.classList.remove('invalid');
@@ -64,23 +85,10 @@ export default class AdvancedSearchFilters extends Component<Args> {
       return;
     }
 
-    this.updateDateFilter();
-  }
+    const newDate = new Date();
+    newDate.setFullYear(Number(value));
 
-  updateDateFilter() {
-    const date1 = (document.getElementById(this.dateId1) as HTMLInputElement).value;
-    const date2 = (document.getElementById(this.dateId2) as HTMLInputElement).value;
-
-    const dates = [];
-
-    if (!!date1 && date1.match(this.yearMatcher)) {
-      dates.push(Number(date1));
-    }
-    if (!!date2 && date2.match(this.yearMatcher)) {
-      dates.push(Number(date2));
-    }
-
-    this.results.dateFilters = dates;
+    this.results.dateFilters[index] = newDate;
 
     this.args.doSearch();
   }
@@ -105,7 +113,8 @@ export default class AdvancedSearchFilters extends Component<Args> {
     <Drawer @label="Date" @isOpen=true>
       <div class="flex flex-col p-4">
         <p class="w-full mb-2 leading-snug text-gray-500">
-          Filter by date range. Enter a single year to filter by that date.
+          Filter by date range. Enter a single year to filter by that date. Please format your dates
+          as <span class="italic">YYYY</span>.
         </p>
         <div class="flex">
           <label for={{this.dateId1}} class="sr-only">Start date</label>
@@ -115,14 +124,16 @@ export default class AdvancedSearchFilters extends Component<Args> {
           <input
             id={{this.dateId1}}
             type="text"
-            placeholder="yyyy"
-            {{on "change" this.handleDateInput}} />
+            placeholder="YYYY"
+            value={{this.date1}}
+            {{on "change" this.handleDateInput1}} />
           <span class="mx-4">-</span>
           <input
             id={{this.dateId2}}
             type="text"
-            placeholder="yyyy"
-            {{on "change" this.handleDateInput}} />
+            placeholder="YYYY"
+            value={{this.date2}}
+            {{on "change" this.handleDateInput2}} />
         </div>
       </div>
     </Drawer>
