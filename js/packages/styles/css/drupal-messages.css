@@ -1,0 +1,15 @@
+.block--messages {
+  @apply px-4 bg-gray-100;
+}
+
+.messages--status {
+  @apply border-blue-heritage border-l-4 text-blue-heritage;
+}
+
+.messages--error {
+  @apply border-accent-7 border-l-4 text-accent-7;
+}
+
+.messages__container {
+  @apply p-2;
+}

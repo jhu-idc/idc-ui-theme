@@ -65,6 +65,12 @@
         </div>
       </header>
 
+      {% if page.highlighted %}
+        <div>
+          {{ page.highlighted }}
+        </div>
+      {% endif %}
+
       {{ page_top }} {# the drupal toolbar appears here #}
 
       {{ page }}
