@@ -1,0 +1,15 @@
+/* #mirador-container {
+  position:
+} */
+
+h5.MuiTypography-root {
+  @apply line-clamp-1 !important;
+}
+
+dd.MuiTypography-root {
+  @apply line-clamp-3 !important;
+}
+
+button[title="Rights"] {
+  display: none;
+}

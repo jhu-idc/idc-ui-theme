@@ -51,6 +51,9 @@ module.exports = {
       },
       height: {
         'front-banner': '161px',
+        'mirador-container': '700px',
+        'pdfjs-container': '640px',
+        'videojs-container': '640px',
       },
       keyframes: {
         wiggle: {
@@ -76,6 +79,7 @@ module.exports = {
     extend: {
       opacity: ['disabled'],
       cursor: ['disabled'],
+      borderWidth: ['first', 'last'],
     },
   },
   plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/forms')],
