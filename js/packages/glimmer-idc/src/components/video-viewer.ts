@@ -17,10 +17,6 @@ export default class VideoViewer extends Component<Args> {
     this.itemUuid = el.dataset.itemUuid
 
     this.setupViewer();
-    window.addEventListener('DOMContentLoaded', (event) => {
-      console.log('DOM fully loaded and parsed');
-      // debugger
-    });
   }
 
   async setupViewer() {
@@ -31,20 +27,6 @@ export default class VideoViewer extends Component<Args> {
       this.isVideo = true;
 
       this.videoUrl = videoPayload.included[0].attributes.uri.url;
-
-      // const videoPlayerEl = document.createElement('video');
-
-      // videoPlayerEl.classList.add('video-js', 'vjs-theme-city', 'w-full', 'h-videojs-container')
-
-      // const videoSource = document.createElement('source');
-      // videoSource.src = this.videoUrl;
-      // videoSource.type = 'video/mp4';
-
-      // videoPlayerEl.appendChild(videoSource);
-
-      // const videoContainer = document.getElementById("video-viewer");
-      // videoContainer.appendChild(videoPlayerEl);
-      // videojs('videojs-player');
     }
   }
 
