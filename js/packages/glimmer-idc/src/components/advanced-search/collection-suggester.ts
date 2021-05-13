@@ -60,7 +60,7 @@ export default class CollectionSuggester extends Component<Args> {
   }
 
   get showClearBtn(): boolean {
-    return !!this.query;
+    return !!this.query || this.suggestions.length > 0;
   }
 
   @action

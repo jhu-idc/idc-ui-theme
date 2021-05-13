@@ -98,21 +98,31 @@ export default class AdvancedSearchFilters extends Component<Args> {
   }
 
   static template = hbs`
-    <div class="bg-white shadow my-4 p-4">
-      <h3 class="text-lg text-gray-500">Collections</h3>
-      <CollectionSuggester @doSearch={{@doSearch}} />
+    <div class="bg-white shadow my-4">
+      <h3 class="px-4 py-2 text-lg text-gray-500 border-b">Collections</h3>
+      <div class="p-4">
+        <p class="w-full mb-2 leading-snug text-gray-500">
+          Click on one or more collections to refine your search.
+        </p>
+        <CollectionSuggester @doSearch={{@doSearch}} />
+      </div>
     </div>
     <Drawer @label="Language" @isOpen=true>
-      <ul id={{this.id}} class="flex flex-wrap px-8 overflow-hidden transition-all ease-in-out duration-500">
-        {{#each this.languages as |language|}}
-          <li>
-            <LangFilterItem
-              @language={{language}}
-              @onClick={{this.handleLanguageFilter}}
-            />
-          </li>
-        {{/each}}
-      </ul>
+      <div class="flex flex-col p-4">
+        <p class="w-full leading-snug text-gray-500">
+          Click one or more languages to refine your search.
+        </p>
+        <ul id={{this.id}} class="flex flex-wrap overflow-hidden transition-all ease-in-out duration-500">
+          {{#each this.languages as |language|}}
+            <li>
+              <LangFilterItem
+                @language={{language}}
+                @onClick={{this.handleLanguageFilter}}
+              />
+            </li>
+          {{/each}}
+        </ul>
+      </div>
     </Drawer>
     <Drawer @label="Date" @isOpen=true>
       <div class="flex flex-col p-4">
