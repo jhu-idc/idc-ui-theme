@@ -1,0 +1,46 @@
+<div
+  id="item-container"
+  class="layout-container bg-gray-200"
+  data-node-id={{ node.id }}
+  data-controller="mirador"
+>
+  <div class="p-4">
+    <div class="container mx-auto bg-white shadow">
+      <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+        <h3 class="text-xl font-bold leading-6 line-clamp-1">
+          {{ node.title.value }}
+        </h3>
+      </div>
+      <div class="px-4 py-5 sm:p-6 h-auto">
+        <div class="flex flex-col lg:flex-row">
+          <div class="w-full lg:w-2/3">
+            <div id="item-description" data-item-uuid={{ node.uuid.value }}></div>
+          </div>
+          <div class="flex flex-col w-full lg:w-1/3 space-y-4">
+            <button class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black w-full">Download Item</button>
+            <button class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black w-full">Export Metadata</button>
+            <button class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black w-full">Ask the Collection Admin</button>
+          </div>
+        </div>
+        <hr class="my-6" />
+        {{ node.description.value }}
+        {{ page.content.idcui_page_title }}
+        <div id="pdf-viewer" class="w-full" data-item-uuid={{ node.uuid.value }}></div>
+        <div id="video-viewer" data-item-uuid={{ node.uuid.value }}></div>
+        <div id="mirador-container"></div>
+        <div id="seadragon-container" class="hidden p-4 my-4">
+          {{ page.content.openseadragon_block }}
+        </div>
+        {{ page.content.idcui_content }}
+        {{ page.content.system_main }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{#
+<ol>
+  {% for key, value in page.content  %}
+    <li>{{ key }}</li>
+  {% endfor %}
+</ol> #}

@@ -10,6 +10,7 @@ screenshot: screenshot.png
 libraries:
   - idcui/idc-styles
   - idcui/idc-js
+  - idcui/idc-mirador
 
 regions:
   top_menu: Top menu
