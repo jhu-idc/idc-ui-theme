@@ -54,22 +54,22 @@ export default class SearchOptions extends Component<Args> {
 
   @action
   handleSortByChange(e: Event) {
-    this.args.changeSearchOptions({ sortBy: (<HTMLInputElement>e.target).value });
+    this.args.changeSearchOptions({ sortBy: (e.target as HTMLInputElement).value });
   }
 
   @action
   handleSortOrderChange(e: Event) {
-    this.args.changeSearchOptions({ sortOrder: (<HTMLInputElement>e.target).value });
+    this.args.changeSearchOptions({ sortOrder: (e.target as HTMLInputElement).value });
   }
 
   @action
   handleCurrentPageChange(e: Event) {
-    this.args.changeSearchOptions({ currentPage: Number((<HTMLInputElement>e.target).value) });
+    this.args.changeSearchOptions({ currentPage: Number((e.target as HTMLInputElement).value) });
   }
 
   @action
   handleItemsPerPageChange(e: Event) {
-    this.args.changeSearchOptions({ itemsPerPage: Number((<HTMLInputElement>e.target).value) });
+    this.args.changeSearchOptions({ itemsPerPage: Number((e.target as HTMLInputElement).value) });
   }
 
   static template = hbs`
@@ -86,7 +86,7 @@ export default class SearchOptions extends Component<Args> {
             </label>
             <select
               id="sort-by"
-              class="mb-3 inline-flex hover:bg-gray-200 justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+              class="idc-dropdown"
               name="sort-by"
               {{on "change" this.handleSortByChange}}
             >
@@ -100,7 +100,7 @@ export default class SearchOptions extends Component<Args> {
             </label>
             <select
               id="sort-order"
-              class="mb-3 inline-flex hover:bg-gray-200 justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+              class="idc-dropdown"
               name="sort-order"
               {{on "change" this.handleSortOrderChange}}
             >
@@ -114,7 +114,7 @@ export default class SearchOptions extends Component<Args> {
             </label>
             <select
               id="items-per-page"
-              class="mb-3 inline-flex hover:bg-gray-200 justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+              class="idc-dropdown"
               name="items-per-page"
               {{on "change" this.handleItemsPerPageChange}}
             >
@@ -128,7 +128,7 @@ export default class SearchOptions extends Component<Args> {
             </label>
             <select
               id="current-page"
-              class="inline-flex hover:bg-gray-200 justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+              class="idc-dropdown"
               name="current-page"
               {{on "change" this.handleCurrentPageChange}}
             >

@@ -1,4 +1,4 @@
-import { SearchApiResponse, Pager } from '../interfaces';
+import { SearchApiResponse, Pager, CollectionSuggestion, LanguageValue } from '../interfaces';
 import { tracked } from '@glimmerx/component';
 import { Facet } from '../models/facet';
 import { FacetValue } from '../interfaces';
@@ -41,6 +41,11 @@ export class ResultsService {
   @tracked searchTerms: string | null = null;
   @tracked facets: Facet[];
   @tracked selectedFacets: FacetValue[] = [];
+  /** Filter results using these collection IDs */
+  @tracked nodeFilters: CollectionSuggestion[] = [];
+  @tracked langFilters: LanguageValue[] = [];
+  /** Only pay attention to the Years */
+  @tracked dateFilters: Date[] = [null, null];
 
   /**
    * Init mode should only be set to TRUE when initializing this service from a URL.
@@ -153,6 +158,11 @@ export class ResultsService {
    *
    * NULL or undefined query can happen when loading the component with no URL params
    *
+   * NOTE: this won't work with Advanced Search queries, since `its_field_member_of` query
+   * parts can be added arbitrarily and are thus indistinguishable from a site route
+   * filter. TODO: we'd have to parse all of these parts out, then remove the one part that
+   * comes from calling `#fetchData(nodeId)`
+   *
    * @param query SOLR query, to be parsed
    */
   parseSolrQuery(query: string) {
@@ -183,7 +193,17 @@ export class ResultsService {
    */
   searchParams(nodeId?: string): string {
     const searchTermsParam: string = !!this.searchTerms ? `${this.searchTerms}` : '';
+
+    /**
+     * NodeFilter and collectionFilter represent the same kind of query, but
+     * come from different sources, so they are kept separate
+     */
     const nodeFilter: string = !!nodeId ? `its_field_member_of:${nodeId}` : '';
+    const collectionFilter = this.nodeFilters.length > 0 ? '(' + this.nodeFilters
+        .map(col => `its_field_member_of:${col.id}`)
+        .join(' OR ') + ')'
+      : '';
+    const dateFilter = this.dateRangeQuery();
     const typeQ: string = (!!this.types && this.types.length > 0) ?
         `(${this.types.map((type) => `ss_type:${type}`).join(' OR ')})` : '';
     const pageParam: string = this.pager.current_page ? `&page=${--this.pager.current_page}` : '';
@@ -197,19 +217,31 @@ export class ResultsService {
         ? '&' + this.selectedFacets.map((facet, index) => `f[${index}]=${facet.frag}`).join('&')
         : '';
 
-    let queryParams: string =
-      searchTermsParam + ((!!searchTermsParam && (!!nodeFilter || !!typeQ)) ? ' AND ' : '') +
-      nodeFilter + ((!!nodeFilter && !!typeQ) ? ' AND ' : '') +
-      typeQ +
-      pageParam +
-      sortByParam +
-      orderByParam +
-      itemsPerPageParam +
-      facetParam;
+    const langParam: string = this.langFilters.length > 0 ?
+      '(' + this.langFilters
+        .map(lang => `itm_field_language:${lang.id}`)
+        .join(' OR ') + ')'
+      : '';
 
-    queryParams = `query=${queryParams}`;
+    const solrParts: string[] = [
+      searchTermsParam,
+      nodeFilter,
+      collectionFilter,
+      `${langParam}`,
+      dateFilter,
+      typeQ
+    ].filter(part => !!part);
 
-    return queryParams;
+    let queryParams = solrParts.join(' AND ');
+
+    queryParams = queryParams
+      .concat(pageParam)
+      .concat(sortByParam)
+      .concat(orderByParam)
+      .concat(itemsPerPageParam)
+      .concat(facetParam);
+
+    return `query=${queryParams}`;
   }
 
   async fetchData(nodeId?: string) {
@@ -290,5 +322,22 @@ export class ResultsService {
 
     url.search = updatedQueryParts.join('&');
     history.replaceState({}, '', url.toString());
+  }
+
+  dateRangeQuery(): string {
+    if (!this.dateFilters || this.dateFilters.length === 0) {
+      return '';
+    }
+
+    const dates: Date[] = this.dateFilters.filter(date => !!date);
+    let query: string = '';
+
+    if (dates.length === 1) {
+      query = `sm_field_years:${dates[0].getFullYear()}`;
+    } else if (dates.length === 2) {
+      query = `sm_field_years:[${dates.map(year => year.getFullYear()).join(' TO ')}]`;
+    }
+
+    return query;
   }
 }

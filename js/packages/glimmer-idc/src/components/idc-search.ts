@@ -1,8 +1,9 @@
 import Component, { hbs, tracked } from '@glimmerx/component';
-import { action } from '@glimmerx/modifier';
+import { action, on } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
 import { Options } from '../interfaces';
 import { ResultsService } from '../utils/results';
+import AdvancedSearchFilters from './advanced-search/advanced-search-filters';
 import FacetList from './facet-list';
 import List from './list';
 import ListSpinner from './list-spinner';
@@ -20,6 +21,8 @@ export const ELEMENT_ID: string = 'idc-search';
 export default class IDCSearch extends Component<Args> {
   @service results: ResultsService;
 
+  hasAdvancedSearch: boolean = false;
+
   @tracked isLoading: boolean = false;
   @tracked list: {}[] = [];
   @tracked facets: Facet[] = [];
@@ -36,7 +39,7 @@ export default class IDCSearch extends Component<Args> {
   @tracked paginationItemLabel: string = '';
 
   constructor(owner: unknown, args: Args) {
-    super(...arguments);
+    super(owner, args);
 
     const el = document.getElementById(ELEMENT_ID);
 
@@ -44,11 +47,17 @@ export default class IDCSearch extends Component<Args> {
     this.title = el.dataset.title;
     this.searchInputPlaceholder = el.dataset.searchPlaceholder;
     this.paginationItemLabel = el.dataset.paginationLabel;
+    this.hasAdvancedSearch = !!el.dataset.enableAdvancedSearch;
 
     this.results.initFromUrl(document.location.href);
     this.doSearch();
   }
 
+  get showFilterLabel() {
+    return this.hasFacets || this.hasAdvancedSearch;
+  }
+
+  @action
   async doSearch() {
     this.isLoading = true;
     await this.results.fetchData(this.collectionId);
@@ -103,34 +112,38 @@ export default class IDCSearch extends Component<Args> {
    *
    * @param item facet that the user selected
    */
-   @action
-   facetSelected(item: FacetValue) {
-     if (facetValueIncludes(item, this.results.selectedFacets)) {
-       this.results.selectedFacets = removeSelectedItem(item, this.results.selectedFacets);
-     } else {
-       this.results.selectedFacets.push(item);
-     }
+  @action
+  facetSelected(item: FacetValue) {
+    if (facetValueIncludes(item, this.results.selectedFacets)) {
+      this.results.selectedFacets = removeSelectedItem(item, this.results.selectedFacets);
+    } else {
+      this.results.selectedFacets.push(item);
+    }
 
-     this.doSearch();
-   }
+    this.doSearch();
+  }
 
-   @action
-   resetOptions() {
+  @action
+  resetOptions() {
     this.changeSearchOptions({
       sortBy: null,
       sortOrder: null,
       itemsPerPage: 0,
       currentPage: 0
     });
-   }
+  }
 
-   @action
-   resetFacets() {
-     this.results.selectedFacets = [];
-     this.doSearch();
-   }
+  @action
+  resetFilters() {
+    this.results.selectedFacets = [];
+    this.results.nodeFilters = [];
+    this.results.langFilters = [];
+    this.results.dateFilters = [null, null];
 
-   static template = hbs`
+    this.doSearch();
+  }
+
+  static template = hbs`
     <div class="grid md:gap-4 grid-cols-1 md:grid-cols-4 container mx-auto">
       <div class="col-span-1">
         <SearchOptions
@@ -141,13 +154,26 @@ export default class IDCSearch extends Component<Args> {
           @changeSearchOptions={{this.changeSearchOptions}}
           @resetOptions={{this.resetOptions}}
         />
-        <FacetList
-          @facets={{this.facets}}
-          @hasFacets={{this.hasFacets}}
-          @facetSelected={{this.facetSelected}}
-          @selectedFacets={{this.results.selectedFacets}}
-          @resetFacets={{this.resetFacets}}
-        />
+        {{#if this.showFilterLabel}}
+          <div>
+            <div class="flex my-4 px-4 justify-between text-black">
+              <h3 class="text-lg">Filters</h3>
+              <button class="" {{on "click" this.resetFilters}}>Clear</button>
+            </div>
+            {{#if hasAdvancedSearch}}
+              <AdvancedSearchFilters
+                @doSearch={{this.doSearch}}
+                @selectedLangs={{this.results.langFilters}}
+              />
+            {{/if}}
+            <FacetList
+              @facets={{this.facets}}
+              @hasFacets={{this.hasFacets}}
+              @facetSelected={{this.facetSelected}}
+              @selectedFacets={{this.results.selectedFacets}}
+            />
+          </div>
+        {{/if}}
       </div>
       <div class="col-span-3">
         <div class="bg-white shadow mb-4">
@@ -161,6 +187,7 @@ export default class IDCSearch extends Component<Args> {
             @applySearchTerms={{this.applySearchTerms}}
             @searchInputPlaceholder={{this.searchInputPlaceholder}}
             @paginationItemLabel={{this.paginationItemLabel}}
+            @hasAdvancedSearch={{this.hasAdvancedSearch}}
           />
           {{#if this.isLoading}}
             <ListSpinner />

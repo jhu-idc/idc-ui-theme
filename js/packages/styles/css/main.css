@@ -105,9 +105,10 @@
 
 @import url('./forms.css');
 @import url('./taxonomy.css');
+@import url('./drupal-messages.css');
 
 #block-idcui-page-title h1 {
-  @apply text-3xl;
+  @apply text-3xl hidden;
 }
 
 a {
@@ -118,27 +119,71 @@ nav a {
 }
 
 .button {
-  @apply px-4 py-2 cursor-pointer;
+  @apply inline-flex items-center px-4 py-2 border cursor-pointer;
 }
-.button--primary {
-  @apply bg-blue-spirit text-blue-heritage;
+.button:hover {
+  @apply shadow-xl;
 }
 
-/* .button--primary-hover {
-  @apply bg-opacity-75;
+.button-primary {
+  @apply border-transparent bg-blue-heritage text-white;
 }
-.button--primary-active {
-  @apply border border-opacity-50 border-blue-heritage;
+.button-primary:hover {
+  @apply bg-gray-200 text-blue-heritage;
 }
-.button--primary:hover {
-  @apply button--primary-hover;
+
+.button .svg-icon {
+  @apply h-5 w-5;
 }
-.button--primary:active {
-  @apply bg-opacity-100 button--primary-active text-white;
-} */
+
+.button[disabled] {
+  @apply bg-gray-200 text-black cursor-default;
+}
+.button[disabled] {
+  @apply shadow-none;
+}
+
+.button.selected {
+  @apply bg-blue-spirit text-blue-heritage;
+}
+.button.selected:hover {
+  @apply shadow-none;
+}
 
 .card {
   @apply m-8 px-20 py-12 shadow bg-white;
+}
+
+.idc-dropdown {
+  @apply mb-3 inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300 ;
+}
+.idc-dropdown:hover {
+  @apply bg-gray-200 text-gray-500;
+}
+.idc-dropdown:focus {
+  @apply outline-none border-blue-spirit ring-2 ring-blue-spirit;
+}
+.idc-dropdown:active {
+  @apply text-gray-800 bg-gray-50 ;
+}
+
+#idc-advanced-search label {
+  @apply flex flex-col h-full justify-between my-4 hidden;
+}
+
+.idc-advanced-text-input {
+  @apply border-gray-500 bg-gray-100 border-2 px-2;
+}
+
+#idc-advanced-search-terms-list li:first-of-type .ops-button-group {
+  @apply hidden;
+}
+
+.invalid {
+  @apply border-accent-7;
+}
+.invalid:focus {
+  @apply border-accent-7;
 }
 
 @import 'spinkit.min.css';

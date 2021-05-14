@@ -3,6 +3,7 @@ import { ITEM_TYPES, ResultsService } from './utils/results';
 import IDCSearch, { ELEMENT_ID } from './components/idc-search';
 import AboutCollectionDrawer from './components/about-collection-drawer';
 import AboutCollectionButtonGroup from './components/about-collection-button-group';
+import SearchInfoService from './components/advanced-search/searchInfoService';
 
 const searchTarget = document.getElementById(ELEMENT_ID);
 const aboutCollectionDrawerTarget = document.getElementById('about-collection-drawer');
@@ -15,7 +16,8 @@ if (searchTarget) {
     renderComponent(IDCSearch, {
       element: searchTarget,
       services: {
-        results: new ResultsService(ITEM_TYPES[type.toUpperCase()])
+        results: new ResultsService(ITEM_TYPES[type.toUpperCase()]),
+        searchInfo: new SearchInfoService(),
       }
     });
   }
