@@ -111,6 +111,10 @@
 @import url('video.js/dist/video-js.css');
 @import url('@videojs/themes/dist/city/index.css');
 
+video {
+  @apply min-w-full;
+}
+
 #block-idcui-page-title h1 {
   @apply text-3xl hidden;
 }
@@ -159,7 +163,7 @@ nav a {
 }
 
 .idc-dropdown {
-  @apply mb-3 inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300 ;
+  @apply mb-3 inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300;
 }
 .idc-dropdown:hover {
   @apply bg-gray-200 text-gray-500;
@@ -168,7 +172,7 @@ nav a {
   @apply outline-none border-blue-spirit ring-2 ring-blue-spirit;
 }
 .idc-dropdown:active {
-  @apply text-gray-800 bg-gray-50 ;
+  @apply text-gray-800 bg-gray-50;
 }
 
 #idc-advanced-search label {
@@ -191,4 +195,3 @@ nav a {
 }
 
 @import 'spinkit.min.css';
-
