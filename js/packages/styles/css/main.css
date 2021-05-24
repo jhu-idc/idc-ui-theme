@@ -119,6 +119,10 @@ video {
   @apply text-3xl hidden;
 }
 
+#block-idcui-local-tasks li.inline-block a {
+  @apply text-blue-heritage;
+}
+
 a {
   @apply text-blue-heritage;
 }
