@@ -5,6 +5,14 @@ export default class extends Controller {
     this.element.classList.add('hidden');
   }
 
+  openModal() {
+    const element = document.getElementById('idc-modal-container');
+
+    if (!!element) {
+      element.classList.remove('hidden');
+    }
+  }
+
   /**
    * Check mouse clicks within the modal region so that we can close the modal if
    * the user clicks ouside of the modal, in the semi-transparent background that
