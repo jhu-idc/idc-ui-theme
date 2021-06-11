@@ -39,4 +39,17 @@ module('Results service tests', () => {
     assert.ok(facet, 'Selected facet is null or undefined somehow');
     assert.equal(facet.frag, 'subject:Moo');
   });
+
+  test('#initFromUrl can select URL encoded facets', (assert) => {
+    const service = new ResultsService(ITEM_TYPES.COLLECTIONS);
+    const params = 'f%5B0%5D%3Dsubject%3AMoo';
+
+    service.initFromUrl(`https://exapmle.com?${params}`);
+
+    assert.equal(service.selectedFacets.length, 1);
+
+    const facet = service.selectedFacets[0];
+    assert.ok(facet, 'Selected facet is null or undefined');
+    assert.equal(facet.frag, 'subject:Moo');
+  });
 });

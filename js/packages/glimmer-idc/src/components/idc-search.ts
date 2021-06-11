@@ -160,7 +160,7 @@ export default class IDCSearch extends Component<Args> {
               <h3 class="text-lg">Filters</h3>
               <button class="" {{on "click" this.resetFilters}}>Clear</button>
             </div>
-            {{#if hasAdvancedSearch}}
+            {{#if this.hasAdvancedSearch}}
               <AdvancedSearchFilters
                 @doSearch={{this.doSearch}}
                 @selectedLangs={{this.results.langFilters}}
