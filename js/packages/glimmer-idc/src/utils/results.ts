@@ -117,10 +117,9 @@ export class ResultsService {
      * selected facets to real facets by matching the facet frag and replace
      * the initial data with the real facet data.
      */
-    if (url.search.includes('f[')) {
+    let queryStr = decodeURIComponent(url.search);
+    if (queryStr.includes('f[')) {
       this.initMode = true;
-
-      let queryStr = url.search;
 
       if (queryStr.startsWith('?')) {
         queryStr = queryStr.slice(1);

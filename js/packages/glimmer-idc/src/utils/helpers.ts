@@ -4,7 +4,6 @@ import { helper as glimmerXHelper } from '@glimmerx/helper';
  * positional params appear at the top level, meaning that they can
  * be the target of type assertions.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function helper<T extends (...params: any) => any>(f: T): T {
   return glimmerXHelper((positional, named) => f(named, ...positional)) as T;
 }
