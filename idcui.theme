@@ -1,0 +1,86 @@
+<?php
+
+function idcui_preprocess_page(&$variables) {
+  if ($variables['node']) {
+    $node_type = $variables['node']->get('type')->getString();
+
+    if ($node_type == 'islandora_object') {
+      $variables['media_links'] = buildFileUrls($variables);
+    }
+  }
+}
+
+function buildFileUrls($variables) {
+  $MEDIA_USES = array('Original File', 'Intermediate File', 'Service File');
+  $MEDIA_TYPES = array(
+    (object) [
+      'type' => 'image',
+      'source_field' => 'image',
+    ],
+    (object) [
+      'type' => 'file',
+      'source_field' => 'file',
+    ],
+    'file',
+    'document',
+    'audio',
+    'video',
+    'extracted_text'
+  );
+
+  foreach ($DOWNLOABLE_MEDIA_TYPES as $type) {
+
+  }
+
+  $media_links = array();
+
+  foreach ($MEDIA_TYPES as $media_type) {
+    foreach ($MEDIA_USES as $media_use) {
+      $taxonomy = \Drupal::entityTypeManager()
+      ->getListBuilder('taxonomy_term')
+      ->getStorage()
+      ->loadByProperties([
+        'status' => 1,
+        'name' => $media_use,
+      ]);
+
+      $medias = \Drupal::entityTypeManager()
+      ->getListBuilder('media')
+      ->getStorage()
+      ->loadByProperties([
+        'bundle' => $media_type,
+        'status' => 1,
+        'field_media_use' => array_values($taxonomy)[0]->id(),
+        'field_media_of' => $variables['node']->id(),
+      ]);
+
+      foreach ($medias as &$media) {
+        if ($media_type == 'image' && $media->get('field_restricted_access')->getString() == "1") {
+          continue;
+        }
+
+        $dynamic_field_media = 'field_media_' . $media_type;
+
+        if ($media_type == 'audio' || $media_type == 'video') {
+          $dynamic_field_media = 'field_media_' . $media_type . '_file';
+        }
+
+        $file_id = $media->$dynamic_field_media->target_id;
+
+        $file = \Drupal::entityTypeManager()
+        ->getStorage('file')
+        ->load($file_id);
+
+        if ($file) {
+          $url = $file->getFileUri();
+
+          $obj = (object) ['url' => $file->get('uri')->url, 'file_name' => $file->get('filename')->getString(), 'media_type' => $media_type, 'media_use' => $media_use];
+
+          array_push($media_links, $obj);
+        }
+      }
+    }
+  }
+
+  return $media_links;
+}
