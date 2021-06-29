@@ -15,7 +15,7 @@ module('Results service tests', () => {
    */
   test('#initFromUrl grabs params', (assert) => {
     const service = new ResultsService(ITEM_TYPES.COLLECTIONS);
-    const queryParams = 'query=This is a moo AND (ss_type:collection_object)&sort_order=ASC&sort_by=title&page=1&items_per_page=5';
+    const queryParams = 'query=This is a moo AND (ss_type:collection_object AND itm_field_member_of:33)&sort_order=ASC&sort_by=title&page=1&items_per_page=5';
     const url = `https://example.com?${queryParams}`;
 
     service.initFromUrl(url);

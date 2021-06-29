@@ -3,6 +3,7 @@ import { tracked } from '@glimmerx/component';
 import { Facet } from '../models/facet';
 import { FacetValue } from '../interfaces';
 import { facetValueIncludes, parseFacet } from './facet-utils';
+import { FIELD_MEMBER_OF, FIELD_LANGUAGE, FIELD_TYPE, FIELD_YEARS } from './solr-fields';
 
 const typeMap = {
   collections: {
@@ -65,7 +66,7 @@ export class ResultsService {
    * Parsing searchTerms, nodeFilter, and typeQ, are mashed together in the SOLR query
    * making them a bit more tricky to tease apart
    *
-   * Example: /search_rest_endpoint?query=this is a moo AND its_field_member_of:33 AND (ss_type:collection_object OR ss_type:islandora_object)&page=0&f[0]=date_created:2000-01-01
+   * Example: /search_rest_endpoint?query=this is a moo AND itm_field_member_of:33 AND (ss_type:collection_object OR ss_type:islandora_object)&page=0&f[0]=date_created:2000-01-01
    *
    * We shouldn't allow query parameters here to disrupt some functionality, such
    * as limiting the search to a certain type.
@@ -149,7 +150,7 @@ export class ResultsService {
    *  - nodeFilter
    *  - type query (Do not override pre-defined type queries!)
    *
-   * Example: query=this is a moo AND its_field_member_of:33 AND (ss_type:collection_object OR ss_type:islandora_object)
+   * Example: query=this is a moo AND itm_field_member_of:33 AND (ss_type:collection_object OR ss_type:islandora_object)
    *
    * We'll explicitly ignore `nodeFilter` and `type query` parts, since those
    * will always be configured per component instance, thus shouldn't appear
@@ -157,7 +158,7 @@ export class ResultsService {
    *
    * NULL or undefined query can happen when loading the component with no URL params
    *
-   * NOTE: this won't work with Advanced Search queries, since `its_field_member_of` query
+   * NOTE: this won't work with Advanced Search queries, since `itm_field_member_of` query
    * parts can be added arbitrarily and are thus indistinguishable from a site route
    * filter. TODO: we'd have to parse all of these parts out, then remove the one part that
    * comes from calling `#fetchData(nodeId)`
@@ -170,7 +171,7 @@ export class ResultsService {
     }
 
     const parts: Array<string> = query.split(' AND ');
-    this.searchTerms = parts.find(qPart => !qPart.includes('ss_type') && !qPart.includes('field_memeber_of'));
+    this.searchTerms = parts.find(qPart => !qPart.includes(FIELD_TYPE) && !qPart.includes(FIELD_MEMBER_OF));
   }
 
   /**
@@ -181,7 +182,7 @@ export class ResultsService {
    * searchTerm AND (ss_type:collection_object OR ss_type:islandora_object)
    *
    * Solr field:
-   *    its_field_member_of - "Member Of" field showing parent node(s)
+   *    itm_field_member_of - "Member Of" field showing parent node(s)
    *    ss_type - "Type" field showing object model type (collection_object OR islandora_object)
    *
    * If an node ID is provided, we should restrict the search to return results that are
@@ -197,14 +198,14 @@ export class ResultsService {
      * NodeFilter and collectionFilter represent the same kind of query, but
      * come from different sources, so they are kept separate
      */
-    const nodeFilter: string = !!nodeId ? `its_field_member_of:${nodeId}` : '';
+    const nodeFilter: string = !!nodeId ? `${FIELD_MEMBER_OF}:${nodeId}` : '';
     const collectionFilter = this.nodeFilters.length > 0 ? '(' + this.nodeFilters
-        .map(col => `its_field_member_of:${col.id}`)
+        .map(col => `${FIELD_MEMBER_OF}:${col.id}`)
         .join(' OR ') + ')'
       : '';
     const dateFilter = this.dateRangeQuery();
     const typeQ: string = (!!this.types && this.types.length > 0) ?
-        `(${this.types.map((type) => `ss_type:${type}`).join(' OR ')})` : '';
+        `(${this.types.map((type) => `${FIELD_TYPE}:${type}`).join(' OR ')})` : '';
     const pageParam: string = this.pager.current_page ? `&page=${--this.pager.current_page}` : '';
     const sortByParam: string = !!this.sortBy ? this.sortBy : '';
     const orderByParam: string = !!this.sortOrder ? this.sortOrder : '';
@@ -218,7 +219,7 @@ export class ResultsService {
 
     const langParam: string = this.langFilters.length > 0 ?
       '(' + this.langFilters
-        .map(lang => `itm_field_language:${lang.id}`)
+        .map(lang => `${FIELD_LANGUAGE}:${lang.id}`)
         .join(' OR ') + ')'
       : '';
 
@@ -332,9 +333,9 @@ export class ResultsService {
     let query: string = '';
 
     if (dates.length === 1) {
-      query = `sm_field_years:${dates[0].getFullYear()}`;
+      query = `${FIELD_YEARS}:${dates[0].getFullYear()}`;
     } else if (dates.length === 2) {
-      query = `sm_field_years:[${dates.map(year => year.getFullYear()).join(' TO ')}]`;
+      query = `${FIELD_YEARS}:[${dates.map(year => year.getFullYear()).join(' TO ')}]`;
     }
 
     return query;
