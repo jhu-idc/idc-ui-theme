@@ -8,3 +8,11 @@
 .taxonomy-item .views-row article {
   @apply float-left mr-4;
 }
+
+.taxonomy-item .field {
+  @apply border-0;
+}
+
+#idc-ui-taxonomy-content .view-rows {
+  @apply divide-y mx-8;
+}
