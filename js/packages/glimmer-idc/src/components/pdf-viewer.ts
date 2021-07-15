@@ -19,8 +19,9 @@ export default class PdfViewer extends Component<Args> {
   async setupViewer() {
    let res = await fetch(`/jsonapi/media/document?include=field_media_document&filter[media-filter][condition][value]=${this.itemUuid}&filter[media-filter][condition][operator]=IN&filter[media-filter][condition][path]=field_media_of.id&filter[pdf-filter][condition][value]=application/pdf&filter[pdf-filter][condition][operator]=IN&filter[pdf-filter][condition][path]=field_mime_type`);
     const pdfPayload = await res.json();
+    const { data: [ {attributes: { field_restricted_access: isRestrictedAccess} }] } = pdfPayload;
 
-    if (pdfPayload.data.length > 0) {
+    if (pdfPayload.data.length > 0 && !isRestrictedAccess) {
       this.isPdf = true;
 
       this.pdfUrl = `/themes/contrib/idc-ui-theme/js/packages/pdf.js/web/viewer.html?file=${pdfPayload.included[0].attributes.uri.url}`;

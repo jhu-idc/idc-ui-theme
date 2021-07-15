@@ -22,4 +22,14 @@ export default class extends Controller {
       leave(element);
     }
   }
+
+  toggleChildMedia(event) {
+    let child = event.target.closest('.child-wrapper').querySelector('.child-node');
+
+    if (child.style['max-height'] === '0px') {
+      child.style['max-height'] = child.scrollHeight + 'px';
+    } else if (child.style['max-height'] !== '0px') {
+      child.style['max-height'] = '0px';
+    }
+  }
 }
