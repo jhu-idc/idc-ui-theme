@@ -64,7 +64,7 @@ export default class AboutCollectionDrawer extends Component<Args> {
   }
 
   static template = hbs`
-    <div class="flex flex-col place-content-center">
+    <div class="flex flex-col place-content-center" data-test-collection-details-drawer>
       <div class="flex items-center mx-auto">
         <button
           class="flex items-center place-content-center hover:bg-gray-200 focus:bg-gray-200 p-4 z-50 mb-2"

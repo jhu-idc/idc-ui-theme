@@ -38,7 +38,7 @@ export default class Drawer extends Component<Args> {
   }
 
   static template = hbs`
-    <div class="bg-white shadow my-4">
+    <div class="bg-white shadow my-4" data-test-drawer-container>
       <button
         class="flex w-full justify-between py-2 px-4 border-b text-gray-500 hover:bg-gray-100 focus:bg-gray-100"
         {{on "click" this.toggleOpen}}

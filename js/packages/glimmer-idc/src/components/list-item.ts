@@ -49,7 +49,12 @@ export default class ListItem extends Component<Args> {
   }
 
   static template = hbs`
-    <a href="/node/{{@listItem.nid}}" type="button" class="flex items-center justify-between w-full min-h-12 p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer">
+    <a
+      href="/node/{{@listItem.nid}}"
+      type="button"
+      class="flex items-center justify-between w-full min-h-12 p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
+      data-test-search-results-item
+    >
       <div class="flex items-center">
         {{#if this.imageUrl}}
           <img src={{this.imageUrl}} alt="collection or item image" class="h-24 w-24 mr-2 sm:mr-20 flex-shrink-0" />

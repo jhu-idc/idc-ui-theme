@@ -73,7 +73,7 @@ export default class SearchOptions extends Component<Args> {
   }
 
   static template = hbs`
-    <div class="text-left ml-0">
+    <div class="text-left ml-0" data-test-search-options>
       <div class="flex my-4 px-4 justify-between text-black">
         <h3 class="text-lg">List Options</h3>
         <button class="" {{on "click" @resetOptions}}>Clear</button>

@@ -31,6 +31,7 @@ export default class LangFilterItem extends Component<Args> {
       class="my-1 py-1 px-3 flex items-center rounded-full text-left text-black hover:bg-gray-200 {{if this.selected "bg-blue-spirit"}}"
       data-lang-id={{@language.id}}
       {{on "click" this.select}}
+      data-test-language-filter-item
     >
       {{@language.label}}
       {{#if this.selected}}

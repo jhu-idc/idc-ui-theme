@@ -29,7 +29,7 @@ export default class PdfViewer extends Component<Args> {
 
   static template = hbs`
     {{#if this.isPdf}}
-      <iframe class="w-full my-4 h-pdfjs-container" src={{this.pdfUrl}}>
+      <iframe class="w-full my-4 h-pdfjs-container" src={{this.pdfUrl}} data-test-pdf-viewer>
       </iframe>
     {{/if}}
   `;
