@@ -91,9 +91,9 @@
           </div>
         {% endif %}
 
-        <div class="flex flex-col md:flex-row border-b py-4 last:border-b-0">
+        <div class="flex flex-col">
           {% for media in media_links %}
-            <div class="flex flex-col md:flex-row">
+            <div class="flex flex-col md:flex-row border-b py-4 last:border-b-0">
               <div class="flex">
                 <span class="line-clamp-1">{{media.file_name}}</span><span class="hidden md:flex">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
               </div>
@@ -103,16 +103,16 @@
               <div class="flex text-gray-500">
                 <span class="line-clamp-1">{{media.media_use}}</span><span class="hidden md:flex text-black">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
               </div>
+              {% if media.url %}
+                <div>
+                  <a href={{media.url}} download={{media.file_name}}>Download Link</a>
+                </div>
+              {% else %}
+                <div class="text-gray-600 italic line-clamp-1">
+                  Contact the collection admin for access
+                </div>
+              {% endif %}
             </div>
-            {% if media.url %}
-              <div>
-                <a href={{media.url}} download={{media.file_name}}>Download Link</a>
-              </div>
-            {% else %}
-              <div class="text-gray-600 italic line-clamp-1">
-                Contact the collection admin for access
-              </div>
-            {% endif %}
           {% endfor %}
         </div>
 
@@ -137,21 +137,20 @@
                       <span class="line-clamp-1">{{media.media_use}}</span><span class="hidden md:flex text-black">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                     </div>
                   </div>
-                    {% if media.url %}
-                      <div>
-                        <a href={{media.url}} download={{media.file_name}}>Download Link</a>
-                      </div>
-                    {% else %}
-                      <div class="text-gray-600 italic line-clamp-1">
-                        Contact the collection admin for access
-                      </div>
-                    {% endif %}
+                  {% if media.url %}
+                    <div>
+                      <a href={{media.url}} download={{media.file_name}}>Download Link</a>
+                    </div>
+                  {% else %}
+                    <div class="text-gray-600 italic line-clamp-1">
+                      Contact the collection admin for access
+                    </div>
+                  {% endif %}
                 </div>
               {% endfor %}
             </div>
           {% endfor %}
         {% endif %}
-        </div>
       </div>
     </div>
   </div>
