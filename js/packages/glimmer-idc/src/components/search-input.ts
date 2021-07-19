@@ -32,6 +32,7 @@ export default class SearchInput extends Component<Args> {
   static template = hbs`
     <div
       class="flex flex-col"
+      data-test-search-input
       {{on "keyup" this.submitOnEnter}}
     >
       <div class="flex flex-row">

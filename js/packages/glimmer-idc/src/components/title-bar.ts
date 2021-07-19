@@ -28,7 +28,10 @@ export default class TitleBar extends Component<Args> {
           />
         </div>
       {{else}}
-        <div class="flex flex-col lg:flex-row justify-between items-center">
+        <div
+          class="flex flex-col lg:flex-row justify-between items-center"
+          data-test-search-title-bar
+        >
           <div class="flex flex-col 2xl:flex-row items-center lg:mr-6 mb-4 lg:mb-0 w-full justify-between">
             <h2 class="text-xl font-bold leading-6 mb-2 2xl:mb-0 mr-4">
               {{@title}}

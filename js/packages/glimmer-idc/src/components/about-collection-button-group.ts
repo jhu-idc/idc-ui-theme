@@ -49,6 +49,7 @@ export default class AboutCollectionButtonGroup extends Component<Args> {
     {{#if this.hasContact}}
       <button class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black mb-4 w-full"
         {{on "click" this.toggleContactModal}}
+        data-test-collection-contact-toggle
       >
         Ask the collection admin
         <MailIcon @styles="h-5 w-5 ml-1" />
@@ -57,6 +58,7 @@ export default class AboutCollectionButtonGroup extends Component<Args> {
     <AnimatedButton
       id="copy-url-button"
       {{on "click" this.copyCitableUrl}}
+      data-test-copy-citable-url
     >
       Copy the citable url
       {{#if this.copied}}

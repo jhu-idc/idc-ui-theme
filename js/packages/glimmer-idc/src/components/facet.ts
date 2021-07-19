@@ -33,7 +33,7 @@ export default class Facet extends Component<Args> {
   }
 
   static template = hbs`
-    <div class="bg-white shadow my-4">
+    <div class="bg-white shadow my-4" data-test-facets-category>
       <button
         class="flex w-full justify-between py-2 px-4 border-b hover:bg-gray-100 focus:bg-gray-100"
         {{on "click" this.toggleList}}

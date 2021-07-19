@@ -142,7 +142,7 @@ export default class PaginationControls extends Component<Args> {
 
   static template = hbs`
     {{#if this.compact}}
-      <div class="flex flex-col items-center">
+      <div class="flex flex-col items-center" data-test-search-pager>
         <div class="flex items-center">
           {{#each this.paginatedItems as |item|}}
             <PageItem
@@ -158,7 +158,7 @@ export default class PaginationControls extends Component<Args> {
         </div>
       </div>
     {{else}}
-      <div class="flex items-center">
+      <div class="flex items-center" data-test-search-pager>
         <div class="flex items-center mr-6">
           {{#each this.paginatedItems as |item|}}
             <PageItem

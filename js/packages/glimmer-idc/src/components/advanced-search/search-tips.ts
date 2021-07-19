@@ -7,7 +7,7 @@ interface Args {}
  */
 export default class SearchTips extends Component<Args> {
   static template = hbs`
-    <div class=""><!-- Help-text -->
+    <div class="" data-test-advanced-search-help><!-- Help-text -->
       <div class="p-4 my-2 bg-gray-200 text-gray-500">
         <div class="border-b border-gray-500 text-center pb-2 mb-2">
           <h3 class="text-lg font-bold">Need some help?</h3>

@@ -32,7 +32,7 @@ export default class VideoViewer extends Component<Args> {
 
   static template = hbs`
     {{#if this.isVideo}}
-      <video id="videojs-player" class="video-js vjs-theme-city w-full h-videojs-container" controls data-setup='{}'>
+      <video id="videojs-player" class="video-js vjs-theme-city w-full h-videojs-container" controls data-setup='{}' data-test-video-viewer>
         <source src={{this.videoUrl}} type="video/mp4">
       </video>
     {{/if}}

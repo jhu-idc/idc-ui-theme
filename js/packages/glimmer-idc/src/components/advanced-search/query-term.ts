@@ -200,12 +200,13 @@ export default class QueryTermInput extends Component<Args> {
   }
 
   static template = hbs`
-    <div id={{this.id}}>
-      <div id={{this.opGroupId}} class="flex flex-row ops-button-group">
+    <div id={{this.id}} data-test-advanced-search-query-term>
+      <div id={{this.opGroupId}} class="flex flex-row ops-button-group" data-test-advanced-search-query-operations>
         <button
           class="button selected"
           name="AND"
           {{on "click" (fn this.changeOperation "AND")}}
+          data-test-advanced-search-operation-and
         >
           AND
         </button>
@@ -213,6 +214,7 @@ export default class QueryTermInput extends Component<Args> {
           class="button"
           name="OR"
           {{on "click" (fn this.changeOperation "OR")}}
+          data-test-advanced-search-operation-or
         >
           OR
         </button>
@@ -220,6 +222,7 @@ export default class QueryTermInput extends Component<Args> {
           class="button"
           name="NOT"
           {{on "click" (fn this.changeOperation "NOT")}}
+          data-test-advanced-search-operation-not
         >
           NOT
         </button>
@@ -232,12 +235,13 @@ export default class QueryTermInput extends Component<Args> {
             type="checkbox"
             value={{this.localTerm.isProxy}}
             {{on "change" this.toggleProxy}}
+            data-test-advanced-search-proxy
           />
           <label for={{this.proxyId}} class="py-2 cursor-pointer">Proximity search</label>
         </div>
         {{#if this.localTerm.isProxy}}
           <!-- Proxy search -->
-          <div class="">
+          <div class="" data-test-advanced-search-proxy-term>
             <label for={{this.proxyTermAId}} class="">Search for term</label>
             <input
               id={{this.proxyTermAId}}
@@ -246,6 +250,7 @@ export default class QueryTermInput extends Component<Args> {
               type="text"
               value={{this.localTerm.term}}
               {{on "change" this.updateSearchTerm}}
+              data-test-advanced-search-proxy-terma
             />
           </div>
           <div class="mx-8">
@@ -257,6 +262,7 @@ export default class QueryTermInput extends Component<Args> {
               type="text"
               value={{this.localTerm.proximity}}
               {{on "change" this.updateProximity}}
+              data-test-advanced-search-proxy-range
             />
           </div>
           <div class="">
@@ -268,17 +274,19 @@ export default class QueryTermInput extends Component<Args> {
               type="text"
               value={{this.localTerm.termB}}
               {{on "change" this.updateProxyTermB}}
+              data-test-advanced-search-proxy-termb
             />
           </div>
         {{else}}
           <!-- Standard search -->
-          <div class="">
+          <div class="" data-test-advanced-search-nonproxy-search>
             <label for={{this.fieldId}} class="sr-only">Select search term field</label>
             <select
               id={{this.fieldId}}
               class="idc-dropdown h-full "
               name={{this.fieldId}}
               {{on "change" this.updateField}}
+              data-test-advanced-search-field
             >
               {{#each this.fields as |field|}}
                 <option value={{field.keys}}>{{field.label}}</option>
@@ -296,6 +304,7 @@ export default class QueryTermInput extends Component<Args> {
               type="text"
               value={{this.localTerm.term}}
               {{on "change" this.updateSearchTerm}}
+              data-test-advanced-search-query-input
             />
           </div>
         {{/if}}
@@ -304,6 +313,7 @@ export default class QueryTermInput extends Component<Args> {
             class="rounded-full text-2xl leading-none font-bold text-accent-7 px-2 p-1 ml-4 hover:bg-accent-7 hover:text-white"
             title="Remove this term"
             {{on "click" (fn @removeTerm @term)}}
+            data-test-advanced-search-remove
           >
             <XFilledIcon @styles="h-5 h-5" />
           </button>

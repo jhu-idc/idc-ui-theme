@@ -13,7 +13,7 @@ interface Args {
 export default class FacetList extends Component<Args> {
 
   static template = hbs`
-    <div>
+    <div data-test-facets-container>
       {{#each @facets as |facet|}}
         <Facet
           @facet={{facet}}

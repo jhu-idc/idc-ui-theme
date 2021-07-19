@@ -98,7 +98,7 @@ export default class AdvancedSearchFilters extends Component<Args> {
   }
 
   static template = hbs`
-    <div class="bg-white shadow my-4">
+    <div class="bg-white shadow my-4" data-test-collection-lookup-filter>
       <h3 class="px-4 py-2 text-lg text-gray-500 border-b">Collections</h3>
       <div class="p-4">
         <p class="w-full mb-2 leading-snug text-gray-500">
@@ -108,7 +108,7 @@ export default class AdvancedSearchFilters extends Component<Args> {
       </div>
     </div>
     <Drawer @label="Language" @isOpen=true>
-      <div class="flex flex-col p-4">
+      <div class="flex flex-col p-4" data-test-language-filter>
         <p class="w-full leading-snug text-gray-500">
           Click one or more languages to refine your search.
         </p>
@@ -125,7 +125,7 @@ export default class AdvancedSearchFilters extends Component<Args> {
       </div>
     </Drawer>
     <Drawer @label="Date" @isOpen=true>
-      <div class="flex flex-col p-4">
+      <div class="flex flex-col p-4" data-test-date-filter>
         <p class="w-full mb-2 leading-snug text-gray-500">
           Filter by date range. Enter a single year to filter by that date. Please format your dates
           as <span class="italic">YYYY</span>.

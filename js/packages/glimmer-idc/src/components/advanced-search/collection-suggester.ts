@@ -120,7 +120,7 @@ export default class CollectionSuggester extends Component<Args> {
   static template = hbs`
     <div id={{this.id}} class="mt-2">
       {{#if this.results.nodeFilters}}
-        <ul class="autocomplete-selected mb-4">
+        <ul class="autocomplete-selected mb-4" data-test-collection-lookup-selected-items>
           {{#each this.results.nodeFilters as |collection|}}
             <li class="flex items-center my-2">
               <button
@@ -128,6 +128,7 @@ export default class CollectionSuggester extends Component<Args> {
                 title="Remove this selection"
                 type="button"
                 {{on "click" (fn this.unselect collection)}}
+                data-test-collection-lookup-selected-item
               >
                 <span class="truncate">{{collection.title}}</span>
                 <XIcon @styles="inline-flex ml-3 h-5 w-5" />
@@ -143,6 +144,7 @@ export default class CollectionSuggester extends Component<Args> {
         <input
           id={{this.inputId}}
           class=""
+          data-test-collection-lookup-input
           placeholder="Start typing to look for collections"
           type="text"
           {{on "keyup" this.getSuggestion}}
@@ -160,7 +162,7 @@ export default class CollectionSuggester extends Component<Args> {
         {{/if}}
       </div>
       {{#if this.suggestions}}
-        <div class="border pt-2">
+        <div class="border pt-2" data-test-collection-lookup-suggestions>
           <ul class="autocomplete-suggestions overflow-x-auto px-2">
             {{#each this.suggestions as |suggestion|}}
               <li class="">

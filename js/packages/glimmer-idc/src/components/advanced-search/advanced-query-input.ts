@@ -184,6 +184,7 @@ export default class AdvancedQueryInput extends Component<Args> {
             aria-label="Toggle help with advanced search query syntax"
             class="button mx-2 text-gray-500 hover:text-black"
             title="Toggle help text"
+            data-test-advanced-search-help-drawer
             {{on "click" this.toggleHelp}}
           >
           {{#if this.helpOpen}}
