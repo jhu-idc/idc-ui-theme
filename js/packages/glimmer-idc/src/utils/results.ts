@@ -85,7 +85,7 @@ export class ResultsService {
     this.parseSolrQuery(queryParams.get('query'));
 
     if (queryParams.has('page')) {
-      this.pager.current_page = parseInt(queryParams.get('page'));
+      this.pager.current_page = parseInt(queryParams.get('page')) + 1;
     }
 
     if (queryParams.has('items_per_page')) {
