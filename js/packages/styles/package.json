@@ -17,6 +17,7 @@
     "@tailwindcss/line-clamp": "^0.2.0"
   },
   "devDependencies": {
+    "el-transition": "^0.0.7",
     "@babel/core": "^7.12.3",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.1",

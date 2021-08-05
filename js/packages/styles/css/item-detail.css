@@ -25,3 +25,7 @@
 #field-language-display {
   display: none;
 }
+
+article.contextual-region {
+  @apply space-y-4;
+}

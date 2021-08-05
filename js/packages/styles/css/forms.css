@@ -15,11 +15,11 @@ input[type='text'],
 input[type='email'],
 input[type='password'],
 textarea {
-  @apply border-2 w-full;
+  @apply border w-full;
 }
 
 input[type='checkbox'] {
-  @apply mr-2 border-2 border-gray-500;
+  @apply mr-2 border border-gray-500;
 }
 
 .form-item {

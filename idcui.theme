@@ -1,0 +1,138 @@
+<?php
+
+function idcui_preprocess_page(&$variables) {
+  if ($variables['node']) {
+    $node_type = $variables['node']->get('type')->getString();
+
+    if ($node_type == 'islandora_object') {
+      $node_id = $variables['node']->id();
+      $model_type = $variables['node']->get('field_model')->referencedEntities()[0]->get('name')->getString();
+
+      if ($model_type == 'Paged Content') {
+        $children = \Drupal::entityTypeManager()
+        ->getListBuilder('node')
+        ->getStorage()
+        ->loadByProperties([
+          'status' => 1,
+          'field_member_of' => $variables['node']->id(),
+        ]);
+
+        $children_media_links = array();
+
+        foreach ($children as $child_node) {
+          $child_media_links = buildFileUrls($variables, $child_node->id());
+          $obj = (object) ['id' => $child_node->id(), 'title' => $child_node->get('title')->getString(), 'media_links' => $child_media_links];
+          array_push($children_media_links, $obj);
+
+          $variables['children_media_links'] = $children_media_links;
+        }
+
+        $variables['media_links'] = buildFileUrls($variables, $node_id);
+      } else {
+        $variables['media_links'] = buildFileUrls($variables, $node_id);
+      }
+    }
+  }
+}
+
+function idcui_preprocess_media(&$variables, $hook) {
+  $current_user = \Drupal::currentUser();
+  $authorized_roles = ['administrator', 'collection_level_admin', 'global_admin'];
+
+  $variables['is_authorized'] = !!count(array_intersect($authorized_roles, array_values($current_user->getRoles())));
+  $variables['is_restricted'] = $variables['media']->get('field_restricted_access')->getString() == "1";
+
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node instanceof \Drupal\node\NodeInterface) {
+    $variables['is_node'] = true;
+  }
+}
+
+function buildFileUrls($variables, $node_id) {
+  $current_user = \Drupal::currentUser();
+  $authorized_roles = ['administrator', 'collection_level_admin', 'global_admin'];
+  $is_authorized = !!count(array_intersect($authorized_roles, array_values($current_user->getRoles())));
+
+  $variables['is_authorized'] = $is_authorized;
+
+  $MEDIA_USES = array('Original File', 'Intermediate File', 'Service File', 'FITS File');
+  $MEDIA_TYPES = array(
+    (object) [
+      'type' => 'image',
+      'source_field' => 'field_media_image',
+    ],
+    (object) [
+      'type' => 'file',
+      'source_field' => 'field_media_file',
+    ],
+    (object) [
+      'type' => 'document',
+      'source_field' => 'field_media_document',
+    ],
+    (object) [
+      'type' => 'audio',
+      'source_field' => 'field_media_audio_file',
+    ],
+    (object) [
+      'type' => 'video',
+      'source_field' => 'field_media_video_file',
+    ],
+    (object) [
+      'type' => 'extracted_text',
+      'source_field' => 'field_media_file',
+    ],
+    (object) [
+      'type' => 'fits_technical_metadata',
+      'source_field' => 'field_media_file',
+    ],
+  );
+
+  $media_links = array();
+
+  foreach ($MEDIA_TYPES as $media_type_obj) {
+    foreach ($MEDIA_USES as $media_use) {
+      $taxonomy = \Drupal::entityTypeManager()
+      ->getListBuilder('taxonomy_term')
+      ->getStorage()
+      ->loadByProperties([
+        'status' => 1,
+        'name' => $media_use,
+      ]);
+
+      $medias = \Drupal::entityTypeManager()
+      ->getListBuilder('media')
+      ->getStorage()
+      ->loadByProperties([
+        'bundle' => $media_type_obj->type,
+        'status' => 1,
+        'field_media_use' => array_values($taxonomy)[0]->id(),
+        'field_media_of' => $node_id,
+      ]);
+
+      foreach ($medias as &$media) {
+
+        $dynamic_field_media = $media_type_obj->source_field;
+
+        $file_id = $media->$dynamic_field_media->target_id;
+
+        $file = \Drupal::entityTypeManager()
+        ->getStorage('file')
+        ->load($file_id);
+
+        if ($file) {
+          $url = $file->get('uri')->url;
+
+          if ($media->get('field_restricted_access')->getString() == "1" && !$is_authorized && $media_use != 'Service File') {
+            $url = null;
+          }
+
+          $obj = (object) ['url' => $url, 'file_name' => $file->get('filename')->getString(), 'media_type' => str_replace("_", " ", ucwords($media_type_obj->type, "_")), 'media_use' => $media_use];
+
+          array_push($media_links, $obj);
+        }
+      }
+    }
+  }
+
+  return $media_links;
+}

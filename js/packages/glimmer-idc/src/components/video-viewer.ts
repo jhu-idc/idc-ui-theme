@@ -22,8 +22,9 @@ export default class VideoViewer extends Component<Args> {
   async setupViewer() {
     const res = await fetch(`/jsonapi/media/video?include=field_media_video_file&filter[media-filter][condition][value]=${this.itemUuid}&filter[media-filter][condition][operator]=IN&filter[media-filter][condition][path]=field_media_of.id&filter[pdf-filter][condition][value]=video/mp4&filter[pdf-filter][condition][operator]=IN&filter[pdf-filter][condition][path]=field_mime_type`);
     const videoPayload = await res.json();
+    const { data: [ {attributes: { field_restricted_access: isRestrictedAccess} }] } = videoPayload;
 
-    if (videoPayload.data.length > 0) {
+    if (videoPayload.data.length > 0 && !isRestrictedAccess) {
       this.isVideo = true;
 
       this.videoUrl = videoPayload.included[0].attributes.uri.url;
