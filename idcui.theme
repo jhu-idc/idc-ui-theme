@@ -6,7 +6,12 @@ function idcui_preprocess_page(&$variables) {
 
     if ($node_type == 'islandora_object') {
       $node_id = $variables['node']->id();
-      $model_type = $variables['node']->get('field_model')->referencedEntities()[0]->get('name')->getString();
+      $referenced_entities = $variables['node']->get('field_model')->referencedEntities();
+      $model_type = null;
+
+      if ($referenced_entities) {
+        $model_type = $referenced_entities[0]->get('name')->getString();
+      }
 
       if ($model_type == 'Paged Content') {
         $children = \Drupal::entityTypeManager()
