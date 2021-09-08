@@ -49,6 +49,9 @@ export default class IDCSearch extends Component<Args> {
     this.paginationItemLabel = el.dataset.paginationLabel;
     this.hasAdvancedSearch = !!el.dataset.enableAdvancedSearch;
 
+    // This may be overridden by the URL
+    this.results.baseNode = this.collectionId;
+
     this.results.initFromUrl(document.location.href);
     this.doSearch();
   }
@@ -60,7 +63,7 @@ export default class IDCSearch extends Component<Args> {
   @action
   async doSearch() {
     this.isLoading = true;
-    await this.results.fetchData(this.collectionId);
+    await this.results.fetchData();
 
     this.list = this.results.rows;
     this.isLoading = false;
