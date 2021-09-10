@@ -48,6 +48,10 @@ export class ResultsService {
   /** Only pay attention to the Years */
   @tracked dateFilters: Date[] = [null, null];
 
+  @tracked baseNode: string;
+
+  @tracked query: string = '';
+
   /**
    * Init mode should only be set to TRUE when initializing this service from a URL.
    * Its intent is to mark facets in the URL as selected _after_ the initial search has
@@ -104,6 +108,18 @@ export class ResultsService {
 
     if (queryParams.has('sort_order')) {
       this.sortOrder = `&sort_order=${queryParams.get('sort_order')}`;
+    }
+
+    // TODO: Can we simply inspect the URL path for `/node/<node_id>`?
+    if (queryParams.has('nodeId')) {
+      this.baseNode = queryParams.get('nodeId');
+    }
+
+    // TODO: temporarily just use the ID as the title for simplicity
+    if (queryParams.has('collections')) {
+      this.nodeFilters = queryParams.get('collections')
+        .split(',')
+        .map((id) => ({ id: id, title: id}) );
     }
 
     /**
@@ -191,18 +207,29 @@ export class ResultsService {
    *
    * @param nodeId {string} entity ID of the current node
    */
-  searchParams(nodeId?: string): string {
+  searchParams(): string {
     const searchTermsParam: string = !!this.searchTerms ? `${this.searchTerms}` : '';
 
     /**
      * NodeFilter and collectionFilter represent the same kind of query, but
      * come from different sources, so they are kept separate
      */
-    const nodeFilter: string = !!nodeId ? `${FIELD_MEMBER_OF}:${nodeId}` : '';
-    const collectionFilter = this.nodeFilters.length > 0 ? '(' + this.nodeFilters
+    let nodeFilter: string = '';
+    let nodeParam: string = '';
+    if (!!this.baseNode) {
+      nodeFilter = `${FIELD_MEMBER_OF}:${this.baseNode}`;
+      nodeParam = `&nodeId=${this.baseNode}`;
+    }
+
+    let collectionFilter: string = '';
+    let collectionsParam: string = '';
+    if (this.nodeFilters.length > 0) {
+      collectionFilter = '(' + this.nodeFilters
         .map(col => `${FIELD_MEMBER_OF}:${col.id}`)
-        .join(' OR ') + ')'
-      : '';
+        .join(' OR ') + ')';
+      collectionsParam = `&collections=${this.nodeFilters.map(col => col.id).join(',')}`;
+    }
+
     const dateFilter = this.dateRangeQuery();
     const typeQ: string = (!!this.types && this.types.length > 0) ?
         `(${this.types.map((type) => `${FIELD_TYPE}:${type}`).join(' OR ')})` : '';
@@ -235,18 +262,24 @@ export class ResultsService {
     let queryParams = solrParts.join(' AND ');
 
     queryParams = queryParams
+      .concat(nodeParam)
+      .concat(collectionsParam)
       .concat(pageParam)
       .concat(sortByParam)
       .concat(orderByParam)
       .concat(itemsPerPageParam)
       .concat(facetParam);
 
-    return `query=${queryParams}`;
+    let query = `query=${queryParams}`;
+
+    this.query = query;
+
+    return query;
   }
 
-  async fetchData(nodeId?: string) {
+  async fetchData() {
     const baseUrl = '/search_rest_endpoint';
-    const params = this.searchParams(nodeId);
+    const params = this.searchParams();
 
     let url: string = `${baseUrl}?${params}`;
 

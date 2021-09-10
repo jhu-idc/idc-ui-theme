@@ -65,3 +65,25 @@ export type LanguageValue = {
   label: string;
   langCode: string;
 }
+
+export type JsonApiUserResponse = {
+  meta: {
+    links: {
+      me: {
+        meta: {
+          id: string;
+        }
+      }
+    }
+  }
+}
+
+export type CitationsResponse = [
+  {
+    nid: string;
+    field_citable_url: string;
+    citation_apa: string;
+    citation_chicago: string;
+    citation_mia: string;
+  }
+]
