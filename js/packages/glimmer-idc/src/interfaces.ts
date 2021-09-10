@@ -77,3 +77,13 @@ export type JsonApiUserResponse = {
     }
   }
 }
+
+export type CitationsResponse = [
+  {
+    nid: string;
+    field_citable_url: string;
+    citation_apa: string;
+    citation_chicago: string;
+    citation_mia: string;
+  }
+]

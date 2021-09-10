@@ -7,6 +7,7 @@ import SearchInfoService from './components/advanced-search/searchInfoService';
 import ItemDescription from './components/item-description';
 import PdfViewer from './components/pdf-viewer';
 import VideoViewer from './components/video-viewer';
+import Citations from './components/citations';
 
 const searchTarget = document.getElementById(ELEMENT_ID);
 const aboutCollectionDrawerTarget = document.getElementById('about-collection-drawer');
@@ -14,6 +15,7 @@ const aboutCollectionButtonGroupTarget = document.getElementById('about-collecti
 const itemDescriptionTarget = document.getElementById('item-description');
 const pdfViewerTarget = document.getElementById('pdf-viewer');
 const videoViewerTarget = document.getElementById('video-viewer');
+const citationsTarget = document.getElementById('citations-modal-content');
 
 if (searchTarget) {
   const type = searchTarget.dataset.type;
@@ -44,4 +46,8 @@ if (pdfViewerTarget) {
 
 if (videoViewerTarget) {
   renderComponent(VideoViewer, videoViewerTarget);
+}
+
+if (citationsTarget) {
+  renderComponent(Citations, citationsTarget);
 }
