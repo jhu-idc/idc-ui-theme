@@ -30,12 +30,14 @@
                 disabled
               >Download Media</button>
             {% endif %}
-            <a
-              class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black w-full"
-              href={{"/export_items?query=(its_nid:#{node.id})"}}
-            >
-              Export Metadata
-            </a>
+            {% if logged_in %}
+              <a
+                class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black w-full"
+                href={{"/export_items?query=(its_nid:#{node.id})"}}
+              >
+                Export Metadata
+              </a>
+            {% endif %}
             <button
               class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black w-full"
               data-controller="page-modal"
