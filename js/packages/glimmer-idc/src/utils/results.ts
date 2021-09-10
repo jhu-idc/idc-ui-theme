@@ -112,7 +112,6 @@ export class ResultsService {
 
     // TODO: Can we simply inspect the URL path for `/node/<node_id>`?
     if (queryParams.has('nodeId')) {
-      console.log('  >> Found nodeId: ' + queryParams.get('nodeId'));
       this.baseNode = queryParams.get('nodeId');
     }
 

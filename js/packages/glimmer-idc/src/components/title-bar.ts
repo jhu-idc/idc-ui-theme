@@ -23,11 +23,11 @@ export default class TitleBar extends Component<Args> {
   @tracked isAuthenticated: boolean = false;
 
   get itemsExportUrl() {
-    return `export_items?${this.args.query}`;
+    return `/export_items?${this.args.query}`;
   }
 
   get collectionsExportUrl() {
-    return `export_collections?${this.args.query}`;
+    return `/export_collections?${this.args.query}`;
   }
 
   get isCollections() {
