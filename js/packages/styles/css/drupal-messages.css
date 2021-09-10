@@ -13,3 +13,8 @@
 .messages__container {
   @apply p-2;
 }
+
+/* link for metadata export */
+#vde-automatic-download {
+  @apply text-accent-7 font-bold underline;
+}
