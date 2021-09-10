@@ -65,3 +65,15 @@ export type LanguageValue = {
   label: string;
   langCode: string;
 }
+
+export type JsonApiUserResponse = {
+  meta: {
+    links: {
+      me: {
+        meta: {
+          id: string;
+        }
+      }
+    }
+  }
+}

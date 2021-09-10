@@ -50,6 +50,8 @@ export class ResultsService {
 
   @tracked baseNode: string;
 
+  @tracked query: string = '';
+
   /**
    * Init mode should only be set to TRUE when initializing this service from a URL.
    * Its intent is to mark facets in the URL as selected _after_ the initial search has
@@ -269,7 +271,11 @@ export class ResultsService {
       .concat(itemsPerPageParam)
       .concat(facetParam);
 
-    return `query=${queryParams}`;
+    let query = `query=${queryParams}`;
+
+    this.query = query;
+
+    return query;
   }
 
   async fetchData() {

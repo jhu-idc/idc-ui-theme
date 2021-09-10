@@ -31,12 +31,15 @@ export default class IDCSearch extends Component<Args> {
   // These properties should be populated through data attributes
   /** Attribute data-title */
   @tracked title: string = '';
+  /** Attribute data-type */
+  @tracked searchType: string = '';
   /** Attribute data-collection-id */
   @tracked collectionId: string = '';
   /** Attribute data-search-placeholder */
   @tracked searchInputPlaceholder: string = '';
   /** Attribute data-pagination-label */
   @tracked paginationItemLabel: string = '';
+
 
   constructor(owner: unknown, args: Args) {
     super(owner, args);
@@ -45,6 +48,7 @@ export default class IDCSearch extends Component<Args> {
 
     this.collectionId = el.dataset.collectionId;
     this.title = el.dataset.title;
+    this.searchType = el.dataset.type;
     this.searchInputPlaceholder = el.dataset.searchPlaceholder;
     this.paginationItemLabel = el.dataset.paginationLabel;
     this.hasAdvancedSearch = !!el.dataset.enableAdvancedSearch;
@@ -191,6 +195,8 @@ export default class IDCSearch extends Component<Args> {
             @searchInputPlaceholder={{this.searchInputPlaceholder}}
             @paginationItemLabel={{this.paginationItemLabel}}
             @hasAdvancedSearch={{this.hasAdvancedSearch}}
+            @query={{this.results.query}}
+            @searchType={{this.searchType}}
           />
           {{#if this.isLoading}}
             <ListSpinner />
