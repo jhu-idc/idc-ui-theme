@@ -3,6 +3,7 @@ import { action, on } from '@glimmerx/modifier';
 import { is } from '../utils/helpers';
 import AnimatedButton from './animated-button';
 import { ClipboardIcon, ClipboardCheckIcon, MailIcon } from './icons';
+import { JsonApiUserResponse } from '../interfaces';
 
 interface Args {}
 
@@ -10,6 +11,9 @@ export default class AboutCollectionButtonGroup extends Component<Args> {
   @tracked copied: boolean = false;
   @tracked citableUrl: string = '';
   @tracked hasContact: boolean = false;
+  @tracked isAuthenticated: boolean = false;
+  @tracked collectionId: string = '';
+  @tracked exportMetadataUrl: string = '';
 
   constructor(owner: unknown, args: Args) {
     super(owner, args);
@@ -17,6 +21,21 @@ export default class AboutCollectionButtonGroup extends Component<Args> {
     let el = document.getElementById('about-collection-button-group');
     this.citableUrl = el.dataset.collectionUrl;
     this.hasContact = !!el.dataset.contactEmail;
+
+    this.fetchUser();
+  }
+
+  async fetchUser() {
+    let res: Response = await fetch('/jsonapi');
+    let data: JsonApiUserResponse = await res.json();
+
+    if (data && data.meta && data.meta.links && data.meta.links.me && data.meta.links.me.meta && data.meta.links.me.meta.id) {
+      this.isAuthenticated = !!data.meta.links.me.meta.id;
+    }
+
+    const el = document.getElementById('idc-search');
+    this.collectionId = el.dataset.collectionId;
+    this.exportMetadataUrl = `/export_collections?query=(its_nid:${this.collectionId})`;
   }
 
   @action
@@ -54,6 +73,14 @@ export default class AboutCollectionButtonGroup extends Component<Args> {
         Ask the collection admin
         <MailIcon @styles="h-5 w-5 ml-1" />
       </button>
+    {{/if}}
+    {{#if this.isAuthenticated}}
+      <a
+        class="flex items-center place-content-center p-4 bg-blue-spirit hover:bg-gray-200 hover:shadow-xl text-black w-full mb-4"
+        href={{this.exportMetadataUrl}}
+      >
+        Export Collection Metadata
+      </a>
     {{/if}}
     <AnimatedButton
       id="copy-url-button"
