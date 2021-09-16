@@ -1,0 +1,31 @@
+.field {
+  @apply border-b-2 pb-4 last:border-b-0;
+}
+
+.field__label {
+  @apply text-gray-600
+}
+
+.field__items {
+  @apply space-y-4;
+}
+
+.node__content {
+  @apply space-y-4;
+}
+
+.node__header {
+  display: none;
+}
+
+.field-name-field-featured-item {
+  display: none;
+}
+
+#field-language-display {
+  display: none;
+}
+
+article.contextual-region {
+  @apply space-y-4;
+}

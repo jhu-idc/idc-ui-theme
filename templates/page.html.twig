@@ -42,56 +42,6 @@
  * @see html.html.twig
  */
 #}
-<div class="layout-container flex flex-col h-screen">
-
-  <nav>
-    {{ page.top_nav }}
-  </nav>
-
-  <header class="flex flex-col lg:flex-row lg:justify-between items-center" role="banner">
-    <div>
-      {{ page.header_1 }}
-    </div>
-    <div />
-    <div>
-      {{ page.header_2 }}
-    </div>
-  </header>
-
-  {{ page.primary_menu }}
-  {{ page.secondary_menu }}
-
-  {{ page.breadcrumb }}
-
-  {{ page.highlighted }}
-
-  {{ page.help }}
-
-  <main role="main">
-    <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
-
-    <div class="layout-content">
-      {{ page.content }}
-    </div>{# /.layout-content #}
-
-    {% if page.sidebar_first %}
-      <aside class="layout-sidebar-first" role="complementary">
-        {{ page.sidebar_first }}
-      </aside>
-    {% endif %}
-
-    {% if page.sidebar_second %}
-      <aside class="layout-sidebar-second" role="complementary">
-        {{ page.sidebar_second }}
-      </aside>
-    {% endif %}
-
-  </main>
-
-  {% if page.footer %}
-    <footer class="bg-gray-800 p-5 flex-1">
-      {{ page.footer }}
-    </footer>
-  {% endif %}
-
-</div>{# /.layout-container #}
+<div class="layout-container bg-gray-200">
+  {{ page.content }}
+</div>

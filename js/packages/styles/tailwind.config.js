@@ -18,6 +18,9 @@
 module.exports = {
   theme: {
     extend: {
+      animation: {
+        wiggle: 'wiggle 200ms ease-in-out',
+      },
       colors: {
         footer: '#2c2c33',
         'footer-link': '#a6bbd5',
@@ -25,6 +28,7 @@ module.exports = {
         'blue-spirit': '#68ACE5',
         'blue-heritage': '#002D72',
         black: '#31261D',
+        'black-bg-300': '#F7F6F4',
         'secondary-1': '#CF4520',
         'secondary-2': '#76232F',
         'secondary-3': '#A15A95',
@@ -46,8 +50,19 @@ module.exports = {
         'accent-13': '#179949',
       },
       height: {
-        // 'front-banner': '165px',
-        'front-banner': '169px',
+        'front-banner': '161px',
+        'mirador-container': '700px',
+        'pdfjs-container': '640px',
+        'videojs-container': '640px',
+      },
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-0.5deg)' },
+          '50%': { transform: 'rotate(0.5deg)' },
+        },
+      },
+      transitionProperty: {
+        height: 'height',
       },
       width: {
         'front-card': '485px',
@@ -60,6 +75,12 @@ module.exports = {
       'titling-medium': ['titling-medium'],
     },
   },
-  variants: {},
-  plugins: [],
+  variants: {
+    extend: {
+      opacity: ['disabled'],
+      cursor: ['disabled'],
+      borderWidth: ['first', 'last'],
+    },
+  },
+  plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/forms')],
 };

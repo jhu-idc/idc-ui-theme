@@ -100,3 +100,116 @@
 
 @tailwind components;
 @tailwind utilities;
+
+/* Other application stylesheets */
+
+@import url('./forms.css');
+@import url('./taxonomy.css');
+@import url('./drupal-messages.css');
+@import url('./item-detail.css');
+@import url('./mirador.css');
+@import url('video.js/dist/video-js.css');
+@import url('@videojs/themes/dist/city/index.css');
+
+video {
+  @apply min-w-full;
+}
+
+#block-idcui-page-title h1 {
+  @apply text-3xl hidden;
+}
+
+#block-idcui-local-tasks li.inline-block a {
+  @apply text-blue-heritage;
+}
+
+a {
+  @apply text-blue-heritage;
+}
+nav a {
+  @apply text-white;
+}
+
+.button {
+  @apply inline-flex items-center px-4 py-2 border cursor-pointer;
+}
+.button:hover {
+  @apply shadow-xl;
+}
+
+.button-primary {
+  @apply border-transparent bg-blue-heritage text-white;
+}
+.button-primary:hover {
+  @apply bg-gray-200 text-blue-heritage;
+}
+
+.button .svg-icon {
+  @apply h-5 w-5;
+}
+
+.button[disabled] {
+  @apply bg-gray-200 text-black cursor-default;
+}
+.button[disabled] {
+  @apply shadow-none;
+}
+
+.button.selected {
+  @apply bg-blue-spirit text-blue-heritage;
+}
+.button.selected:hover {
+  @apply shadow-none;
+}
+
+.card {
+  @apply m-8 px-20 py-12 shadow bg-white;
+}
+
+.idc-dropdown {
+  @apply mb-3 inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300;
+}
+.idc-dropdown:hover {
+  @apply bg-gray-200 text-gray-500;
+}
+.idc-dropdown:focus {
+  @apply outline-none border-blue-spirit ring-2 ring-blue-spirit;
+}
+.idc-dropdown:active {
+  @apply text-gray-800 bg-gray-50;
+}
+
+#idc-advanced-search label {
+  @apply flex flex-col h-full justify-between my-4 hidden;
+}
+
+.idc-advanced-text-input {
+  @apply border-gray-500 bg-gray-100 border-2 px-2;
+}
+
+#idc-advanced-search-terms-list li:first-of-type .ops-button-group {
+  @apply hidden;
+}
+
+.invalid {
+  @apply border-accent-7;
+}
+.invalid:focus {
+  @apply border-accent-7;
+}
+
+.breadcrumb__list {
+  @apply flex mx-8;
+}
+.breadcrumb__list-item {
+  @apply my-4;
+}
+.breadcrumb__list .breadcrumb__list-item:not(:last-of-type)::after {
+  content: '>';
+  @apply mx-4;
+}
+.breadcrumb__link {
+  @apply text-blue-heritage;
+}
+
+@import 'spinkit.min.css';

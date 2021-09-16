@@ -41,7 +41,7 @@ services:
 
 Note: you'll need to update this text and replace your current working directory of this repository in place of `<dir_of_this_repo>`.
 
-We'll also want to enable template debugging in Drupal to aid development. To do this, you can manually change Drupal's `services.yml` file in `codebase/web/sites/default/`. In this file, you can change `twig.config.debug` to `true`. Twig debugging statements will appear in pages once you clear Drupal's cache. **Note: this change should not make it into any production-ready snapshots**
+We'll also want to enable template debugging in Drupal to aid development. To do this, you can manually rename Drupal's `default.services.yml` file in `codebase/web/sites/default/` to `services.yml`. In this file, you can change `twig.config.debug` to `true`. To make these changes you may need to change permissions on the `codebase/web/sites/default/` directory with a `chmod` command like `sudo chmod +w default`. Twig debugging statements will appear in pages once you clear Drupal's cache. **Note: this change should not make it into any production-ready snapshots**
 
 ### Handling the theme in Drupal
 
@@ -68,6 +68,14 @@ We run ESLint pre-git-commit so that any changes must pass ESLint before it can 
 ### Workspaces
 
 We are using Lerna in concert with Yarn workspaces to manage dependencies across multiple directories. These tools are normally used to manage monorepos - single git repositories that contain multiple packages. They have the ability to share dependencies across packages for faster installs. They can also link packages together so some packages can depend on and use another independent package. Lerna can run multiple webpack instances in parellel which allows files across the monorepo's packages to be watched simultaneously, but configured as separate instances of webpack. To watch in parellel run: `npx lerna run --parallel watch`.
+
+### Handling build artifacts
+
+This repo has a simple shell script `autobuild.sh` that is configured to be run by the git pre-commit hook. Every time you run `git commit`, this script will run a full Yarn build and add any new or modified build artifacts to your commit. In this way, all build artifacts in Github should be up to date without requiring that developers manually build and add them.
+
+The autobuild script is very rough and could potentially fail. If this happens you can run `git commit --no-verify` to skip the pre-commit hook. If this continues to be an issue we will revisit or remove the script.
+
+_Note from John A: I'm still not a fan of this approach. I would prefer to do something like use a Github action to create a new release and attach build artifacts to the release, but I couldn't get Composer to pull in the release correctly. I think in the future we should revisit this and ultimately remove build artifacts from git._
 
 ## Other Resources
 
