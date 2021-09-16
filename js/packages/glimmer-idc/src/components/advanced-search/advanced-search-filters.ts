@@ -98,6 +98,7 @@ export default class AdvancedSearchFilters extends Component<Args> {
     this.search();
   }
 
+  @action
   search() {
     this.args.resetPage();
     this.args.doSearch();
