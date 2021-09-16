@@ -108,8 +108,14 @@ export default class IDCSearch extends Component<Args> {
   }
 
   @action
+  resetPage() {
+    this.results.pager.current_page = 0;
+  }
+
+  @action
   applySearchTerms(searchTerms?: string) {
     this.results.searchTerms = searchTerms;
+    this.resetPage();
     this.doSearch();
   }
 
@@ -127,6 +133,7 @@ export default class IDCSearch extends Component<Args> {
       this.results.selectedFacets.push(item);
     }
 
+    this.resetPage();
     this.doSearch();
   }
 
@@ -147,6 +154,7 @@ export default class IDCSearch extends Component<Args> {
     this.results.langFilters = [];
     this.results.dateFilters = [null, null];
 
+    this.resetPage();
     this.doSearch();
   }
 
@@ -171,6 +179,7 @@ export default class IDCSearch extends Component<Args> {
               <AdvancedSearchFilters
                 @doSearch={{this.doSearch}}
                 @selectedLangs={{this.results.langFilters}}
+                @resetPage={{this.resetPage}}
               />
             {{/if}}
             <FacetList

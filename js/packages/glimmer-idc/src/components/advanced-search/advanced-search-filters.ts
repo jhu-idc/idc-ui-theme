@@ -12,6 +12,7 @@ import Drawer from '../drawer';
 
 interface Args {
   doSearch: () => {};
+  resetPage: () => {};
 }
 
 export default class AdvancedSearchFilters extends Component<Args> {
@@ -57,7 +58,7 @@ export default class AdvancedSearchFilters extends Component<Args> {
       this.results.langFilters = this.results.langFilters.concat(lang);
     }
 
-    this.args.doSearch();
+    this.search();
   }
 
   @action
@@ -85,7 +86,7 @@ export default class AdvancedSearchFilters extends Component<Args> {
       return;
     } else if (!value) {
       this.results.dateFilters[index] = null;
-      this.args.doSearch();
+      this.search();
       return;
     }
 
@@ -94,6 +95,12 @@ export default class AdvancedSearchFilters extends Component<Args> {
 
     this.results.dateFilters[index] = newDate;
 
+    this.search();
+  }
+
+  @action
+  search() {
+    this.args.resetPage();
     this.args.doSearch();
   }
 
@@ -104,7 +111,7 @@ export default class AdvancedSearchFilters extends Component<Args> {
         <p class="w-full mb-2 leading-snug text-gray-500">
           Click on one or more collections to refine your search.
         </p>
-        <CollectionSuggester @doSearch={{@doSearch}} />
+        <CollectionSuggester @doSearch={{this.search}} />
       </div>
     </div>
     <Drawer @label="Language" @isOpen=true>
