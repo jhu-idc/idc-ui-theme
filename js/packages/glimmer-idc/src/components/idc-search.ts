@@ -64,10 +64,6 @@ export default class IDCSearch extends Component<Args> {
     return this.hasFacets || this.hasAdvancedSearch;
   }
 
-  resetPage() {
-    this.results.pager.current_page = 0;
-  }
-
   @action
   async doSearch() {
     this.isLoading = true;
@@ -109,6 +105,11 @@ export default class IDCSearch extends Component<Args> {
     });
 
     this.doSearch();
+  }
+
+  @action
+  resetPage() {
+    this.results.pager.current_page = 0;
   }
 
   @action
@@ -178,6 +179,7 @@ export default class IDCSearch extends Component<Args> {
               <AdvancedSearchFilters
                 @doSearch={{this.doSearch}}
                 @selectedLangs={{this.results.langFilters}}
+                @resetPage={{this.resetPage}}
               />
             {{/if}}
             <FacetList
