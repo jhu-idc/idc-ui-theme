@@ -11,6 +11,7 @@ export default class AboutCollectionDrawer extends Component<Args> {
   @tracked descriptions: {}[] = [{value: '', language: ''}];
   @tracked alternativeTitles: {}[] = [{value: '', language: ''}];
   @tracked collectionAttrs: {} = null;
+  @tracked findingAids: {}[] = [];
 
   constructor(owner: unknown, args: Args) {
     super(...arguments);
@@ -28,6 +29,7 @@ export default class AboutCollectionDrawer extends Component<Args> {
     this.descriptions = await this.processDescriptions(payload);
     this.alternativeTitles = await this.processAlternativeTitles(payload);
     this.collectionAttrs = payload.data.attributes
+    this.findingAids = payload.data.attributes.field_finding_aid;
   }
 
   async processDescriptions(payload) {
@@ -169,10 +171,16 @@ export default class AboutCollectionDrawer extends Component<Args> {
         </div>
         <div class="mb-4">
           <div class="text-black mb-2">Finding Aids</div>
-          {{#if this.collectionAttrs.field_finding_aid.length}}
-            {{#each this.collectionAttrs.field_finding_aid as |aid|}}
+          {{#if this.findingAids.length}}
+            {{#each this.findingAids as |aid|}}
               <div class="flex mb-2 text-gray-800">
-                <a target="_blank" href={{aid.uri}}>{{aid.title}}</a>
+                <a target="_blank" href={{aid.uri}}>
+                  {{#if aid.title}}
+                    {{aid.title}}
+                  {{else}}
+                    {{aid.uri}}
+                  {{/if}}
+                </a>
               </div>
             {{/each}}
           {{else}}
