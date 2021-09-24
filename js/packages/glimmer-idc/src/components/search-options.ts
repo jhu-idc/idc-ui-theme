@@ -81,7 +81,7 @@ export default class SearchOptions extends Component<Args> {
       <div class="bg-white shadow divide-y divide-gray-100 px-10 py-2 outline-none">
         <div class="flex flex-col h-full justify-between my-4">
           <div class="my-2">
-            <label class="block text-sm font-medium text-gray-700 hidden" for="sort-by">
+            <label class="block text-sm text-gray-700 hidden" for="sort-by">
               Sort by
             </label>
             <select
@@ -95,7 +95,7 @@ export default class SearchOptions extends Component<Args> {
                 <option value={{selectOption.value}} selected={{is this.args "sortBy" selectOption.value}}>Sort by: {{selectOption.displayValue}}</option>
               {{/each}}
             </select>
-            <label class="block text-sm font-medium text-gray-700 hidden" for="sort-order">
+            <label class="block text-sm text-gray-700 hidden" for="sort-order">
               Sort Order
             </label>
             <select
@@ -109,7 +109,7 @@ export default class SearchOptions extends Component<Args> {
                 <option value={{selectOption.value}} selected={{is this.args "sortOrder" selectOption.value}}>Sort order: {{selectOption.displayValue}}</option>
               {{/each}}
             </select>
-            <label class="block text-sm font-medium text-gray-700 hidden" for="items-per-page">
+            <label class="block text-sm text-gray-700 hidden" for="items-per-page">
               Items Per Page
             </label>
             <select
@@ -123,7 +123,7 @@ export default class SearchOptions extends Component<Args> {
                 <option value={{numItems}} selected={{is this.args "itemsPerPage" numItems}}>Items per page: {{numItems}}</option>
               {{/each}}
             </select>
-            <label class="block text-sm font-medium text-gray-700 hidden" for="current-page">
+            <label class="block text-sm text-gray-700 hidden" for="current-page">
               Go to page
             </label>
             <select

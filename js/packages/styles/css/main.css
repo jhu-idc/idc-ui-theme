@@ -124,10 +124,11 @@ video {
 }
 
 a {
-  @apply text-blue-heritage;
+  @apply text-blue-heritage hover:underline;
 }
+
 nav a {
-  @apply text-white;
+  @apply text-white hover:underline;
 }
 
 .button {
@@ -167,7 +168,7 @@ nav a {
 }
 
 .idc-dropdown {
-  @apply mb-3 inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300;
+  @apply mb-3 inline-flex justify-center w-full px-4 py-2 font-medium leading-5 transition duration-150 ease-in-out bg-white border border-gray-300;
 }
 .idc-dropdown:hover {
   @apply bg-gray-200 text-gray-500;
@@ -196,6 +197,10 @@ nav a {
 }
 .invalid:focus {
   @apply border-accent-7;
+}
+
+.breadcrumb {
+  @apply border-b;
 }
 
 .breadcrumb__list {

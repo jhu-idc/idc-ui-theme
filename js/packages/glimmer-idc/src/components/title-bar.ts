@@ -94,9 +94,9 @@ export default class TitleBar extends Component<Args> {
       {{#if this.isAuthenticated}}
         <div class="flex space-x-4 justify-center 2xl:justify-start">
           {{#unless this.isCollections}}
-            <a href={{this.itemsExportUrl}}>Export Metadata – Items</a>
+            <a class="hover:underline" href={{this.itemsExportUrl}}>Export Metadata – Items</a>
           {{/unless}}
-          <a href={{this.collectionsExportUrl}}>Export Metadata – Collections</a>
+          <a class="hover:underline" href={{this.collectionsExportUrl}}>Export Metadata – Collections</a>
         </div>
       {{/if}}
     </div>
