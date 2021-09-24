@@ -27,7 +27,7 @@ input[type='checkbox'] {
 }
 
 .js-form-item label:not([class='option']) {
-  @apply block font-bold text-xl text-gray-600;
+  @apply block font-bold text-gray-600;
 }
 
 /* Title of the modal region */
