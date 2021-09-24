@@ -88,11 +88,11 @@ export default class AboutCollectionDrawer extends Component<Args> {
       <div id="drawer-content" class="flex flex-col place-content-center relative overflow-hidden transition-all ease-in-out duration-700 max-h-0">
         <hr class="mt-4 mb-6 w-3/4 self-center" />
         <div class="mb-4">
-          <div class="text-black mb-2">Translated Descriptions</div>
+          <div class="text-gray-600 mb-2">Translated Descriptions</div>
           {{#if this.descriptions.length}}
             {{#each this.descriptions as |description|}}
               {{#unless (is description 'language' 'English')}}
-                <div class="flex mb-2 text-gray-500">
+                <div class="flex mb-2">
                   {{description.value}} ({{description.language}})
                 </div>
               {{/unless}}
@@ -104,10 +104,10 @@ export default class AboutCollectionDrawer extends Component<Args> {
           {{/if}}
         </div>
         <div class="mb-4">
-          <div class="text-black mb-2">Alternative Titles</div>
+          <div class="text-gray-600 mb-2">Alternative Titles</div>
           {{#if this.alternativeTitles.length}}
             {{#each this.alternativeTitles as |title|}}
-              <div class="flex mb-2 text-gray-800">
+              <div class="flex mb-2">
                 {{title.value}} ({{title.language}})
               </div>
             {{/each}}
@@ -119,9 +119,9 @@ export default class AboutCollectionDrawer extends Component<Args> {
         </div>
         <div class="flex mb-4">
           <div class="flex flex-col mr-8">
-            <div class="text-black mb-2">Collection Contact Name</div>
+            <div class="text-gray-600 mb-2">Collection Contact Name</div>
             {{#if this.collectionAttrs.field_collection_contact_name}}
-              <div class="flex text-gray-800">
+              <div class="flex">
                 {{this.collectionAttrs.field_collection_contact_name}}
               </div>
             {{else}}
@@ -131,9 +131,9 @@ export default class AboutCollectionDrawer extends Component<Args> {
             {{/if}}
           </div>
           <div class="flex flex-col">
-            <div class="text-black mb-2">Collection Contact Email</div>
+            <div class="text-gray-600 mb-2">Collection Contact Email</div>
             {{#if this.collectionAttrs.field_collection_contact_email}}
-              <div class="flex text-gray-800">
+              <div class="flex">
                 {{this.collectionAttrs.field_collection_contact_email}}
               </div>
             {{else}}
@@ -144,10 +144,10 @@ export default class AboutCollectionDrawer extends Component<Args> {
           </div>
         </div>
         <div class="mb-4">
-          <div class="text-black mb-2">Collection Numbers</div>
+          <div class="text-gray-600 mb-2">Collection Numbers</div>
           {{#if this.collectionAttrs.field_collection_number.length}}
             {{#each this.collectionAttrs.field_collection_number as |number|}}
-              <div class="flex mb-2 text-gray-800">
+              <div class="flex mb-2">
                 {{number}}
               </div>
             {{/each}}
@@ -158,9 +158,9 @@ export default class AboutCollectionDrawer extends Component<Args> {
           {{/if}}
         </div>
         <div class="mb-4">
-          <div class="text-black mb-2">Citable URL</div>
+          <div class="text-gray-600 mb-2">Citable URL</div>
           {{#if this.collectionAttrs.field_citable_url.uri}}
-            <div class="flex mb-2 text-gray-800">
+            <div class="flex mb-2">
               <a target="_blank" href={{this.collectionAttrs.field_citable_url.uri}}>{{this.collectionAttrs.field_citable_url.uri}}</a>
             </div>
           {{else}}
@@ -170,10 +170,10 @@ export default class AboutCollectionDrawer extends Component<Args> {
           {{/if}}
         </div>
         <div class="mb-4">
-          <div class="text-black mb-2">Finding Aids</div>
+          <div class="text-gray-600 mb-2">Finding Aids</div>
           {{#if this.findingAids.length}}
             {{#each this.findingAids as |aid|}}
-              <div class="flex mb-2 text-gray-800">
+              <div class="flex mb-2">
                 <a target="_blank" href={{aid.uri}}>
                   {{#if aid.title}}
                     {{aid.title}}

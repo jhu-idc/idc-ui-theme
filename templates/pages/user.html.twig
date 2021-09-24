@@ -33,38 +33,47 @@
   ]
 -%}
 
-<div class="bg-gray-200 py-4">
-  <div class="container mx-auto bg-white shadow px-4 py-8">
+<div
+  class="layout-container bg-gray-200"
+>
+  <div class="p-4">
+    <div class="container mx-auto bg-white shadow">
+      <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+        <h3 class="text-xl font-bold leading-6 line-clamp-1">
+          User
+        </h3>
+      </div>
+      <div class="px-4 py-5 sm:p-6 h-auto">
+        <article{{ attributes.addClass(classes).setAttribute('role', 'article')|without('id') }}>
 
-    <article{{ attributes.addClass(classes).setAttribute('role', 'article')|without('id') }}>
+          {%- if user.isBlocked() -%}
+            <span class="user__status user--is-blocked marker marker--warning" aria-label="Status message" role="contentinfo">
+              <span class="visually-hidden">{%- trans %}This user is {% endtrans %}</span>{% trans %}Blocked{% endtrans -%}
+            </span>
+          {%- endif -%}
 
-      {%- if user.isBlocked() -%}
-        <span class="user__status user--is-blocked marker marker--warning" aria-label="Status message" role="contentinfo">
-          <span class="visually-hidden">{%- trans %}This user is {% endtrans %}</span>{% trans %}Blocked{% endtrans -%}
-        </span>
-      {%- endif -%}
-
-      {{- title_prefix -}}
-      {%- if label -%}
-        {%- if view_mode == 'full' -%}
-          <h1{{ title_attributes.addClass('user__title') }}>{{- label -}}</h1>
-        {%- else -%}
-          <h2{{ title_attributes.addClass('user__title') }}>
-            {%- if access_profiles -%}
-              <a href="{{ base_path }}user/{{ user.id }}" class="user__title-link" rel="bookmark">{{- label -}}</a>
+          {{- title_prefix -}}
+          {%- if label -%}
+            {%- if view_mode == 'full' -%}
+              <h1{{ title_attributes.addClass('user__title') }}>{{- label -}}</h1>
             {%- else -%}
-              {{- label -}}
+              <h2{{ title_attributes.addClass('user__title') }}>
+                {%- if access_profiles -%}
+                  <a href="{{ base_path }}user/{{ user.id }}" class="user__title-link" rel="bookmark">{{- label -}}</a>
+                {%- else -%}
+                  {{- label -}}
+                {%- endif -%}
+              </h2>
             {%- endif -%}
-          </h2>
-        {%- endif -%}
-      {%- endif -%}
-      {{- title_suffix -}}
+          {%- endif -%}
+          {{- title_suffix -}}
 
-      {%- if content -%}
-        {{- content -}}
-      {%- endif -%}
+          {%- if content -%}
+            {{- content -}}
+          {%- endif -%}
 
-    </article>
-
+        </article>
+      </div>
+    </div>
   </div>
 </div>
