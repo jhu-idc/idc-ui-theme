@@ -9,7 +9,7 @@
 
 ## Prerequisites for development
 
-- NodeJS
+- NodeJS - We have developed with `lts/erbium (v12.22.5)` and `lts/fermium (v14.17.5)` successfully, other versions may work, but we haven't tested them.
 - [Yarn](https://classic.yarnpkg.com/en/)
 - Docker
 - make
@@ -25,32 +25,32 @@ We are using Glimmer (https://glimmerjs.com/) to create custom Javascript compon
   - Enable debugging in Drupal
   - Access the Drupal container to get Drush to clear Drupal's caches
 
-During development, we utilize the environment setup by the `idc-isle-dc` repository. You'll need to make some manual changes to the development environment to allow for realtime changes in this repository to appear in the Drupal instance.
+During development, we utilize the environment setup by the `idc-isle-dc` repository to stand up a local instance of the application stack for development. When the Drupal image in this stack is brought up, it will automatically download this repository from Github as a local git repository, allowing you to develop from within the running Drupal file structure.
 
-Use a bind mount to map your local theme repository. This can be defined by adding a `docker-compose.override.yml` file to the development environment. The following example (once the placeholder directory is filled in) will add a new volume to the Drupal container. As long as you point to the location of this repository on your local machine, your local code will be brought into the Drupal themes directory and appear in Drupal's admin interface.
+**In Linux or WSL(2) in Windows, we've found that you'll likely need to update file permissions, or take ownership of all files in the Drupal file hierarchy, as they are owned by `root` by default.** Using `chmod` may not play nice with git, so you may use `chown` to take ownership of the files.
 
-_docker-compose.override.yml_
+### Starting the dev environment
 
-```yml
-version: "3.7"
-services:
-  drupal:
-    volumes:
-      - <dir_of_this_repo>:/var/www/drupal/themes/idc-ui
+```shell
+make up
+  # OR
+make reset
 ```
 
-Note: you'll need to update this text and replace your current working directory of this repository in place of `<dir_of_this_repo>`.
+In `idc-isle-dc`, run `make up` if starting from a freshly cloned repository, otherwise `make reset` will bring down any docker containers if necessary, clean out dependencies and the database, then bring the stack back up. During startup, Composer will download
 
-We'll also want to enable template debugging in Drupal to aid development. To do this, you can manually rename Drupal's `default.services.yml` file in `codebase/web/sites/default/` to `services.yml`. In this file, you can change `twig.config.debug` to `true`. To make these changes you may need to change permissions on the `codebase/web/sites/default/` directory with a `chmod` command like `sudo chmod +w default`. Twig debugging statements will appear in pages once you clear Drupal's cache. **Note: this change should not make it into any production-ready snapshots**
+After you run one of these commands
+
+### Twig debugging
+
+You may also want to enable template debugging in Drupal to aid development. To do this, you can copy Drupal's `default.services.yml` file in `codebase/web/sites/default/` as `services.yml`. In this file, you can change `twig.config.debug` to `true`.
 
 ### Handling the theme in Drupal
 
-Once you can see the theme in Drupal, you can install and set as the default theme to see your local theme. In order to see changes you make to the theme, you'll still have to clear Drupal's cache. You can do this in the normal Drupal admin interface, or I'd recommend using Drush in the Drupal docker container.
-
-You can use `docker-compose exec` to run commands in the Drupal container. To easily clear Drupal's cache, for example, you can run the following command:
+Once you can see the theme in Drupal, you can install and set as the default theme to see your local theme. In order to see changes you make to the theme, you'll still have to clear Drupal's cache. You can do this in the normal Drupal admin interface, using Drush in the Drupal docker container, or using the convenience `make` target.
 
 ```shell
-docker-compose exec drupal drush cr
+make cache-rebuild
 ```
 
 ## JS development
@@ -61,21 +61,37 @@ Some common commands:
 
 - `yarn build` : build all packages
 - `yarn watch` : run a "watch" process for each package to automatically recompile packages when files are changed
-- `yarn test` : TODO - run tests in all packages
 
-We run ESLint pre-git-commit so that any changes must pass ESLint before it can be committed. It is recommended that you setup your editor to run "prettier" automatically. In VSCode, you can use the [Prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) and follow the instructions provided to enable this feature.
+During development, you can run `yarn watch` to see your changes almost in real time. The JS code will recompile, but you may have to clear Drupal cache to see the changes in the browser.
 
 ### Workspaces
 
-We are using Lerna in concert with Yarn workspaces to manage dependencies across multiple directories. These tools are normally used to manage monorepos - single git repositories that contain multiple packages. They have the ability to share dependencies across packages for faster installs. They can also link packages together so some packages can depend on and use another independent package. Lerna can run multiple webpack instances in parellel which allows files across the monorepo's packages to be watched simultaneously, but configured as separate instances of webpack. To watch in parellel run: `npx lerna run --parallel watch`.
+https://classic.yarnpkg.com/en/docs/cli/workspace
+
+We are using Lerna in concert with Yarn workspaces to manage dependencies across multiple directories. These tools are normally used to manage monorepos - single git repositories that contain multiple packages. They have the ability to share dependencies across packages for faster installs. They can also link packages together so some packages can depend on and use another independent package. Lerna can run multiple webpack instances in parallel which allows files across the monorepo's packages to be watched simultaneously, but configured as separate instances of webpack. To watch in parallel run: `npx lerna run --parallel watch`.
+
+#### Handling dependencies
+
+You can technically run `yarn add` in individual JS packages to add dependencies, but this is not recommended. If you want to use Yarn to manage dependencies, it is better if you use
+
+```shell
+yarn workspace <package_name> <command>
+```
+Where the names of the directories under `js/packages/` are the names of your packages. For example, if you wanted to add a dependency to just the _glimmer-idc_ package, you'd run `yarn workspace glimmer-idc add <dependency_name>`.
 
 ### Handling build artifacts
 
-This repo has a simple shell script `autobuild.sh` that is configured to be run by the git pre-commit hook. Every time you run `git commit`, this script will run a full Yarn build and add any new or modified build artifacts to your commit. In this way, all build artifacts in Github should be up to date without requiring that developers manually build and add them.
+Currently, we manually update build artifacts in each JS package `dist/` directory. At the time, this was the simplest way we could have Composer pull in the theme with pre-built artifacts, required for the running instance. In the future, this should be changed to publishing proper production-ready build artifacts and having Composer download those artifacts, instead of the Github repository.
 
-The autobuild script is very rough and could potentially fail. If this happens you can run `git commit --no-verify` to skip the pre-commit hook. If this continues to be an issue we will revisit or remove the script.
+By convention, we run `yarn build` and commit the artifacts in `dist/` folders for each JS package in git before issuing any pull requests.
 
-_Note from John A: I'm still not a fan of this approach. I would prefer to do something like use a Github action to create a new release and attach build artifacts to the release, but I couldn't get Composer to pull in the release correctly. I think in the future we should revisit this and ultimately remove build artifacts from git._
+## Tests
+
+Most of our tests take place as integration/acceptance tests running against the local Drupal stack. You can find these at `idc-isle-dc/end-to-end/tests/ui/`.
+
+Run these tests by calling `make test test=01-end-to-end`
+
+When the tests run, they will run data migrations to pull in all of the data from `idc-isle-dc/end-to-end/testdata` into the currently running Drupal. It does not do this smartly, so specifically the "admin" tests will create new objects each time the tests are run, potentially causing some tests to fail down the line. Recommend that all data in Drupal is reset and removed prior to running this test suite with `make reset`. _CI is setup to run `make reset` between each test suite, ensuring no test data pollution_
 
 ## Other Resources
 
