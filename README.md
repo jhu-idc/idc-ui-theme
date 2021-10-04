@@ -2,10 +2,7 @@
 
 - When we're happy with a change, or set of changes, in the theme, how do we get them incorporated that as a "default" in `idc-isle-dc`?
 - How do we go about defining and using a new custom JS-based component?
-  - Use of Glimmer
   - Tell Drupal about your new component so it can be imported automatically
-  - How to handle dependencies for different components? Yarn workspaces?
-- How can we test templates?
 
 ## Prerequisites for development
 
@@ -19,11 +16,6 @@ We are using Glimmer (https://glimmerjs.com/) to create custom Javascript compon
 - `idc-isle-dc` (https://github.com/jhu-sheridan-libraries/idc-isle-dc)
 
 ## Using the development environment
-
-- Describe how to setup this repo with the `idc-isle-dc` environment for Drupal theme development
-  - Define a `docker-compose.override.yml` to use in the dev environment that will bind mount this repo
-  - Enable debugging in Drupal
-  - Access the Drupal container to get Drush to clear Drupal's caches
 
 During development, we utilize the environment setup by the `idc-isle-dc` repository to stand up a local instance of the application stack for development. When the Drupal image in this stack is brought up, it will automatically download this repository from Github as a local git repository, allowing you to develop from within the running Drupal file structure.
 
