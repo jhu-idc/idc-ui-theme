@@ -1,5 +1,6 @@
 import { action, on } from '@glimmer/modifier';
 import Component, { hbs, tracked } from '@glimmerx/component';
+import { fn } from '@glimmerx/helper';
 import { service } from '@glimmerx/service';
 import { uuidv4 } from '../../utils/utils';
 import QueryTermInput, { QueryTerm } from './query-term';
@@ -48,9 +49,7 @@ export default class AdvancedQueryInput extends Component<Args> {
 
   @action
   addTerm(numToAdd = 1) {
-    console.log(`Moo : ${numToAdd}`);
     for (let i = 0; i < numToAdd; i++) {
-      console.log('    > ' + i);
       /**
        * Some reason, running `this.terms.push(...)` doesn't seem to trigger the template
        * to re-render. Changing to the below - reassigning `this.terms = this.terms.concat(...)`
@@ -167,7 +166,7 @@ export default class AdvancedQueryInput extends Component<Args> {
         <div class="flex">
           <button
             class="button mr-4 border-blue-heritage text-blue-heritage hover:bg-blue-heritage hover:text-white"
-            {{on "click" this.addTerm}}
+            {{on "click" (fn this.addTerm 1)}}
           >
             <PlusIcon @styles="svg-icon mr-2" />
             Add term
