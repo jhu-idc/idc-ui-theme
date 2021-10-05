@@ -15,7 +15,13 @@
  * Tailwind: Simply add this CSS class to the desired element:
  *    "text-blue_spirit"
  */
+
 module.exports = {
+  purge: [
+    '../glimmer-idc/src/components/**/*.ts',
+    '../../../templates/**/*.html.twig',
+    '../../../../../../modules/contrib/idc_ui_module/templates/**/*.html.twig',
+  ],
   theme: {
     extend: {
       animation: {

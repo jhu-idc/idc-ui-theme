@@ -48,7 +48,7 @@
     "react-mosaic-component": "^4.1.1",
     "stimulus": "^1.1.1",
     "style-loader": "^2.0.0",
-    "tailwindcss": "^1.9.6",
+    "tailwindcss": "^2.2.15",
     "url-loader": "^4.1.1",
     "video.js": "^7.11.8",
     "webpack": "^5.3.2",
