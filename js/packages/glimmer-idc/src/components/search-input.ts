@@ -5,8 +5,9 @@ import { fn } from '@glimmerx/helper';
 import { SearchIcon } from './icons';
 
 interface Args {
-  applySearchTerms: (searchTerms?: string) => {},
-  searchTerms: string,
+  applySearchTerms: (searchTerms?: string) => {};
+  searchTerms: string;
+  placeholder?: string;
 }
 export default class SearchInput extends Component<Args> {
   @tracked searchTerms: string = '';
