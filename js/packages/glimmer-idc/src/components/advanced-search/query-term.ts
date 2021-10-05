@@ -283,7 +283,7 @@ export default class QueryTermInput extends Component<Args> {
             <label for={{this.fieldId}} class="sr-only">Select search term field</label>
             <select
               id={{this.fieldId}}
-              class="idc-dropdown h-full "
+              class="idc-dropdown "
               name={{this.fieldId}}
               {{on "change" this.updateField}}
               data-test-advanced-search-field
@@ -298,7 +298,7 @@ export default class QueryTermInput extends Component<Args> {
             <input
               id={{this.termInputId}}
               aria-label="Enter a word or phrase to search for"
-              class="idc-advanced-text-input h-full invalid"
+              class="idc-advanced-text-input invalid"
               placeholder="Enter search term"
               size="30"
               type="text"

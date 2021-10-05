@@ -10,6 +10,7 @@ import SearchTips from './search-tips';
 interface Args {
   applySearchTerms: (searchTerms?: string) => {};
   searchTerms: string;
+  defaultTermsLength: number;
 }
 
 /**
@@ -31,7 +32,7 @@ export default class AdvancedQueryInput extends Component<Args> {
     super(owner, args);
 
     // Initialize this with an empty query term to get the ball rolling
-    this.addTerm();
+    this.addTerm(this.args.defaultTermsLength);
   }
 
   /**
@@ -46,25 +47,30 @@ export default class AdvancedQueryInput extends Component<Args> {
   }
 
   @action
-  addTerm(options?:unknown) {
-    /**
-     * Some reason, running `this.terms.push(...)` doesn't seem to trigger the template
-     * to re-render. Changing to the below - reassigning `this.terms = this.terms.concat(...)`
-     * seems to work, though
-     */
-    // this.terms.push({
-    //   id: uuidv4(),
-    //   isProxy: false,
-    //   term: '',
-    //   operation: 'AND'
-    // });
-    this.terms = this.terms.concat({
-      id: uuidv4(),
-      isProxy: false,
-      term: '',
-      operation: 'AND',
-      valid: false
-    });
+  addTerm(numToAdd = 1) {
+    console.log(`Moo : ${numToAdd}`);
+    for (let i = 0; i < numToAdd; i++) {
+      console.log('    > ' + i);
+      /**
+       * Some reason, running `this.terms.push(...)` doesn't seem to trigger the template
+       * to re-render. Changing to the below - reassigning `this.terms = this.terms.concat(...)`
+       * seems to work, though
+       */
+      // this.terms.push({
+      //   id: uuidv4(),
+      //   isProxy: false,
+      //   term: '',
+      //   operation: 'AND'
+      // });
+      this.terms = this.terms.concat({
+        id: uuidv4(),
+        isProxy: false,
+        term: '',
+        operation: 'AND',
+        valid: false
+      });
+    }
+
     this.disableSearch = this.shouldDisableSearch();
   }
 
@@ -100,7 +106,7 @@ export default class AdvancedQueryInput extends Component<Args> {
   @action
   clearSearch() {
     this.terms = [];
-    this.addTerm();
+    this.addTerm(this.args.defaultTermsLength);
     // Reset search results
     this.args.applySearchTerms();
   }
