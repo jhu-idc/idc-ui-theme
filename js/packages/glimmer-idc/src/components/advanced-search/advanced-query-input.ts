@@ -44,7 +44,8 @@ export default class AdvancedQueryInput extends Component<Args> {
    * @returns {boolean} whether the search button should be disabled
    */
   shouldDisableSearch() {
-    return this.terms.length === 0 || this.terms.some(term => !term.valid);
+    const terms = this.terms.filter(term => !term.empty);
+    return terms.length === 0 || terms.some(term => !term.valid);
   }
 
   @action
@@ -66,7 +67,8 @@ export default class AdvancedQueryInput extends Component<Args> {
         isProxy: false,
         term: '',
         operation: 'AND',
-        valid: false
+        valid: false,
+        empty: true
       });
     }
 
@@ -134,7 +136,7 @@ export default class AdvancedQueryInput extends Component<Args> {
    */
   query2string() {
     const parts = this.terms
-      .filter(term => term.valid)
+      .filter(term => term.valid && !term.empty)
       .map((term, index) => {
         let part = '';
 

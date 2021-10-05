@@ -20,13 +20,13 @@ export default class Facet extends Component<Args> {
     if (!this.isOpen) {
       this.isOpen = !this.isOpen;
 
-      const facet = document.getElementById(this.guid);
+      const facet = document.getElementById(String(this.guid));
 
       facet.style['max-height'] = `${facet.scrollHeight}px`
     } else {
       this.isOpen = !this.isOpen;
 
-      const facet = document.getElementById(this.guid);
+      const facet = document.getElementById(String(this.guid));
 
       facet.style['max-height'] = '0';
     }

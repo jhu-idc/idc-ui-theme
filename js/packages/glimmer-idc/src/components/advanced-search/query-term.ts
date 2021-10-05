@@ -36,6 +36,10 @@ export interface QueryTerm {
    * Proximity term: MUST have an `operation`, a `term`, a `termB` and a `proximity`
    */
   valid: boolean;
+  /**
+   * Is this term considered "empty"?
+   */
+  empty: boolean;
 }
 
 interface Args {
@@ -43,6 +47,7 @@ interface Args {
   validationErrors: string[];
   updateTerm: (term: QueryTerm) => {};
   removeTerm: (term: QueryTerm) => {};
+  showValidation: boolean;
 }
 
 export default class QueryTermInput extends Component<Args> {
@@ -107,7 +112,7 @@ export default class QueryTermInput extends Component<Args> {
   }
 
   /**
-   *
+   * Skip validation if the term is "emtpy"
    * @param term If a QueryTerm is provided, validate that term.
    *             If NO QueryTerm is provided, use `this.args.term`
    * @returns TRUE if this term validates successfully
@@ -122,6 +127,9 @@ export default class QueryTermInput extends Component<Args> {
     let result = true;
 
     if (term.isProxy) {
+      if (!term.term && !term.termB && !term.proximity) {
+        return true;
+      }
       if (!term.term) {
         this.toggleInputValid(this.proxyTermAId, false);
         result = false;
@@ -136,12 +144,18 @@ export default class QueryTermInput extends Component<Args> {
       }
     } else {
       if (!term.term) {
-        this.toggleInputValid(this.termInputId, false);
+        // this.toggleInputValid(this.termInputId, false);
         result = false;
       }
     }
 
     return result;
+  }
+
+  isEmpty(term: QueryTerm) {
+    return term.isProxy ?
+      !term.term && !term.termB && !term.proximity :
+      !term.term;
   }
 
   resetValidation() {
@@ -161,7 +175,10 @@ export default class QueryTermInput extends Component<Args> {
       options
     );
 
-    updated = Object.assign(updated, { valid: this.validateTerm(updated) });
+    updated = Object.assign(updated, {
+      valid: this.validateTerm(updated),
+      empty: this.isEmpty(updated)
+    });
 
     this.localTerm = updated;
     this.args.updateTerm(updated);
@@ -245,7 +262,7 @@ export default class QueryTermInput extends Component<Args> {
             <label for={{this.proxyTermAId}} class="">Search for term</label>
             <input
               id={{this.proxyTermAId}}
-              class="idc-advanced-text-input invalid"
+              class="idc-advanced-text-input"
               placeholder="Enter a term"
               type="text"
               value={{this.localTerm.term}}
@@ -257,9 +274,9 @@ export default class QueryTermInput extends Component<Args> {
             <label for={{this.proxyRangeId}} class="">Within a range of</label>
             <input
               id={{this.proxyRangeId}}
-              class="idc-advanced-text-input invalid"
+              class="idc-advanced-text-input"
               placeholder="Enter a number"
-              type="text"
+              type="number"
               value={{this.localTerm.proximity}}
               {{on "change" this.updateProximity}}
               data-test-advanced-search-proxy-range
@@ -269,7 +286,7 @@ export default class QueryTermInput extends Component<Args> {
             <label for={{this.proxyTermBId}} class="">The following term</label>
             <input
               id={{this.proxyTermBId}}
-              class="idc-advanced-text-input invalid"
+              class="idc-advanced-text-input"
               placeholder="Enter a term"
               type="text"
               value={{this.localTerm.termB}}
@@ -298,7 +315,7 @@ export default class QueryTermInput extends Component<Args> {
             <input
               id={{this.termInputId}}
               aria-label="Enter a word or phrase to search for"
-              class="idc-advanced-text-input invalid"
+              class="idc-advanced-text-input"
               placeholder="Enter search term"
               size="30"
               type="text"
