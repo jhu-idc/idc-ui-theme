@@ -28,13 +28,6 @@ export default class Drawer extends Component<Args> {
   @action
   toggleOpen() {
     this.isOpen = !this.isOpen;
-    const element = document.getElementById(this.id);
-
-    if (this.isOpen) {
-      element.style['max-height'] = `${element.scrollHeight + this.heightOffset}px`;
-    } else {
-      element.style['max-height'] = 0;
-    }
   }
 
   static template = hbs`
@@ -50,7 +43,10 @@ export default class Drawer extends Component<Args> {
           <ChevronDownIcon />
         {{/if}}
       </button>
-      <div id={{this.id}} class="overflow-hidden transition-all ease-in-out duration-500">
+      <div
+        id={{this.id}}
+        class="overflow-x-hidden overflow-y-auto transition-all ease-in-out duration-500 {{if this.isOpen "max-h-80" "max-h-0"}}"
+      >
         {{yield}}
       </div>
     </div>

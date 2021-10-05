@@ -187,6 +187,7 @@ export default class IDCSearch extends Component<Args> {
               @hasFacets={{this.hasFacets}}
               @facetSelected={{this.facetSelected}}
               @selectedFacets={{this.results.selectedFacets}}
+              @startOpened={{false}}
             />
           </div>
         {{/if}}

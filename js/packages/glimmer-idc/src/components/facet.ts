@@ -9,27 +9,21 @@ interface Args {
   facet: FacetModel;
   facetSelected: (s: FacetValue) => void;
   selectedFacets: FacetValue[];
+  startOpened: boolean;
 }
 
 export default class Facet extends Component<Args> {
   @tracked isOpen: boolean = true;
   @tracked guid: number = Math.random();
 
+  constructor(owner: unknown, args: Args) {
+    super(owner, args);
+    this.isOpen = this.args.startOpened;
+  }
+
   @action
   toggleList() {
-    if (!this.isOpen) {
-      this.isOpen = !this.isOpen;
-
-      const facet = document.getElementById(String(this.guid));
-
-      facet.style['max-height'] = `${facet.scrollHeight}px`
-    } else {
-      this.isOpen = !this.isOpen;
-
-      const facet = document.getElementById(String(this.guid));
-
-      facet.style['max-height'] = '0';
-    }
+    this.isOpen = !this.isOpen;
   }
 
   static template = hbs`
@@ -47,7 +41,10 @@ export default class Facet extends Component<Args> {
           <ChevronDownIcon @styles="h-6 w-6 text-gray-500" />
         {{/if}}
       </button>
-      <ul id={{this.guid}} class="flex flex-col px-8 overflow-hidden transition-all ease-in-out duration-500">
+      <ul
+        id={{this.guid}}
+        class="flex flex-col px-8 overflow-x-hidden overflow-y-auto transition-all ease-in-out duration-500 {{if this.isOpen "max-h-80" "max-h-0"}}"
+      >
         <div class="py-2 space-y-1">
         {{#each @facet.items as |item|}}
           <li>

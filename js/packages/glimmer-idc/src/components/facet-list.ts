@@ -8,6 +8,7 @@ interface Args {
   facets: FacetModel[];
   facetSelected: {};
   selectedFacets: FacetValue[];
+  startOpened: boolean;
 }
 
 export default class FacetList extends Component<Args> {
@@ -19,6 +20,7 @@ export default class FacetList extends Component<Args> {
           @facet={{facet}}
           @facetSelected={{@facetSelected}}
           @selectedFacets={{@selectedFacets}}
+          @startOpened={{@startOpened}}
         />
       {{/each}}
     </div>
