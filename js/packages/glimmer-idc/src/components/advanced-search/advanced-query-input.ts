@@ -1,5 +1,6 @@
 import { action, on } from '@glimmer/modifier';
 import Component, { hbs, tracked } from '@glimmerx/component';
+import { fn } from '@glimmerx/helper';
 import { service } from '@glimmerx/service';
 import { uuidv4 } from '../../utils/utils';
 import QueryTermInput, { QueryTerm } from './query-term';
@@ -10,6 +11,7 @@ import SearchTips from './search-tips';
 interface Args {
   applySearchTerms: (searchTerms?: string) => {};
   searchTerms: string;
+  defaultTermsLength: number;
 }
 
 /**
@@ -31,7 +33,7 @@ export default class AdvancedQueryInput extends Component<Args> {
     super(owner, args);
 
     // Initialize this with an empty query term to get the ball rolling
-    this.addTerm();
+    this.addTerm(this.args.defaultTermsLength);
   }
 
   /**
@@ -42,29 +44,34 @@ export default class AdvancedQueryInput extends Component<Args> {
    * @returns {boolean} whether the search button should be disabled
    */
   shouldDisableSearch() {
-    return this.terms.length === 0 || this.terms.some(term => !term.valid);
+    const terms = this.terms.filter(term => !term.empty);
+    return terms.length === 0 || terms.some(term => !term.valid);
   }
 
   @action
-  addTerm(options?:unknown) {
-    /**
-     * Some reason, running `this.terms.push(...)` doesn't seem to trigger the template
-     * to re-render. Changing to the below - reassigning `this.terms = this.terms.concat(...)`
-     * seems to work, though
-     */
-    // this.terms.push({
-    //   id: uuidv4(),
-    //   isProxy: false,
-    //   term: '',
-    //   operation: 'AND'
-    // });
-    this.terms = this.terms.concat({
-      id: uuidv4(),
-      isProxy: false,
-      term: '',
-      operation: 'AND',
-      valid: false
-    });
+  addTerm(numToAdd = 1) {
+    for (let i = 0; i < numToAdd; i++) {
+      /**
+       * Some reason, running `this.terms.push(...)` doesn't seem to trigger the template
+       * to re-render. Changing to the below - reassigning `this.terms = this.terms.concat(...)`
+       * seems to work, though
+       */
+      // this.terms.push({
+      //   id: uuidv4(),
+      //   isProxy: false,
+      //   term: '',
+      //   operation: 'AND'
+      // });
+      this.terms = this.terms.concat({
+        id: uuidv4(),
+        isProxy: false,
+        term: '',
+        operation: 'AND',
+        valid: false,
+        empty: true
+      });
+    }
+
     this.disableSearch = this.shouldDisableSearch();
   }
 
@@ -100,7 +107,7 @@ export default class AdvancedQueryInput extends Component<Args> {
   @action
   clearSearch() {
     this.terms = [];
-    this.addTerm();
+    this.addTerm(this.args.defaultTermsLength);
     // Reset search results
     this.args.applySearchTerms();
   }
@@ -129,7 +136,7 @@ export default class AdvancedQueryInput extends Component<Args> {
    */
   query2string() {
     const parts = this.terms
-      .filter(term => term.valid)
+      .filter(term => term.valid && !term.empty)
       .map((term, index) => {
         let part = '';
 
@@ -161,7 +168,7 @@ export default class AdvancedQueryInput extends Component<Args> {
         <div class="flex">
           <button
             class="button mr-4 border-blue-heritage text-blue-heritage hover:bg-blue-heritage hover:text-white"
-            {{on "click" this.addTerm}}
+            {{on "click" (fn this.addTerm 1)}}
           >
             <PlusIcon @styles="svg-icon mr-2" />
             Add term

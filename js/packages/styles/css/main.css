@@ -185,7 +185,7 @@ nav a {
 }
 
 .idc-advanced-text-input {
-  @apply border-gray-500 bg-gray-100 border-2 px-2;
+  @apply leading-5 border-gray-500 bg-gray-100 border-2 px-2;
 }
 
 #idc-advanced-search-terms-list li:first-of-type .ops-button-group {

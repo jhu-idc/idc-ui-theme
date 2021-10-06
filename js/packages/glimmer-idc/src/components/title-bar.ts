@@ -53,9 +53,17 @@ export default class TitleBar extends Component<Args> {
     <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
       {{#if @hasAdvancedSearch}}
         <div class="">
+          <h2 class="text-xl font-bold leading-6 pb-4 mb-4 2xl:mb-0 mr-4">
+            {{#if @title}}
+              {{@title}}
+            {{else}}
+              Advanced Search
+            {{/if}}
+          </h2>
           <AdvancedQueryInput
             @applySearchTerms={{@applySearchTerms}}
             @searchTerms={{@searchTerms}}
+            @defaultTermsLength=3
           />
         </div>
       {{else}}
