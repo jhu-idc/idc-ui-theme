@@ -1,4 +1,6 @@
-import Component, { hbs, tracked } from '@glimmerx/component';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmerx/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core';
 import { action, on } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
 import { Options } from '../interfaces';
@@ -157,8 +159,11 @@ export default class IDCSearch extends Component<Args> {
     this.resetPage();
     this.doSearch();
   }
+}
 
-  static template = hbs`
+setComponentTemplate(
+  precompileTemplate(
+  `
     <div class="grid md:gap-4 grid-cols-1 md:grid-cols-4 container mx-auto">
       <div class="col-span-1">
         <SearchOptions
@@ -226,5 +231,9 @@ export default class IDCSearch extends Component<Args> {
         </div>
       </div>
     </div>
-  `;
-}
+  `,
+  { strictMode: true }
+  ),
+  IDCSearch
+);
+

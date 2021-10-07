@@ -1,4 +1,6 @@
-import Component, { hbs, tracked } from '@glimmerx/component';
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core';
+import { tracked } from '@glimmerx/component';
 import { action, on } from '@glimmerx/modifier';
 import { service } from '@glimmerx/service';
 import { Pager } from '../interfaces';
@@ -71,8 +73,11 @@ export default class SearchOptions extends Component<Args> {
   handleItemsPerPageChange(e: Event) {
     this.args.changeSearchOptions({ itemsPerPage: Number((e.target as HTMLInputElement).value) });
   }
+};
 
-  static template = hbs`
+setComponentTemplate(
+  precompileTemplate(
+  `
     <div class="text-left ml-0" data-test-search-options>
       <div class="flex my-4 px-4 justify-between text-black">
         <h3 class="text-lg">List Options</h3>
@@ -141,5 +146,8 @@ export default class SearchOptions extends Component<Args> {
         </div>
       </div>
     </div>
-  `;
-}
+  `,
+  { strictMode: true }
+  ),
+  SearchOptions,
+);

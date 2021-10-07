@@ -1,12 +1,15 @@
-import Component, { hbs } from '@glimmerx/component';
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core';
 
 interface Args {}
 
 /**
  * Component to show some help-text for advanced search in IDC.
  */
-export default class SearchTips extends Component<Args> {
-  static template = hbs`
+export default class SearchTips extends Component<Args> {}
+setComponentTemplate(
+  precompileTemplate(
+  `
     <div class="" data-test-advanced-search-help><!-- Help-text -->
       <div class="p-4 my-2 bg-gray-200 text-gray-500">
         <div class="border-b border-gray-500 text-center pb-2 mb-2">
@@ -26,5 +29,8 @@ export default class SearchTips extends Component<Args> {
         </div>
       </div>
     </div>
-  `;
-}
+      `,
+  { strictMode: true }
+  ),
+  SearchTips,
+);

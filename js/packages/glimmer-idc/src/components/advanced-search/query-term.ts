@@ -1,4 +1,6 @@
-import Component, { hbs, tracked } from '@glimmerx/component';
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core';
+import { tracked } from '@glimmerx/component';
 import { fn } from '@glimmerx/helper';
 import { action, on } from '@glimmer/modifier';
 import { service } from '@glimmerx/service';
@@ -215,8 +217,11 @@ export default class QueryTermInput extends Component<Args> {
 
     this.updateTerm({ operation });
   }
+};
 
-  static template = hbs`
+setComponentTemplate(
+  precompileTemplate(
+  `
     <div id={{this.id}} data-test-advanced-search-query-term>
       <div id={{this.opGroupId}} class="flex flex-row ops-button-group" data-test-advanced-search-query-operations>
         <button
@@ -337,6 +342,8 @@ export default class QueryTermInput extends Component<Args> {
         </div>
       </div>
     </div>
-  `;
-
-}
+  `,
+  { strictMode: true }
+  ),
+  QueryTermInput,
+);

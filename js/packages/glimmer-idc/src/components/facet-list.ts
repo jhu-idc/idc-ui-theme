@@ -1,4 +1,5 @@
-import Component, { hbs } from '@glimmerx/component';
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core';
 import { on } from '@glimmerx/modifier';
 import { Facet as FacetModel } from '../models/facet';
 import { FacetValue } from '../interfaces';
@@ -11,9 +12,11 @@ interface Args {
   startOpened: boolean;
 }
 
-export default class FacetList extends Component<Args> {
+export default class FacetList extends Component<Args> {}
 
-  static template = hbs`
+setComponentTemplate(
+  precompileTemplate(
+  `
     <div data-test-facets-container>
       {{#each @facets as |facet|}}
         <Facet
@@ -24,5 +27,9 @@ export default class FacetList extends Component<Args> {
         />
       {{/each}}
     </div>
-  `;
-}
+  `,
+  { strictMode: true }
+  ),
+  FacetList,
+);
+

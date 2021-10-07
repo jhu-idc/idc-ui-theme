@@ -1,6 +1,8 @@
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core';
 import { fn } from '@glimmerx/helper';
 import { action, on } from '@glimmer/modifier';
-import Component, { hbs, tracked } from '@glimmerx/component';
+import { tracked } from '@glimmerx/component';
 import { service } from '@glimmerx/service';
 import { CollectionSuggestion, LanguageValue } from '../../interfaces';
 import { uuidv4 } from '../../utils/utils';
@@ -103,8 +105,11 @@ export default class AdvancedSearchFilters extends Component<Args> {
     this.args.resetPage();
     this.args.doSearch();
   }
+};
 
-  static template = hbs`
+setComponentTemplate(
+  precompileTemplate(
+  `
     <Drawer @label="Collections" @isOpen={{false}}>
       <div class="p-4" data-test-collection-lookup-filter>
         <p class="w-full mb-2 leading-snug text-gray-500">
@@ -157,5 +162,9 @@ export default class AdvancedSearchFilters extends Component<Args> {
         </div>
       </div>
     </Drawer>
-  `;
-}
+  `,
+  { strictMode: true }
+  ),
+  AdvancedSearchFilters
+);
+

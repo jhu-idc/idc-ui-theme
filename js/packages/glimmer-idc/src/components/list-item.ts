@@ -1,4 +1,6 @@
-import Component, { hbs, tracked } from '@glimmerx/component';
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core';
+import { tracked } from '@glimmerx/component';
 import MissingAsset from './missing-asset';
 import { ChevronRightIcon } from './icons';
 
@@ -47,8 +49,11 @@ export default class ListItem extends Component<Args> {
       console.log(e);
     }
   }
+};
 
-  static template = hbs`
+setComponentTemplate(
+  precompileTemplate(
+  `
     <a
       href="/node/{{@listItem.nid}}"
       type="button"
@@ -102,5 +107,8 @@ export default class ListItem extends Component<Args> {
         <ChevronRightIcon @styles="h-6 w-6 text-gray-500" />
       </div>
     </a>
-  `;
-}
+    `,
+    { strictMode: true }
+    ),
+    ListItem,
+  );

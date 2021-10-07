@@ -1,5 +1,7 @@
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core';
 import { action, on } from '@glimmer/modifier';
-import Component, { hbs, tracked } from '@glimmerx/component';
+import { tracked } from '@glimmerx/component';
 import { fn } from '@glimmerx/helper';
 import { service } from '@glimmerx/service';
 import { uuidv4 } from '../../utils/utils';
@@ -161,8 +163,11 @@ export default class AdvancedQueryInput extends Component<Args> {
 
     return parts.join('');
   }
+};
 
-  static template = hbs`
+setComponentTemplate(
+  precompileTemplate(
+  `
     <div id="idc-advanced-search-inputs" class="">
       <div class="flex justify-between">
         <div class="flex">
@@ -228,6 +233,8 @@ export default class AdvancedQueryInput extends Component<Args> {
         {{/each}}
       </ul>
     </div>
-  `;
-
-}
+  `,
+  { strictMode: true }
+  ),
+  AdvancedQueryInput,
+);

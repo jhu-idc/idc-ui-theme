@@ -1,7 +1,10 @@
-import Component, { hbs } from '@glimmerx/component';
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core';
 
-export default class MissingAsset extends Component {
-  static template = hbs`
+export default class MissingAsset extends Component {}
+setComponentTemplate(
+  precompileTemplate(
+  `
     <div class="flex items-center justify-center h-24 w-24 mr-2 sm:mr-20 flex-shrink-0">
       <svg
         class="h-16 w-16 text-gray-200"
@@ -18,5 +21,8 @@ export default class MissingAsset extends Component {
         />
       </svg>
     </div>
-  `;
-}
+  `,
+  { strictMode: true }
+  ),
+  MissingAsset
+);

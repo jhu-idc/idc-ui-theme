@@ -1,4 +1,5 @@
-import Component, { hbs } from '@glimmerx/component';
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core';
 import { tracked } from '@glimmerx/component';
 import { action, on } from '@glimmerx/modifier';
 import { fn } from '@glimmerx/helper';
@@ -29,8 +30,12 @@ export default class SearchInput extends Component<Args> {
       this.args.applySearchTerms(this.searchTerms);
     }
   }
+};
 
-  static template = hbs`
+
+setComponentTemplate(
+  precompileTemplate(
+  `
     <div
       class="flex flex-col"
       data-test-search-input
@@ -58,5 +63,8 @@ export default class SearchInput extends Component<Args> {
         </button>
       </div>
     </div>
-  `;
-}
+  `,
+  { strictMode: true }
+  ),
+  SearchInput,
+);

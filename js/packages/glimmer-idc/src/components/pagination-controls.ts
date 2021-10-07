@@ -1,4 +1,6 @@
-import Component, { hbs, tracked } from '@glimmerx/component';
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core'
+import { tracked } from '@glimmerx/component';
 import { Pager } from '../interfaces';
 import PageItem from './page-item';
 
@@ -139,8 +141,11 @@ export default class PaginationControls extends Component<Args> {
 
     return items;
   }
+};
 
-  static template = hbs`
+  setComponentTemplate(
+    precompileTemplate(
+    `
     {{#if this.compact}}
       <div class="flex flex-col items-center" data-test-search-pager>
         <div class="flex items-center">
@@ -174,5 +179,8 @@ export default class PaginationControls extends Component<Args> {
         </div>
       </div>
     {{/if}}
-  `;
-}
+    `,
+    { strictMode: true }
+    ),
+    PaginationControls,
+  );

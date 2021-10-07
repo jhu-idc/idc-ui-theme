@@ -1,4 +1,6 @@
-import Component, { hbs, tracked } from '@glimmerx/component';
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core'
+import { tracked } from '@glimmerx/component';
 import PaginationControls from './pagination-controls';
 import { Pager, Options, JsonApiUserResponse } from '../interfaces';
 import SearchInput from './search-input';
@@ -48,8 +50,11 @@ export default class TitleBar extends Component<Args> {
       this.isAuthenticated = !!data.meta.links.me.meta.id;
     }
   }
+};
 
-  static template = hbs`
+  setComponentTemplate(
+    precompileTemplate(
+    `
     <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
       {{#if @hasAdvancedSearch}}
         <div class="">
@@ -108,5 +113,9 @@ export default class TitleBar extends Component<Args> {
         </div>
       {{/if}}
     </div>
-  `;
-}
+  `,
+  { strictMode: true }
+  ),
+  TitleBar,
+);
+

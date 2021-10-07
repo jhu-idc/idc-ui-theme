@@ -1,4 +1,5 @@
-import Component, { hbs } from '@glimmerx/component';
+import Component from '@glimmer/component';
+import { setComponentTemplate, precompileTemplate } from '@glimmer/core'
 import { action, on } from '@glimmerx/modifier';
 import { fn } from '@glimmerx/helper';
 import { is } from '../utils/helpers';
@@ -11,8 +12,10 @@ interface Args {
   nextPage: () => {}
 }
 
-export default class PageItem extends Component<Args> {
-  static template = hbs`
+export default class PageItem extends Component<Args> {}
+setComponentTemplate(
+  precompileTemplate(
+  `
     {{#if (is @item 'type' 'page')}}
       <button aria-label="page number {{@item.page}}" class="mr-2 hover:bg-gray-200 rounded-full p-2 {{if @item.selected "bg-blue-spirit"}}" {{on "click" (fn @goToPage @item.page)}}>
         {{@item.page}}
@@ -40,5 +43,8 @@ export default class PageItem extends Component<Args> {
         <ChevronRightIcon @styles="h-4 w-4 text-gray-500" />
       </button>
     {{/if}}
-  `;
-}
+  `,
+  { strictMode: true }
+  ),
+  PageItem,
+);
