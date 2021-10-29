@@ -10,7 +10,7 @@
 }
 
 .taxonomy-item .field {
-  @apply border-0;
+  @apply border-0 pb-0;
 }
 
 #idc-ui-taxonomy-content .view-rows {

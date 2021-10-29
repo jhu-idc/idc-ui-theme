@@ -51,6 +51,10 @@ function idcui_preprocess_media(&$variables, $hook) {
   if ($node instanceof \Drupal\node\NodeInterface) {
     $variables['is_node'] = true;
   }
+
+  if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') { // TRUE if on a taxonomy page
+    $variables['is_taxonomy'] = true;
+  }
 }
 
 function buildFileUrls($variables, $node_id) {
