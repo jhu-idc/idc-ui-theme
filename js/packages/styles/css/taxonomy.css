@@ -14,5 +14,5 @@
 }
 
 #idc-ui-taxonomy-content .view-rows {
-  @apply divide-y mx-8;
+  @apply divide-y px-4;
 }
