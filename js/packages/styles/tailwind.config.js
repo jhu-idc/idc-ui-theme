@@ -19,6 +19,7 @@
 module.exports = {
   purge: [
     '../glimmer-idc/src/components/**/*.ts',
+    '../mirador/*.js',
     '../../../templates/**/*.html.twig',
     '../../../../../../modules/contrib/idc_ui_module/templates/**/*.html.twig',
   ],
