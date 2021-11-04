@@ -1,6 +1,10 @@
 /*
  * CSS for taxonomy pages
  */
+.taxonomy-term {
+  @apply border-b-2 mb-4 pb-2;
+}
+
 .taxonomy-term p {
   @apply my-4;
 }
@@ -13,6 +17,10 @@
   @apply border-0 pb-0;
 }
 
+#idc-ui-taxonomy-content {
+  @apply px-2;
+}
+
 #idc-ui-taxonomy-content .view-rows {
-  @apply divide-y px-4;
+  @apply divide-y;
 }
