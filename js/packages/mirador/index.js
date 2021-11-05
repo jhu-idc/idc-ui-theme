@@ -5,7 +5,7 @@ const maybeInitMirador = async () => {
 
   if (itemContainer) {
     const nodeId = itemContainer.dataset.nodeId;
-    const res = await fetch(`https://islandora-idc.traefik.me/node/${nodeId}/manifest`);
+    const res = await fetch(`/node/${nodeId}/manifest`);
     const manifest = await res.json();
 
     if (manifest.sequences[0]?.canvases?.length) {
@@ -27,7 +27,7 @@ const setupConfig = async () => {
     id: 'mirador-container',
     windows: [
       {
-        loadedManifest: `https://islandora-idc.traefik.me/node/${nodeId}/manifest`,
+        loadedManifest: `/node/${nodeId}/manifest`,
         view: 'single',
       },
     ],
