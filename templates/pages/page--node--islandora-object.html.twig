@@ -61,7 +61,11 @@
         {{ node.description.value }}
         {{ page.content.idcui_page_title }}
         <div id="pdf-viewer" class="w-full" data-item-uuid={{ node.uuid.value }}></div>
-        <div id="mirador-container"></div>
+        {% if is_paged_content %}
+          <div id="mirador-container" class="h-mirador-container">
+            <div id="mirador-container-loader" class="sk-pulse bg-blue-heritage"></div>
+          </div>
+        {% endif %}
         <div id="seadragon-container" class="hidden p-4 my-4">
           {{ page.content.openseadragon_block }}
         </div>
@@ -71,7 +75,6 @@
     </div>
   </div>
 </div>
-
 <div
   id="media-downloads-modal-container"
   class="hidden fixed z-50 inset-0 overflow-y-auto bg-gray-500 bg-opacity-90"
