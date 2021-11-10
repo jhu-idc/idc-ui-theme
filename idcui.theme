@@ -33,8 +33,10 @@ function idcui_preprocess_page(&$variables) {
         }
 
         $variables['media_links'] = buildFileUrls($variables, $node_id);
+        $variables['is_paged_content'] = true;
       } else {
         $variables['media_links'] = buildFileUrls($variables, $node_id);
+        // $variables['is_paged_content'] = false;
       }
     }
   }

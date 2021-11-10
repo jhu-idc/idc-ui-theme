@@ -61,7 +61,11 @@
         {{ node.description.value }}
         {{ page.content.idcui_page_title }}
         <div id="pdf-viewer" class="w-full" data-item-uuid={{ node.uuid.value }}></div>
-        <div id="mirador-container"></div>
+        {% if is_paged_content %}
+          <div id="mirador-container" class="h-mirador-container">
+            <div id="mirador-container-loader" class="sk-pulse bg-blue-heritage"></div>
+          </div>
+        {% endif %}
         <div id="seadragon-container" class="hidden p-4 my-4">
           {{ page.content.openseadragon_block }}
         </div>
@@ -71,7 +75,6 @@
     </div>
   </div>
 </div>
-
 <div
   id="media-downloads-modal-container"
   class="hidden fixed z-50 inset-0 overflow-y-auto bg-gray-500 bg-opacity-90"
@@ -110,7 +113,7 @@
 
 
         {% if media_links %}
-          <a class="mt-4" href={{"https://islandora-idc.traefik.me/media_download_all/node/" ~ node.id}} download={{'all_media_' ~ node.id ~ '.zip'}}>Download All Available Media for {{ node.title.value }}</a>
+          <a class="mt-4" href={{"/media_download_all/node/" ~ node.id}} download={{'all_media_' ~ node.id ~ '.zip'}}>Download All Available Media for {{ node.title.value }}</a>
 
           <div class="flex flex-col">
             {% for media in media_links %}
@@ -147,7 +150,7 @@
             <div class="child-wrapper border-b last:border-b-0 space-y-2">
               <button class="accordian-btn w-full py-4 bg-blue-spirit text-black" data-action="click->media-downloads-modal#toggleChildMedia"><h1>{{ child.title }}</h1></button>
               <div class="child-node overflow-auto transition-all ease-in-out duration-300 pt-2" style="max-height: 0px">
-                <a class="mt-4" href={{"https://islandora-idc.traefik.me/media_download_all/node/" ~ child.id}} download={{'all_media_' ~ child.id ~ '.zip'}}>Download All Available Media for {{ child.title }}</a>
+                <a class="mt-4" href={{"/media_download_all/node/" ~ child.id}} download={{'all_media_' ~ child.id ~ '.zip'}}>Download All Available Media for {{ child.title }}</a>
                 {% for media in child.media_links %}
                   <div class="flex flex-col md:flex-row border-b py-4 last:border-b-0">
                     <div class="flex flex-col md:flex-row">

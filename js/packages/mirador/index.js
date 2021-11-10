@@ -14,6 +14,15 @@ const maybeInitMirador = async () => {
       const miradorContainer = document.getElementById('mirador-container');
       miradorContainer.classList.add('h-mirador-container', 'relative', 'p-4', 'my-4');
 
+      /**
+       * Note: I think Mirador will actually clear its container, so hiding
+       * this loader may be redundant
+       */
+       const loader = document.getElementById('mirador-container-loader');
+       if (loader) {
+         loader.classList.add('hidden');
+       }
+
       Mirador.viewer(config, plugins);
     }
   }
