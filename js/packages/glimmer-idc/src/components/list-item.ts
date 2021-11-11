@@ -29,7 +29,7 @@ export default class ListItem extends Component<Args> {
 
   constructor(owner: unknown, args: Args) {
     super(owner, args);
-    console.log(this.args.listItem.field_creator);
+
     this.fetchThumbnail();
   }
 
