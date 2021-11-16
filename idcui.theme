@@ -44,10 +44,17 @@ function idcui_preprocess_page(&$variables) {
 
 function idcui_preprocess_media(&$variables, $hook) {
   $current_user = \Drupal::currentUser();
-  $authorized_roles = ['administrator', 'collection_level_admin', 'global_admin'];
 
-  $variables['is_authorized'] = !!count(array_intersect($authorized_roles, array_values($current_user->getRoles())));
-  $variables['is_restricted'] = $variables['media']->get('field_restricted_access')->getString() == "1";
+  $authorized_roles = ['administrator', 'collection_level_admin', 'global_admin'];
+  # authorize access if user is special user #1, which Drupal treats as a kind of admin
+  $is_authorized = !!count(array_intersect($authorized_roles, array_values($current_user->getRoles())));
+  if (!$is_authorized) {
+    $is_authorized = $current_user->id() == "1";
+  }
+  $variables['is_authorized'] = $is_authorized;
+
+  $is_restricted = $variables['media']->get('field_restricted_access')->getString() == "1";
+  $variables['is_restricted'] = $is_restricted;
 
   $node = \Drupal::routeMatch()->getParameter('node');
   if ($node instanceof \Drupal\node\NodeInterface) {
@@ -63,6 +70,11 @@ function buildFileUrls($variables, $node_id) {
   $current_user = \Drupal::currentUser();
   $authorized_roles = ['administrator', 'collection_level_admin', 'global_admin'];
   $is_authorized = !!count(array_intersect($authorized_roles, array_values($current_user->getRoles())));
+
+  # authorize access if user is special user #1, which Drupal treats as a kind of admin
+  if (!$is_authorized) {
+    $is_authorized = $current_user->id() == "1";
+  }
 
   $variables['is_authorized'] = $is_authorized;
 
@@ -133,7 +145,7 @@ function buildFileUrls($variables, $node_id) {
         if ($file) {
           $url = $file->get('uri')->url;
 
-          if ($media->get('field_restricted_access')->getString() == "1" && !$is_authorized && $media_use != 'Service File') {
+          if ($media->get('field_restricted_access')->getString() == "1" && !$is_authorized) {
             $url = null;
           }
 
