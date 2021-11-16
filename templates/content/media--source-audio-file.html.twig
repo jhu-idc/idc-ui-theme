@@ -11,14 +11,14 @@
  */
 #}
 {% if (is_restricted and is_authorized) or (not is_restricted) %}
-  {% if is_node %}
-    {{ content.field_media_audio_file }}
-  {% else %}
-    <article{{ attributes }}>
-      {{ title_suffix.contextual_links }}
-      {% if content %}
-        {{ content }}
+  <article{{ attributes }}>
+    {{ title_suffix.contextual_links }}
+      {% if is_node %}
+        {{ content.field_media_audio_file }}
+      {% else %}
+        {% if content %}
+          {{ content }}
+        {% endif %}
       {% endif %}
-    </article>
-  {% endif %}
+  </article>
 {% endif %}

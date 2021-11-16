@@ -65,11 +65,10 @@ export default class ListItem extends Component<Args> {
           <li>
             <h3 class="text-xl mb-2 line-clamp-1">{{@listItem.title}}</h3>
           </li>
-          {{#if @listItem.uid}}
+          {{#if @listItem.field_creator}}
             <li>
-              <div class="">
-                <span class="italic">Author:&nbsp;</span>
-                <span>{{{@listItem.uid}}}</span>
+              <div>
+                <span class="line-clamp-1">{{{@listItem.field_creator}}}</span>
               </div>
             </li>
           {{/if}}
