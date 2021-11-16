@@ -207,11 +207,14 @@ nav a {
   @apply flex mx-8;
 }
 .breadcrumb__list-item {
-  @apply my-4;
+  @apply my-4 flex-shrink-0;
 }
 .breadcrumb__list .breadcrumb__list-item:not(:last-of-type)::after {
   content: '>';
   @apply mx-4;
+}
+.breadcrumb__list .breadcrumb__list-item:last-of-type {
+  @apply line-clamp-1 flex-shrink;
 }
 .breadcrumb__link {
   @apply text-blue-heritage;
