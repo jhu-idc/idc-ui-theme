@@ -86,7 +86,7 @@ export class ResultsService {
 
     const queryParams = url.searchParams;
 
-    this.parseSolrQuery(queryParams.get('query'));
+    this.searchTerms = queryParams.get('query');
 
     if (queryParams.has('page')) {
       this.pager.current_page = parseInt(queryParams.get('page')) + 1;
@@ -157,37 +157,6 @@ export class ResultsService {
         });
       });
     }
-  }
-
-  /**
-   * Break apart the SOLR query to get
-   *
-   *  - searchTerms
-   *  - nodeFilter
-   *  - type query (Do not override pre-defined type queries!)
-   *
-   * Example: query=this is a moo AND itm_field_member_of:33 AND (ss_type:collection_object OR ss_type:islandora_object)
-   *
-   * We'll explicitly ignore `nodeFilter` and `type query` parts, since those
-   * will always be configured per component instance, thus shouldn't appear
-   * in the URL.
-   *
-   * NULL or undefined query can happen when loading the component with no URL params
-   *
-   * NOTE: this won't work with Advanced Search queries, since `itm_field_member_of` query
-   * parts can be added arbitrarily and are thus indistinguishable from a site route
-   * filter. TODO: we'd have to parse all of these parts out, then remove the one part that
-   * comes from calling `#fetchData(nodeId)`
-   *
-   * @param query SOLR query, to be parsed
-   */
-  parseSolrQuery(query: string) {
-    if (!query) {
-      return;
-    }
-
-    const parts: Array<string> = query.split(' AND ');
-    this.searchTerms = parts.find(qPart => !qPart.includes(FIELD_TYPE) && !qPart.includes(FIELD_MEMBER_OF));
   }
 
   /**
