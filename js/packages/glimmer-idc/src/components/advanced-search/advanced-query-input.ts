@@ -153,7 +153,7 @@ export default class AdvancedQueryInput extends Component<Args> {
           // Field will be falsy iff 'Keyword' is selected in the field dropdown
           part += `(${term.field.map(field => `${field}:${term.term}`).join(' OR ')})`;
         } else {
-          part += term.term;
+          part += `(${term.term})`;
         }
 
         return part;

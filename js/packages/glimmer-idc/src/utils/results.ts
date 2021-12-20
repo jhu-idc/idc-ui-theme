@@ -165,6 +165,9 @@ export class ResultsService {
    * searchTerm AND ss_type:collection_object OR ss_type:islandora_object
    *  vs
    * searchTerm AND (ss_type:collection_object OR ss_type:islandora_object)
+   *  vs
+   * (searchTerm) AND ss_type:collection_object OR ss_type:islandora_object
+   *  etc
    *
    * Solr field:
    *    itm_field_member_of - "Member Of" field showing parent node(s)
@@ -177,7 +180,7 @@ export class ResultsService {
    * @param nodeId {string} entity ID of the current node
    */
   searchParams(): string {
-    const searchTermsParam: string = !!this.searchTerms ? `${this.searchTerms}` : '';
+    const searchTermsParam: string = !!this.searchTerms ? `(${this.searchTerms})` : '';
 
     /**
      * NodeFilter and collectionFilter represent the same kind of query, but
@@ -251,8 +254,6 @@ export class ResultsService {
     const params = this.searchParams();
 
     let url: string = `${baseUrl}?${params}`;
-
-    console.log(url);
 
     try {
       let res: Response = await fetch(url);
