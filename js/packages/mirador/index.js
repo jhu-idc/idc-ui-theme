@@ -34,6 +34,7 @@ const setupConfig = async () => {
 
   const config = {
     id: 'mirador-container',
+    // selectedTheme: 'dark',
     windows: [
       {
         loadedManifest: `/node/${nodeId}/manifest`,
@@ -48,6 +49,9 @@ const setupConfig = async () => {
       allowTopMenuButton: false, // Configure if window view and thumbnail display menu are visible or not
       allowWindowSideBar: true, // Configure if side bar menu is visible or not
       hideWindowTitle: true, // Configure if the window title is shown in the window title bar or not
+    },
+    workspace: {
+      showZoomControls: true,
     },
     workspaceControlPanel: {
       enabled: false, // Configure if the control panel should be rendered.  Useful if you want to lock the viewer down to only the configured manifests
