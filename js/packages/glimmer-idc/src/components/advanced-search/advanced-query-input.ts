@@ -10,6 +10,7 @@ import SearchTips from './search-tips';
 
 interface Args {
   applySearchTerms: (searchTerms?: string) => {};
+  resetFilters: () => {};
   searchTerms: string;
   defaultTermsLength: number;
 }
@@ -114,6 +115,7 @@ export default class AdvancedQueryInput extends Component<Args> {
 
   @action
   doSearch() {
+    this.args.resetFilters();
     this.args.applySearchTerms(
       this.query2string()
     );

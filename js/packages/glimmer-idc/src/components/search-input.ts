@@ -6,6 +6,7 @@ import { SearchIcon } from './icons';
 
 interface Args {
   applySearchTerms: (searchTerms?: string) => {};
+  resetFilters: () => {};
   searchTerms: string;
   placeholder?: string;
 }
@@ -26,8 +27,14 @@ export default class SearchInput extends Component<Args> {
   @action
   submitOnEnter(e: Event) {
     if ((<any>e).which === 13) {
-      this.args.applySearchTerms(this.searchTerms);
+      this.submit();
     }
+  }
+
+  @action
+  submit() {
+    this.args.resetFilters();
+    this.args.applySearchTerms(this.searchTerms);
   }
 
   static template = hbs`

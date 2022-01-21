@@ -207,6 +207,7 @@ export default class IDCSearch extends Component<Args> {
             @hasAdvancedSearch={{this.hasAdvancedSearch}}
             @query={{this.results.query}}
             @searchType={{this.searchType}}
+            @resetFilters={{this.resetFilters}}
           />
           {{#if this.isLoading}}
             <ListSpinner />
