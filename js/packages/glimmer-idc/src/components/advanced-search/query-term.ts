@@ -326,7 +326,7 @@ export default class QueryTermInput extends Component<Args> {
               id={{this.fieldId}}
               class="idc-dropdown "
               name={{this.fieldId}}
-              {{on "keyup" this.updateField}}
+              {{on "change" this.updateField}}
               data-test-advanced-search-field
             >
               {{#each this.fields as |field|}}
