@@ -223,6 +223,7 @@ export default class AdvancedQueryInput extends Component<Args> {
               @term={{term}}
               @updateTerm={{this.updateTerm}}
               @removeTerm={{this.removeTerm}}
+              @doSearch={{this.doSearch}}
             />
           </li>
         {{/each}}
