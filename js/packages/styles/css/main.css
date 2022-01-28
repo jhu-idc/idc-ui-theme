@@ -219,5 +219,8 @@ nav a {
 .breadcrumb__link {
   @apply text-blue-heritage;
 }
+#search-tips-container code {
+  @apply font-bold bg-white px-1;
+}
 
 @import 'spinkit.min.css';

@@ -59,13 +59,13 @@ export default class SearchInput extends Component<Args> {
         </button>
         <button
           aria-label="Toggle help with search query syntax"
-          class="button mx-2 text-gray-500 hover:text-black"
+          class="button text-sm h-10 mx-2 text-gray-500 hover:text-black"
           title="Toggle help text"
           data-test-search-help-drawer
           {{on "click" @toggleHelpText}}
         >
           <ChevronDownIcon @styles="h-5 w-5" />
-          <QuestionMarkIcon @styles="h-5 w-5" />
+          <span class="w-20">Search Tips</span>
         </button>
       </div>
     </div>
