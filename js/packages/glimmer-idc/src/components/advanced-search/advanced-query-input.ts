@@ -114,6 +114,10 @@ export default class AdvancedQueryInput extends Component<Args> {
 
   @action
   doSearch() {
+    if (this.disableSearch) {
+      return;
+    }
+
     this.args.applySearchTerms(
       this.query2string()
     );

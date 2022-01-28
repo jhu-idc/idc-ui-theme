@@ -2,7 +2,7 @@ import Component, { hbs } from '@glimmerx/component';
 import { tracked } from '@glimmerx/component';
 import { action, on } from '@glimmerx/modifier';
 import { fn } from '@glimmerx/helper';
-import { ChevronDownIcon, QuestionMarkIcon, SearchIcon } from './icons';
+import { ChevronDownIcon, SearchIcon } from './icons';
 
 interface Args {
   applySearchTerms: (searchTerms?: string) => {};
