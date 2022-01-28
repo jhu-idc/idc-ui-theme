@@ -116,6 +116,7 @@ export default class IDCSearch extends Component<Args> {
   applySearchTerms(searchTerms?: string) {
     this.results.searchTerms = searchTerms;
     this.resetPage();
+    this.resetFilters();
     this.doSearch();
   }
 
