@@ -45,6 +45,7 @@ export interface QueryTerm {
 interface Args {
   term: QueryTerm;
   validationErrors: string[];
+  doSearch: () => {};
   updateTerm: (term: QueryTerm) => {};
   removeTerm: (term: QueryTerm) => {};
   showValidation: boolean;
@@ -91,16 +92,26 @@ export default class QueryTermInput extends Component<Args> {
 
   @action
   updateSearchTerm(e: Event) {
+    if (this.submitIfEnter(e)) {
+      return;
+    }
     this.updateTerm({ term: (e.target as HTMLInputElement).value });
   }
 
   @action
   updateProxyTermB(e: Event) {
+    if (this.submitIfEnter(e)) {
+      return;
+    }
     this.updateTerm({ termB: (e.target as HTMLInputElement).value });
   }
 
   @action
   updateProximity(e: Event) {
+    if (this.submitIfEnter(e)) {
+      return;
+    }
+
     const value: string = (e.target as HTMLInputElement).value;
 
     try {
@@ -216,6 +227,19 @@ export default class QueryTermInput extends Component<Args> {
     this.updateTerm({ operation });
   }
 
+  /**
+   * @param e {Event} DOM event
+   * @returns TRUE user used the Enter key, FALSE otherwise
+   */
+  @action
+  submitIfEnter(e: Event): boolean {
+    if ((e as KeyboardEvent).key === "Enter") {
+      this.args.doSearch();
+      return true;
+    }
+    return false;
+  }
+
   static template = hbs`
     <div id={{this.id}} data-test-advanced-search-query-term>
       <div id={{this.opGroupId}} class="flex flex-row ops-button-group" data-test-advanced-search-query-operations>
@@ -266,7 +290,7 @@ export default class QueryTermInput extends Component<Args> {
               placeholder="Enter a term"
               type="text"
               value={{this.localTerm.term}}
-              {{on "change" this.updateSearchTerm}}
+              {{on "keyup" this.updateSearchTerm}}
               data-test-advanced-search-proxy-terma
             />
           </div>
@@ -278,7 +302,7 @@ export default class QueryTermInput extends Component<Args> {
               placeholder="Enter a number"
               type="number"
               value={{this.localTerm.proximity}}
-              {{on "change" this.updateProximity}}
+              {{on "keyup" this.updateProximity}}
               data-test-advanced-search-proxy-range
             />
           </div>
@@ -290,7 +314,7 @@ export default class QueryTermInput extends Component<Args> {
               placeholder="Enter a term"
               type="text"
               value={{this.localTerm.termB}}
-              {{on "change" this.updateProxyTermB}}
+              {{on "keyup" this.updateProxyTermB}}
               data-test-advanced-search-proxy-termb
             />
           </div>
@@ -320,7 +344,7 @@ export default class QueryTermInput extends Component<Args> {
               size="30"
               type="text"
               value={{this.localTerm.term}}
-              {{on "change" this.updateSearchTerm}}
+              {{on "keyup" this.updateSearchTerm}}
               data-test-advanced-search-query-input
             />
           </div>

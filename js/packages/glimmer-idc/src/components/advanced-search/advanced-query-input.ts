@@ -114,6 +114,10 @@ export default class AdvancedQueryInput extends Component<Args> {
 
   @action
   doSearch() {
+    if (this.disableSearch) {
+      return;
+    }
+
     this.args.applySearchTerms(
       this.query2string()
     );
@@ -199,12 +203,12 @@ export default class AdvancedQueryInput extends Component<Args> {
           {{else}}
             <ChevronDownIcon @styles="h-5 w-5" />
           {{/if}}
-            <QuestionMarkIcon @styles="h-6 w-6" />
+            <span class="w-20">Search Tips</span>
           </button>
           <button
             aria-label="Submit advanced search query"
             disabled={{this.disableSearch}}
-            class="button button-primary inline-flex items-center"
+            class="button button-primary text-sm inline-flex items-center"
             {{on "click" this.doSearch}}
           >
             Search
@@ -223,6 +227,7 @@ export default class AdvancedQueryInput extends Component<Args> {
               @term={{term}}
               @updateTerm={{this.updateTerm}}
               @removeTerm={{this.removeTerm}}
+              @doSearch={{this.doSearch}}
             />
           </li>
         {{/each}}

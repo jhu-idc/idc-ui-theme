@@ -2,10 +2,11 @@ import Component, { hbs } from '@glimmerx/component';
 import { tracked } from '@glimmerx/component';
 import { action, on } from '@glimmerx/modifier';
 import { fn } from '@glimmerx/helper';
-import { SearchIcon } from './icons';
+import { ChevronDownIcon, SearchIcon } from './icons';
 
 interface Args {
   applySearchTerms: (searchTerms?: string) => {};
+  toggleHelpText: () => {};
   searchTerms: string;
   placeholder?: string;
 }
@@ -55,6 +56,16 @@ export default class SearchInput extends Component<Args> {
           {{on "click" (fn @applySearchTerms this.searchTerms)}}
         >
           <SearchIcon @styles="h-5 w-5 text-white" />
+        </button>
+        <button
+          aria-label="Toggle help with search query syntax"
+          class="button text-sm h-10 mx-2 text-gray-500 hover:text-black"
+          title="Toggle help text"
+          data-test-search-help-drawer
+          {{on "click" @toggleHelpText}}
+        >
+          <ChevronDownIcon @styles="h-5 w-5" />
+          <span class="w-20">Search Tips</span>
         </button>
       </div>
     </div>

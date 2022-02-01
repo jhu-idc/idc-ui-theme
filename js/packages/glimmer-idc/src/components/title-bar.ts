@@ -2,7 +2,10 @@ import Component, { hbs, tracked } from '@glimmerx/component';
 import PaginationControls from './pagination-controls';
 import { Pager, Options, JsonApiUserResponse } from '../interfaces';
 import SearchInput from './search-input';
+import SearchTips from './advanced-search/search-tips';
 import AdvancedQueryInput from './advanced-search/advanced-query-input';
+import { action } from '@glimmerx/modifier';
+import { uuidv4 } from '../utils/utils';
 
 interface Args {
   title: string;
@@ -21,6 +24,9 @@ interface Args {
 
 export default class TitleBar extends Component<Args> {
   @tracked isAuthenticated: boolean = false;
+  @tracked helpOpen: boolean = false;
+
+  readonly helpId: string = uuidv4();
 
   get itemsExportUrl() {
     return `/export_items?${this.args.query}`;
@@ -46,6 +52,19 @@ export default class TitleBar extends Component<Args> {
 
     if (data && data.meta && data.meta.links && data.meta.links.me && data.meta.links.me.meta && data.meta.links.me.meta.id) {
       this.isAuthenticated = !!data.meta.links.me.meta.id;
+    }
+  }
+
+  @action
+  toggleHelpText() {
+    console.log('Moo!');
+    this.helpOpen = !this.helpOpen;
+    const element = document.getElementById(this.helpId);
+
+    if (this.helpOpen) {
+      element.style['max-height'] = `${element.scrollHeight}px`;
+    } else {
+      element.style['max-height'] = '0';
     }
   }
 
@@ -83,6 +102,7 @@ export default class TitleBar extends Component<Args> {
               @placeholder={{@searchInputPlaceholder}}
               @applySearchTerms={{@applySearchTerms}}
               @searchTerms={{@searchTerms}}
+              @toggleHelpText={{this.toggleHelpText}}
             />
           </div>
           <div class="flex flex-col 2xl:flex-row items-center flex-shrink-0">
@@ -99,6 +119,9 @@ export default class TitleBar extends Component<Args> {
           </div>
         </div>
       {{/if}}
+      <div id={{this.helpId}} class="relative overflow-hidden transition-all ease-in-out duration-300 max-h-0">
+        <SearchTips />
+      </div>
       {{#if this.isAuthenticated}}
         <div class="flex space-x-4 justify-center 2xl:justify-start">
           {{#unless this.isCollections}}
