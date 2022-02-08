@@ -78,7 +78,7 @@ function buildFileUrls($variables, $node_id) {
 
   $variables['is_authorized'] = $is_authorized;
 
-  $MEDIA_USES = array('Original File', 'Intermediate File', 'Service File', 'FITS File');
+  $MEDIA_USES = array('Original File', 'Transcript', 'FITS File');
   $MEDIA_TYPES = array(
     (object) [
       'type' => 'image',
