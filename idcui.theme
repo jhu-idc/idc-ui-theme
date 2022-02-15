@@ -43,6 +43,7 @@ function idcui_preprocess_page(&$variables) {
 }
 
 function idcui_preprocess_media(&$variables, $hook) {
+  $variables['#cache']['max-age'] = 0;
   $current_user = \Drupal::currentUser();
 
   $authorized_roles = ['administrator', 'collection_level_admin', 'global_admin'];
