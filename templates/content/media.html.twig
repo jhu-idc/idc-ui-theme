@@ -10,7 +10,22 @@
  * @see template_preprocess_media()
  */
 #}
-{% if is_node != 1 %}
+{% if is_node == 1 %}
+  {% if (is_restricted and is_authorized) or (not is_restricted) %}
+    <article{{ attributes }}>
+      {{ title_suffix.contextual_links }}
+      {% if content %}
+        {{ content }}
+      {% endif %}
+    </article>
+  {% else %}
+    <div class="text-gray-600">
+      Access to this media is restricted.
+    </div>
+  {% endif %}
+{% elseif is_taxonomy %}
+  {{ content }}
+{% else %}
   <div
     class="layout-container bg-gray-200"
   >
@@ -38,20 +53,5 @@
       </div>
     </div>
   </div>
-{% elseif is_taxonomy %}
-  {{ content }}
-{% else %}
-  {% if (is_restricted and is_authorized) or (not is_restricted) %}
-    <article{{ attributes }}>
-      {{ title_suffix.contextual_links }}
-      {% if content %}
-        {{ content }}
-      {% endif %}
-    </article>
-  {% else %}
-    <div class="text-gray-600">
-      Access to this media is restricted.
-    </div>
-  {% endif %}
 {% endif %}
 
