@@ -9,7 +9,6 @@ interface Args {
   facet: FacetModel;
   facetSelected: (s: FacetValue) => void;
   selectedFacets: FacetValue[];
-  startOpened: boolean;
 }
 
 export default class Facet extends Component<Args> {
@@ -18,7 +17,13 @@ export default class Facet extends Component<Args> {
 
   constructor(owner: unknown, args: Args) {
     super(owner, args);
-    this.isOpen = this.args.startOpened;
+
+    this.isOpen = false;
+
+    const allFacets = this.args.facet.items.map((item) => item.frag);
+    this.isOpen = this.args.selectedFacets.some(selectedFacet => {
+      return allFacets.includes(selectedFacet.frag);
+    });
   }
 
   @action

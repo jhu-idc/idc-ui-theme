@@ -72,7 +72,16 @@ export default class IDCSearch extends Component<Args> {
     this.list = this.results.rows;
     this.isLoading = false;
 
-    this.facets = this.results.facets;
+    if (!(this.facets.length > 0)) {
+      this.facets = this.results.facets;
+    } else {
+      const facetsAreSame = this.results.facets.every((newFacet) => {
+        return this.facets.some((oldFacet) => oldFacet.equals(newFacet));
+      });
+
+      if (!facetsAreSame) this.facets = this.results.facets;
+    }
+
     this.hasFacets = this.results.facets.length > 0;
   }
 
@@ -131,7 +140,7 @@ export default class IDCSearch extends Component<Args> {
     if (facetValueIncludes(item, this.results.selectedFacets)) {
       this.results.selectedFacets = removeSelectedItem(item, this.results.selectedFacets);
     } else {
-      this.results.selectedFacets.push(item);
+      this.results.selectedFacets = [...this.results.selectedFacets, item];
     }
 
     this.resetPage();
@@ -188,7 +197,6 @@ export default class IDCSearch extends Component<Args> {
               @hasFacets={{this.hasFacets}}
               @facetSelected={{this.facetSelected}}
               @selectedFacets={{this.results.selectedFacets}}
-              @startOpened={{false}}
             />
           </div>
         {{/if}}
