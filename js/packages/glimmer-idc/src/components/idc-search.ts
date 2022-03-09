@@ -79,8 +79,6 @@ export default class IDCSearch extends Component<Args> {
         return this.facets.some((oldFacet) => oldFacet.equals(newFacet));
       });
 
-      debugger
-
       if (!facetsAreSame) this.facets = this.results.facets;
     }
 
