@@ -122,6 +122,12 @@
                   <span>{{media.file_name}}</span><span class="hidden md:flex">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                 </div>
                 <div class="flex text-black">
+                  <span class="text-gray-500">{{media.file_mime}}</span><span class="hidden md:flex">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                </div>
+                <div class="flex text-black">
+                  <span class="text-gray-500">{{media.file_size}}</span><span class="hidden md:flex">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                </div>
+                <div class="flex text-black">
                   <span class="text-gray-500">{{media.media_type}}</span><span class="hidden md:flex">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                 </div>
                 <div class="flex text-gray-500">
@@ -129,7 +135,7 @@
                 </div>
                 {% if media.url %}
                   <div>
-                    <a href={{media.url}} download={{media.file_name}}>Download Link</a>
+                    <a href={{media.url}} download={{media.file_name}}>Download File</a>
                   </div>
                 {% else %}
                   <div class="text-gray-600 italic">
@@ -158,6 +164,12 @@
                         <span class="line-clamp-1">{{media.file_name}}</span><span class="hidden md:flex">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                       </div>
                       <div class="flex text-black">
+                        <span class="text-gray-500">{{media.file_mime}}</span><span class="hidden md:flex">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                      </div>
+                      <div class="flex text-black">
+                        <span class="text-gray-500">{{media.file_size}}</span><span class="hidden md:flex">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                      </div>
+                      <div class="flex text-black">
                         <span class="text-gray-500 line-clamp-1">{{media.media_type}}</span><span class="hidden md:flex">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                       </div>
                       <div class="flex text-gray-500">
@@ -166,7 +178,7 @@
                     </div>
                     {% if media.url %}
                       <div>
-                        <a href={{media.url}} download={{media.file_name}}>Download Link</a>
+                        <a href={{media.url}} download={{media.file_name}}>Download File</a>
                       </div>
                     {% else %}
                       <div class="text-gray-600 italic line-clamp-1">

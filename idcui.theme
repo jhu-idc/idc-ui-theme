@@ -150,7 +150,7 @@ function buildFileUrls($variables, $node_id) {
             $url = null;
           }
 
-          $obj = (object) ['url' => $url, 'file_name' => $file->get('filename')->getString(), 'media_type' => str_replace("_", " ", ucwords($media_type_obj->type, "_")), 'media_use' => $media_use];
+          $obj = (object) ['url' => $url, 'file_name' => $file->get('filename')->getString(), 'file_mime' => $file->get('filemime')->getString(), 'file_size' => format_size($file->getSize()), 'media_type' => str_replace("_", " ", ucwords($media_type_obj->type, "_")), 'media_use' => $media_use];
 
           array_push($media_links, $obj);
         }
