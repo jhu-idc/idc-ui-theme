@@ -63,7 +63,7 @@ export default class ListItem extends Component<Args> {
         {{/if}}
         <ul class="flex flex-col text-align-left w-3/5 text-gray-600">
           <li>
-            <h3 id="nope" class="text-xl mb-2 line-clamp-1">{{{@listItem.title}}}</h3>
+            <h3 class="text-xl mb-2 line-clamp-1">{{{@listItem.title}}}</h3>
           </li>
           {{#if @listItem.field_creator}}
             <li>
