@@ -26,7 +26,7 @@ export default class SearchOptions extends Component<Args> {
       displayValue: 'Title',
     },
     {
-      value: '&sort_by=field_years',
+      value: '&sort_by=sort_date',
       displayValue: 'Date',
     },
   ];
