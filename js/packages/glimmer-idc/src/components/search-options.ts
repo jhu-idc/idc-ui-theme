@@ -25,10 +25,6 @@ export default class SearchOptions extends Component<Args> {
       value: '&sort_by=title',
       displayValue: 'Title',
     },
-    {
-      value: '&sort_by=sort_date',
-      displayValue: 'Date',
-    },
   ];
 
   sortOrderOptions: {}[] = [

@@ -84,7 +84,7 @@ export default class ListItem extends Component<Args> {
             <li>
               <div>
                 <span class="italic">Published on:&nbsp;</span>
-                <span>{{@listItem.field_years}}</span>
+                <span>{{@listItem.field_date_published}}</span>
               </div>
             </li>
           {{/if}}
