@@ -1,27 +1,24 @@
 name: JHU IDC UI Theme
 type: theme
 description: JHU's Islandora based data repository UI theme
-core: 8.x
 core_version_requirement: ^8 || ^9
 base theme: carapace
 subtheme type: adaptive_subtheme
 layout: page-layout
 screenshot: screenshot.png
 # logo: logo.png
-
 libraries:
   - idcui/idc-styles
   - idcui/idc-js
   - idcui/idc-mirador
-
 regions:
-  top_menu: Top menu
-  top_nav: Top Nav
-  header_1: Sub Header 1
-  header_2: Sub Header 2
-  highlighted: Highlighted
-  content: Content
-  footer: Footer
-  modal: Modal
-  page_top: Page top
-  page_bottom: Page bottom
+  content: 'Content'
+  footer: 'Footer'
+  header_1: 'Sub Header 1'
+  header_2: 'Sub Header 2'
+  modal: 'Modal'
+  page_bottom: 'Page bottom'
+  page_top: 'Page top'
+  highlighted: 'Highlighted'
+  top_menu: 'Top menu'
+  top_nav: 'Top Nav'
