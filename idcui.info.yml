@@ -4,6 +4,7 @@ description: JHU's Islandora based data repository UI theme
 core: 8.x
 core_version_requirement: ^8 || ^9
 base theme: carapace
+subtheme type: adaptive_subtheme
 layout: page-layout
 screenshot: screenshot.png
 # logo: logo.png
