@@ -71,6 +71,8 @@
         </div>
         {{ page.content.idcui_content }}
         {{ page.content.system_main }}
+        <hr style="margin-bottom:10px" />
+        <a href="{{[url('<current>'), "?_format=json"]|safe_join}}">View metadata in JSON format</a>
       </div>
     </div>
   </div>

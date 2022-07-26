@@ -37,8 +37,5 @@
   {{ title_suffix }}
   <div class="content">
     {{ content }}
-    {% if url %}
-      <a href="{{[url, "?_format=json"]|safeJoin}}">View metadata in JSON format</a>
-    {% endif %}
   </div>
 </div>
