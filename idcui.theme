@@ -1,42 +1,44 @@
 <?php
 
 function idcui_preprocess_page(&$variables) {
-  if ($variables['node']) {
-    $node_type = $variables['node']->get('type')->getString();
+  if (isset($variables['node'])) {
+    if ($variables['node']) {
+      $node_type = $variables['node']->get('type')->getString();
 
-    if ($node_type == 'islandora_object') {
-      $node_id = $variables['node']->id();
-      $referenced_entities = $variables['node']->get('field_model')->referencedEntities();
-      $model_type = null;
+      if ($node_type == 'islandora_object') {
+        $node_id = $variables['node']->id();
+        $referenced_entities = $variables['node']->get('field_model')->referencedEntities();
+        $model_type = null;
 
-      if ($referenced_entities) {
-        $model_type = $referenced_entities[0]->get('name')->getString();
-      }
-
-      if ($model_type == 'Paged Content') {
-        $children = \Drupal::entityTypeManager()
-        ->getListBuilder('node')
-        ->getStorage()
-        ->loadByProperties([
-          'status' => 1,
-          'field_member_of' => $variables['node']->id(),
-        ]);
-
-        $children_media_links = array();
-
-        foreach ($children as $child_node) {
-          $child_media_links = buildFileUrls($variables, $child_node->id());
-          $obj = (object) ['id' => $child_node->id(), 'title' => $child_node->get('title')->getString(), 'media_links' => $child_media_links];
-          array_push($children_media_links, $obj);
-
-          $variables['children_media_links'] = $children_media_links;
+        if ($referenced_entities) {
+          $model_type = $referenced_entities[0]->get('name')->getString();
         }
 
-        $variables['media_links'] = buildFileUrls($variables, $node_id);
-        $variables['is_paged_content'] = true;
-      } else {
-        $variables['media_links'] = buildFileUrls($variables, $node_id);
-        // $variables['is_paged_content'] = false;
+        if ($model_type == 'Paged Content') {
+          $children = \Drupal::entityTypeManager()
+          ->getListBuilder('node')
+          ->getStorage()
+          ->loadByProperties([
+            'status' => 1,
+            'field_member_of' => $variables['node']->id(),
+          ]);
+
+          $children_media_links = array();
+
+          foreach ($children as $child_node) {
+            $child_media_links = buildFileUrls($variables, $child_node->id());
+            $obj = (object) ['id' => $child_node->id(), 'title' => $child_node->get('title')->getString(), 'media_links' => $child_media_links];
+            array_push($children_media_links, $obj);
+
+            $variables['children_media_links'] = $children_media_links;
+          }
+
+          $variables['media_links'] = buildFileUrls($variables, $node_id);
+          $variables['is_paged_content'] = true;
+        } else {
+          $variables['media_links'] = buildFileUrls($variables, $node_id);
+          // $variables['is_paged_content'] = false;
+        }
       }
     }
   }
