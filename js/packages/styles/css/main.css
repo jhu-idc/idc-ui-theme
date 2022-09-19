@@ -115,6 +115,11 @@ video {
   @apply min-w-full;
 }
 
+#idc-search img {
+  width: auto;
+  max-width: 30%;
+}
+
 #block-idcui-page-title h1 {
   @apply text-3xl hidden;
 }
