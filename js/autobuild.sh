@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 
-pwd
+[ ! -x "$(command -v nvm)" ] && node -v
+[ -f "package.json" ] && echo "✓ Found package.json"
+[ ! -f "package.json" ] && echo "✘ No package.json file."
+
+# # Chekc is node version is 12
+# [ "$(node -v)" = "v12.22.5" ] && echo "✓ Node version is v12.22.5"
+# [ "$(node -v)" != "v12.22.5" ] && echo "✘ Wrong Node version ( $(node -v) )" ; exit 1
+
+corepack enable
 
 yarn
 yarn build
