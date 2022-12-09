@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.17.x'
+      - name: Install dependencies
+        working-directory: ./js
+        run: yarn
+      - name: Building dependencies
+        working-directory: ./js
+        run: yarn build
+      - name: Lerna
+        working-directory: ./js
+        run: npx lerna run --stream build
