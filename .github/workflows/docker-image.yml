@@ -18,8 +18,11 @@ jobs:
         with:
           node-version: '14.17.x'
       - name: Install dependencies
+        working-directory: ./js
         run: yarn
       - name: Building dependencies
+        working-directory: ./js
         run: yarn build
       - name: Lerna
+        working-directory: ./js
         run: npx lerna run --stream build
