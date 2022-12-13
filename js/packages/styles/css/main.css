@@ -252,4 +252,8 @@ nav a {
   padding-right: 1rem
 }
 
+.h-48 {
+  height: 12rem;
+}
+
 @import 'spinkit.min.css';
