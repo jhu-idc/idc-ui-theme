@@ -228,4 +228,13 @@ nav a {
   @apply font-bold bg-white px-1;
 }
 
+#block-idc-ui-theme-logo {
+  height: 8rem;
+}
+
+.text-footer-link {
+  --tw-text-opacity: 1;
+  color: rgba(166, 187, 213, var(--tw-text-opacity));
+}
+
 @import 'spinkit.min.css';
