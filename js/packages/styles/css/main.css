@@ -237,4 +237,19 @@ nav a {
   color: rgba(166, 187, 213, var(--tw-text-opacity));
 }
 
+.w-64 {
+  width: 16rem;
+}
+
+.lg\:flex-row {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+#block-topnavblock nav a {
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+  padding-right: 1rem
+}
+
 @import 'spinkit.min.css';
