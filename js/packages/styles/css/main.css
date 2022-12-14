@@ -232,13 +232,17 @@ nav a {
   height: 8rem;
 }
 
+#block-idc-ui-theme-bottom-logo {
+  width: 16rem;
+}
+
 .text-footer-link {
   --tw-text-opacity: 1;
   color: rgba(166, 187, 213, var(--tw-text-opacity));
 }
 
-.w-64 {
-  width: 16rem;
+#library-logo {
+  height: 8rem;
 }
 
 .lg\:flex-row {
