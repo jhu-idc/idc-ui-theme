@@ -256,8 +256,10 @@ nav a {
   padding-right: 1rem
 }
 
-.h-48 {
+#featured-items img {
   height: 12rem;
+  width: auto;
 }
 
 @import 'spinkit.min.css';
+
